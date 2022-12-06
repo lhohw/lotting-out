@@ -7,3 +7,4 @@ static/admin/*.bundle.*
 src/gatsby-types.d.ts
 
 .DS_Store
+.env

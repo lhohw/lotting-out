@@ -5,38 +5,32 @@ import { IGatsbyImageData, getImage } from "gatsby-plugin-image";
 import useFrontmatter from "../utils/hooks/useFrontmatter";
 
 export type HeaderData = {
-  mdx: {
-    frontmatter: {
-      apartment: string;
-      date: string;
-      menu: string[];
-      logo_image_alt: string;
-      logo_image: {
-        childImageSharp: {
-          gatsbyImageData: IGatsbyImageData;
-        };
+  settingJson: {
+    menu: string[];
+    logo_image: {
+      childImageSharp: {
+        gatsbyImageData: IGatsbyImageData;
       };
     };
+    logo_image_alt: string;
   };
 };
 const HeaderContainer = () => {
   const data = useStaticQuery<HeaderData>(graphql`
     {
-      mdx(frontmatter: { type: { eq: "setting" } }) {
-        frontmatter {
-          apartment
-          menu
-          logo_image_alt
-          logo_image {
-            childImageSharp {
-              gatsbyImageData
-            }
+      settingJson {
+        menu
+        logo_image {
+          childImageSharp {
+            gatsbyImageData
           }
         }
+        logo_image_alt
       }
     }
   `);
-  const { menu, logo_image, logo_image_alt } = useFrontmatter<HeaderData>(data);
+  const { menu, logo_image, logo_image_alt } = data.settingJson;
+
   const logoImage = getImage(logo_image)!;
   return (
     <Header
@@ -47,4 +41,4 @@ const HeaderContainer = () => {
   );
 };
 
-export default HeaderContainer;
+export default React.memo(HeaderContainer);

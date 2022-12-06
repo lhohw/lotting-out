@@ -2,20 +2,25 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: static/img
-public_folder: /img
+local_backend:
+  url: http://localhost:8082/api/v1
+  allowed_hosts: ["192.168.0.1"]
+publish_mode: editorial_workflow
+
+media_folder: static/assets
+public_folder: assets
 
 collections: # A list of collections the CMS should be able to edit
   - name: "setting"
     label: "Setting"
     slug: "Setting"
     delete: false # Prevent users from deleting documents in this collection
-    folder: "contents/setting"
     files:
       - name: "general"
         label: "Site Settings"
         file: "contents/setting/setting.json"
         description: "General Site Settings"
+        path: "setting"
         fields:
           - { label: "아파트 명", name: "apartment", widget: "string" }
           - label: "로고"
@@ -34,3 +39,4 @@ collections: # A list of collections the CMS should be able to edit
                   widget: string,
                   required: true,
                 }
+          - { label: "메뉴", name: "menu", widget: "list" }

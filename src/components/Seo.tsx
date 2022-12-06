@@ -1,29 +1,23 @@
 import * as React from "react";
 import { graphql, useStaticQuery } from "gatsby";
 
-import useFrontmatter from "../utils/hooks/useFrontmatter";
-
 export type SeoProps = {
   title: string;
 };
 export type SeoData = {
-  mdx: {
-    frontmatter: {
-      apartment: string;
-    };
+  settingJson: {
+    apartment: string;
   };
 };
 const Seo = ({ title }: SeoProps) => {
-  const data = useStaticQuery(graphql`
+  const data = useStaticQuery<SeoData>(graphql`
     {
-      mdx(frontmatter: { type: { eq: "setting" } }) {
-        frontmatter {
-          apartment
-        }
+      settingJson {
+        apartment
       }
     }
   `);
-  const { apartment } = useFrontmatter<SeoData>(data);
+  const { apartment } = data.settingJson;
   return (
     <>
       <title>
