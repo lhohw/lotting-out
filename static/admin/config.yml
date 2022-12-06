@@ -5,17 +5,32 @@ backend:
 media_folder: static/img
 public_folder: /img
 
-collections:
-  - name: "blog"
-    label: "Blog"
-    folder: "blog"
-    create: true
-    slug: "index"
-    media_folder: ""
-    public_folder: ""
-    path: "{{title}}/index"
-    fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Description", name: "description", widget: "string" }
-      - { label: "Body", name: "body", widget: "markdown" }
+collections: # A list of collections the CMS should be able to edit
+  - name: "setting"
+    label: "Setting"
+    slug: "Setting"
+    delete: false # Prevent users from deleting documents in this collection
+    folder: "contents/setting"
+    files:
+      - name: "general"
+        label: "Site Settings"
+        file: "contents/setting/setting.json"
+        description: "General Site Settings"
+        fields:
+          - { label: "아파트 명", name: "apartment", widget: "string" }
+          - label: "로고"
+            name: "logo"
+            widget: "object"
+            fields:
+              - {
+                  label: "로고 이미지",
+                  name: "logo_image",
+                  widget: image,
+                  required: true,
+                }
+              - {
+                  label: "로고 설명",
+                  name: logo_image_alt,
+                  widget: string,
+                  required: true,
+                }
