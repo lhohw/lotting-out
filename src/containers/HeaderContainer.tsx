@@ -2,17 +2,18 @@ import React from "react";
 import Header from "../components/Header";
 import { useStaticQuery, graphql } from "gatsby";
 import { IGatsbyImageData, getImage } from "gatsby-plugin-image";
-import useFrontmatter from "../utils/hooks/useFrontmatter";
 
 export type HeaderData = {
   settingJson: {
     menu: string[];
-    logo_image: {
-      childImageSharp: {
-        gatsbyImageData: IGatsbyImageData;
+    logo: {
+      logo_image: {
+        childImageSharp: {
+          gatsbyImageData: IGatsbyImageData;
+        };
       };
+      logo_image_alt: string;
     };
-    logo_image_alt: string;
   };
 };
 const HeaderContainer = () => {
@@ -29,7 +30,10 @@ const HeaderContainer = () => {
       }
     }
   `);
-  const { menu, logo_image, logo_image_alt } = data.settingJson;
+  const {
+    menu,
+    logo: { logo_image, logo_image_alt },
+  } = data.settingJson;
 
   const logoImage = getImage(logo_image)!;
   return (
