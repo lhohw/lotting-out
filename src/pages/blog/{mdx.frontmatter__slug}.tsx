@@ -4,6 +4,7 @@ import Seo from "../../components/Seo";
 import { graphql } from "gatsby";
 import type { IGatsbyImageData, GatsbyImageProps } from "gatsby-plugin-image";
 import { getImage, GatsbyImage } from "gatsby-plugin-image";
+import useFrontmatter from "../../utils/hooks/useFrontmatter";
 
 export type BlogPostProps = {
   data: {
@@ -25,9 +26,11 @@ export type BlogPostProps = {
   children: React.ReactNode;
 };
 const BlogPost = ({ data, children }: BlogPostProps) => {
+  const { hero_image, hero_image_alt } = useFrontmatter(data);
+
   const image = getImage(data.mdx.frontmatter.hero_image);
   return (
-    <Layout pageTitle={data.mdx.frontmatter.title}>
+    <Layout>
       <p>{data.mdx.frontmatter.date}</p>
       {image && (
         <>

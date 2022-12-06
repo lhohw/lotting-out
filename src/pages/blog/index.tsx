@@ -19,7 +19,7 @@ export type BlogPageProps = {
 };
 const BlogPage = ({ data }: BlogPageProps) => {
   return (
-    <Layout pageTitle="My Blog Posts">
+    <Layout>
       {data.allMdx.nodes.map(
         (node: BlogPageProps["data"]["allMdx"]["nodes"][number]) => (
           <article key={node.id}>
@@ -37,8 +37,11 @@ const BlogPage = ({ data }: BlogPageProps) => {
 };
 
 export const query = graphql`
-  query {
-    allMdx(sort: { frontmatter: { date: DESC } }) {
+  {
+    allMdx(
+      sort: { frontmatter: { date: DESC } }
+      filter: { frontmatter: { slug: { ne: null } } }
+    ) {
       nodes {
         frontmatter {
           date(formatString: "MMMM D, YYYY")
