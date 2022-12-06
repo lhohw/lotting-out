@@ -21,12 +21,14 @@ const HeaderContainer = () => {
     {
       settingJson {
         menu
-        logo_image {
-          childImageSharp {
-            gatsbyImageData
+        logo {
+          logo_image {
+            childImageSharp {
+              gatsbyImageData
+            }
           }
+          logo_image_alt
         }
-        logo_image_alt
       }
     }
   `);
