@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, CSSProperties } from "react";
 import { useStaticQuery, graphql } from "gatsby";
 import { IGatsbyImageData, getImage } from "gatsby-plugin-image";
 import { useRecoilState } from "recoil";
