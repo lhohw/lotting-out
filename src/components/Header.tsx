@@ -3,11 +3,17 @@ import type { IGatsbyImageData } from "gatsby-plugin-image";
 import React from "react";
 import { css } from "@emotion/react";
 import { Link } from "gatsby";
-import { GatsbyImage } from "gatsby-plugin-image";
 import { useColors } from "../recoil/theme/useTheme";
+import PreviewCompatibleImage from "./PreviewCompatibleImage";
 
 export type HeaderProps = {
-  logo_image: IGatsbyImageData;
+  logo_image:
+    | string
+    | {
+        childImageSharp: {
+          gatsbyImageData: IGatsbyImageData;
+        };
+      };
   logo_image_alt: string;
   menu: string[];
 };
@@ -32,14 +38,11 @@ const Header = ({ logo_image, logo_image_alt, menu }: HeaderProps) => {
         `}
         to="/"
       >
-        <GatsbyImage
-          css={css`
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-          `}
-          image={logo_image}
-          alt={logo_image_alt}
+        <PreviewCompatibleImage
+          imageInfo={{
+            image: logo_image,
+            alt: logo_image_alt,
+          }}
         />
       </Link>
       <ul

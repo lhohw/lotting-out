@@ -37,11 +37,10 @@ const HeaderContainer = () => {
     logo: { logo_image, logo_image_alt },
   } = data.settingJson;
 
-  const logoImage = getImage(logo_image)!;
   return (
     <Header
       menu={menu}
-      logo_image={logoImage}
+      logo_image={logo_image}
       logo_image_alt={logo_image_alt}
     />
   );
