@@ -2,6 +2,7 @@ import React from "react";
 import { CacheProvider } from "@emotion/react";
 import createCache, { EmotionCache, Options } from "@emotion/cache";
 import weakMemoize from "@emotion/weak-memoize";
+import type { PreviewTemplateComponentProps } from "netlify-cms-core";
 
 export type CacheProps = {
   key: string;
@@ -18,19 +19,25 @@ const memoizedCreateCacheWithContainer = weakMemoize<Options, EmotionCache>(
   }
 );
 
-export default (key: string, Component: React.FC) => (props: any) => {
-  const iframe = document.querySelector("#nc-root iframe") as HTMLIFrameElement;
-  const iframeHeadElem = iframe && iframe.contentDocument?.head;
+const WithEmotion =
+  (key: string, Component: React.FC<PreviewTemplateComponentProps>) =>
+  (props: PreviewTemplateComponentProps) => {
+    const iframe = document.querySelector(
+      "#nc-root iframe"
+    ) as HTMLIFrameElement;
+    const iframeHeadElem = iframe && iframe.contentDocument?.head;
 
-  if (!iframeHeadElem) return null;
-  return (
-    <CacheProvider
-      value={memoizedCreateCacheWithContainer({
-        key,
-        container: iframeHeadElem,
-      })}
-    >
-      <Component {...props} />
-    </CacheProvider>
-  );
-};
+    if (!iframeHeadElem) return null;
+    return (
+      <CacheProvider
+        value={memoizedCreateCacheWithContainer({
+          key,
+          container: iframeHeadElem,
+        })}
+      >
+        <Component {...props} />
+      </CacheProvider>
+    );
+  };
+
+export default WithEmotion;
