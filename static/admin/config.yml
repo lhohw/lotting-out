@@ -7,8 +7,8 @@ local_backend:
   allowed_hosts: ["192.168.0.1"]
 publish_mode: editorial_workflow
 
-media_folder: static/assets
-public_folder: assets
+media_folder: static/img
+public_folder: img
 
 collections: # A list of collections the CMS should be able to edit
   - name: "setting"
@@ -40,3 +40,68 @@ collections: # A list of collections the CMS should be able to edit
                   required: true,
                 }
           - { label: "메뉴", name: "menu", widget: "list" }
+  - name: "slider"
+    label: "썸네일 이미지 슬라이더"
+    slug: "slider"
+    delete: false
+    files:
+      - name: "thumbnail"
+        label: "썸네일 이미지"
+        file: "contents/slider/index.mdx"
+        description: "썸네일 이미지 슬라이더 이미지 추가"
+        path: "contents/slider"
+        fields:
+          - { label: "Template Key", name: "templateKey", widget: "hidden", default: "slider" }
+          - label: "이미지 리스트"
+            name: "imageInfos"
+            widget: "list"
+            fields:
+              - label: "이미지 정보"
+                name: "imageInfo"
+                widget: "object"
+                fields:
+                  - { label: "이미지", name: "image", widget: "image" }
+                  - { label: "대체 텍스트", name: "alt", widget: "string" }
+  - name: "footer"
+    label: "Footer"
+    files:
+      - file: "contents/footer/footer.mdx"
+        label: "Footer"
+        name: "footer"
+        fields:
+          - { label: "Template Key", name: "templateKey", widget: "hidden", default: "footer" }
+          - {
+              label: "전화번호",
+              name: "phoneNumber",
+              widget: "string",
+            }
+          - {
+              label: "주소",
+              name: "address",
+              widget: "string",
+            }
+          - {
+              label: "이미지",
+              name: "footerImage",
+              widget: "image",
+            }
+          - {
+              label: "이미지 설명",
+              name: "footerImageAlt",
+              widget: "string",
+            }
+  - name: "pages"
+    label: "Pages"
+    files:
+      - file: "src/pages/about/index.md"
+        label: "About"
+        name: "about"
+        fields:
+          - {
+              label: "Template Key",
+              name: "templateKey",
+              widget: "hidden",
+              default: "about-page",
+            }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }

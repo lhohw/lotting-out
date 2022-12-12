@@ -10,17 +10,16 @@ const config: GatsbyConfig = {
   // Learn more at: https://gatsby.dev/graphql-typegen
   graphqlTypegen: true,
   plugins: [
-    "gatsby-plugin-netlify-cms",
-    "gatsby-plugin-emotion",
-    "gatsby-plugin-image",
-    "gatsby-plugin-sitemap",
-    "gatsby-transformer-json",
     {
       resolve: "gatsby-plugin-manifest",
       options: {
         icon: "src/images/icon.png",
       },
     },
+    "gatsby-plugin-emotion",
+    "gatsby-plugin-image",
+    "gatsby-plugin-sitemap",
+    "gatsby-transformer-json",
     "gatsby-plugin-mdx",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
@@ -31,6 +30,14 @@ const config: GatsbyConfig = {
         path: "./src/images/",
       },
       __key: "images",
+    },
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        name: "uploads",
+        path: `${__dirname}/static/img`,
+      },
+      __key: "uploads",
     },
     {
       resolve: "gatsby-source-filesystem",
@@ -63,6 +70,20 @@ const config: GatsbyConfig = {
         path: `${__dirname}/contents/slider`,
       },
       __key: "slider",
+    },
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        name: "info",
+        path: `${__dirname}/contents/info`,
+      },
+      __key: "info",
+    },
+    {
+      resolve: "gatsby-plugin-netlify-cms",
+      options: {
+        modulePath: `${__dirname}/src/cms/cms.ts`,
+      },
     },
   ],
 };
