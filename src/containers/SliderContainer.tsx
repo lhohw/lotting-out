@@ -11,12 +11,14 @@ import Slider from "../components/Slider";
 export type SliderData = {
   mdx: {
     frontmatter: {
-      images: {
-        childImageSharp: {
-          gatsbyImageData: IGatsbyImageData;
+      imageInfos: {
+        image: {
+          childImageSharp: {
+            gatsbyImageData: IGatsbyImageData;
+          };
         };
+        alt: string;
       }[];
-      alts: string[];
     };
   };
 };
@@ -25,32 +27,25 @@ const SliderContainer = () => {
 
   const data = useStaticQuery<SliderData>(graphql`
     {
-      mdx(frontmatter: { type: { eq: "slider" } }) {
+      mdx(frontmatter: { title: { eq: null } }) {
         frontmatter {
-          images {
-            childImageSharp {
-              gatsbyImageData
-            }
-          }
-          alts
+          imageInfos
         }
       }
     }
   `);
 
-  const { images: imgs, alts } = useFrontmatter<SliderData>(data);
-  const images = imgs.map((img) => getImage(img)!);
+  const { imageInfos } = useFrontmatter<SliderData>(data);
 
   const handleIndex = useCallback((idx: number) => {
-    setState({ ...state, idx: Math.min(Math.max(0, idx), images.length - 1) });
+    setState({
+      ...state,
+      idx: Math.min(Math.max(0, idx), imageInfos.length - 1),
+    });
   }, []);
+
   return (
-    <Slider
-      idx={state.idx}
-      images={images}
-      alts={alts}
-      handleIndex={handleIndex}
-    />
+    <Slider idx={state.idx} imageInfos={imageInfos} handleIndex={handleIndex} />
   );
 };
 
