@@ -3,6 +3,7 @@ import { CacheProvider } from "@emotion/react";
 import createCache, { EmotionCache, Options } from "@emotion/cache";
 import weakMemoize from "@emotion/weak-memoize";
 import type { PreviewTemplateComponentProps } from "netlify-cms-core";
+import { RecoilRoot } from "recoil";
 
 export type CacheProps = {
   key: string;
@@ -21,6 +22,7 @@ const memoizedCreateCacheWithContainer = weakMemoize<Options, EmotionCache>(
 
 const WithEmotion =
   (key: string, Component: React.FC<PreviewTemplateComponentProps>) =>
+  // eslint-disable-next-line react/display-name
   (props: PreviewTemplateComponentProps) => {
     const iframe = document.querySelector(
       "#nc-root iframe"
@@ -29,14 +31,16 @@ const WithEmotion =
 
     if (!iframeHeadElem) return null;
     return (
-      <CacheProvider
-        value={memoizedCreateCacheWithContainer({
-          key,
-          container: iframeHeadElem,
-        })}
-      >
-        <Component {...props} />
-      </CacheProvider>
+      <RecoilRoot>
+        <CacheProvider
+          value={memoizedCreateCacheWithContainer({
+            key,
+            container: iframeHeadElem,
+          })}
+        >
+          <Component {...props} />
+        </CacheProvider>
+      </RecoilRoot>
     );
   };
 
