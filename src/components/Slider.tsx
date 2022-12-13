@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import { css } from "@emotion/react";
-import { IGatsbyImageData } from "gatsby-plugin-image";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 import PreviewCompatibleImage, {
@@ -26,10 +25,11 @@ const Slider = ({ idx, imageInfos, handleIndex }: SliderProps) => {
         thumbnail.current.style.transition = "none";
       }
     };
-    container.current?.addEventListener("mouseenter", addTransition);
+    const cur = container.current;
+    cur.addEventListener("mouseenter", addTransition);
     window.addEventListener("resize", removeTransition);
     return () => {
-      container.current?.removeEventListener("mouseenter", addTransition);
+      cur.removeEventListener("mouseenter", addTransition);
       window.removeEventListener("resize", removeTransition);
     };
   }, []);
