@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Link } from "gatsby";
 import { css } from "@emotion/react";
 
 export type LayoutProps = {
@@ -13,7 +12,7 @@ const Layout = ({ children }: LayoutProps) => {
         flex-direction: column;
         flex: 1;
         max-width: 1200px;
-        margin: 2rem auto;
+        margin: 0 auto;
       `}
     >
       <main>{children}</main>
