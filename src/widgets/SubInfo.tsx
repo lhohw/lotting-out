@@ -5,11 +5,14 @@ import { InputControl } from "./Input";
 import { ButtonControl } from "./Button";
 import { SelectControl } from "./Select";
 import { CategoryControlState } from "./Category";
+import { ImagesControl } from "./Images";
 import colors from "../constants/colors";
+import { WidgetProps } from "./type";
 
 export type SubInfoControlProps = {
   defaultKey: string;
   value: CategoryControlState;
+  widgetProps: WidgetProps;
   onChange: (value: any, key: string) => void;
   onRemove: (key: string) => void;
 };
@@ -37,7 +40,7 @@ class SubInfoControl extends PureComponent<SubInfoControlProps> {
     );
   }
   render() {
-    const { defaultKey, value, onChange, onRemove } = this.props;
+    const { defaultKey, value, onChange, onRemove, widgetProps } = this.props;
     return (
       <div
         css={css`
@@ -98,6 +101,15 @@ class SubInfoControl extends PureComponent<SubInfoControlProps> {
                     <SubInfoControl
                       defaultKey={`${defaultKey}|${idx}|sub`}
                       value={sub}
+                      widgetProps={widgetProps}
+                      onChange={onChange}
+                      onRemove={onRemove}
+                    />
+                  ) : type === "images" ? (
+                    <ImagesControl
+                      defaultKey={`${defaultKey}|${idx}|images`}
+                      value={images}
+                      widgetProps={widgetProps}
                       onChange={onChange}
                       onRemove={onRemove}
                     />

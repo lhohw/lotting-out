@@ -6,6 +6,7 @@ import { css } from "@emotion/react";
 import produce from "immer";
 import { SelectControl } from "./Select";
 import { SubInfoControl } from "./SubInfo";
+import { ImagesControl } from "./Images";
 
 export type CategoryControlProps<T = any> = WidgetProps<T>;
 export type CategoryControlState = {
@@ -84,7 +85,8 @@ class CategoryControl extends PureComponent<
     this.setState([nextState]);
   }
   render() {
-    const { type } = this.state[0];
+    const { type, images } = this.state[0];
+    const { onChange, onRemove } = this;
     return (
       <div
         css={css`
@@ -101,13 +103,22 @@ class CategoryControl extends PureComponent<
         >
           check state
         </button>
-        <SelectControl value={type} defaultKey="" onChange={this.onChange} />
+        <SelectControl value={type} defaultKey="" onChange={onChange} />
         {type === "subInfo" ? (
           <SubInfoControl
             defaultKey="sub"
             value={this.state[0].sub}
-            onChange={this.onChange}
-            onRemove={this.onRemove}
+            widgetProps={this.props}
+            onChange={onChange}
+            onRemove={onRemove}
+          />
+        ) : type === "images" ? (
+          <ImagesControl
+            defaultKey="images"
+            value={images}
+            widgetProps={this.props}
+            onChange={onChange}
+            onRemove={onRemove}
           />
         ) : null}
       </div>

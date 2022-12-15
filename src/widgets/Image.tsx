@@ -49,7 +49,7 @@ class ImageControl extends PureComponent<ImageControlProps> {
         className={className}
         css={css`
           display: flex;
-          flex-direction: row;
+          flex-direction: column;
           border: 2px solid #dbdbdb;
           border-radius: 5px;
         `}
@@ -73,26 +73,32 @@ class ImageControl extends PureComponent<ImageControlProps> {
             flex: 1;
             flex-direction: column;
             align-items: center;
-            justify-content: space-around;
+            justify-content: flex-end;
             list-style: none;
-          `}
-        >
-          <li
-            css={css`
+            & > li {
+              margin-top: 1rem;
               display: flex;
               flex: 1;
-              height: 3rem;
-              max-height: 3rem;
+              height: 2rem;
+              max-height: 2rem;
+              min-height: 2rem;
+              align-items: center;
               width: 100%;
-            `}
-          >
-            <input
-              css={css`
+              & + & {
+                margin-top: 0.5rem;
+              }
+              & > input {
                 display: flex;
                 width: 100%;
                 border-bottom: 2px solid #dbdbdb;
                 margin: 0 1rem;
-              `}
+                padding: 0 0 0.5rem 0.5rem;
+              }
+            }
+          `}
+        >
+          <li>
+            <input
               value={alt}
               placeholder="대체 텍스트"
               onChange={(e) =>
@@ -100,23 +106,8 @@ class ImageControl extends PureComponent<ImageControlProps> {
               }
             />
           </li>
-          <li
-            css={css`
-              display: flex;
-              flex: 1;
-              height: 3rem;
-              max-height: 3rem;
-              width: 100%;
-              margin-top: 0.5rem;
-            `}
-          >
+          <li>
             <input
-              css={css`
-                display: flex;
-                width: 100%;
-                border-bottom: 2px solid #dbdbdb;
-                margin: 0 1rem;
-              `}
               value={title}
               placeholder="이미지 제목"
               onChange={(e) =>
