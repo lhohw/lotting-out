@@ -10,7 +10,7 @@ export type ImagesControlProps = {
   defaultKey: string;
   value: ImageProps[];
   widgetProps: WidgetProps;
-  onChange: (value: any, key: string) => void;
+  onChange: <T>(value: T, key: string) => void;
   onRemove: (key: string) => void;
 };
 class ImagesControl extends PureComponent<ImagesControlProps> {
@@ -32,7 +32,7 @@ class ImagesControl extends PureComponent<ImagesControlProps> {
   }
   onClick() {
     const { onChange, defaultKey, value } = this.props;
-    onChange(
+    onChange<ImageProps[]>(
       (value || []).concat({
         image: "",
         alt: "",

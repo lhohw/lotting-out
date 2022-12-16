@@ -7,8 +7,9 @@ import produce from "immer";
 import { SelectControl } from "./Select";
 import { SubInfoControl } from "./SubInfo";
 import { ImagesControl } from "./Images";
+import { MDXControl } from "./MDX";
 
-export type CategoryControlProps<T = any> = WidgetProps<T>;
+// export type CategoryControlProps<T = any> = WidgetProps<T>;
 export type CategoryControlState = {
   type: SelectKeys | "";
   images: ImageProps[];
@@ -16,11 +17,8 @@ export type CategoryControlState = {
   sub: CategoryControlState;
   title?: string;
 }[];
-class CategoryControl extends PureComponent<
-  CategoryControlProps,
-  CategoryControlState
-> {
-  constructor(props: CategoryControlProps) {
+class CategoryControl extends PureComponent<WidgetProps, CategoryControlState> {
+  constructor(props: WidgetProps) {
     super(props);
     this.state = [
       {
@@ -34,10 +32,10 @@ class CategoryControl extends PureComponent<
     this.onRemove = this.onRemove.bind(this);
   }
   componentDidMount(): void {
-    if (this.props.value) this.setState(JSON.parse(this.props.value));
+    if (this.props.value) this.setState([JSON.parse(this.props.value)]);
   }
   shouldComponentUpdate(
-    nextProps: Readonly<CategoryControlProps>,
+    nextProps: Readonly<WidgetProps>,
     nextState: Readonly<CategoryControlState>
   ): boolean {
     return (
@@ -48,14 +46,14 @@ class CategoryControl extends PureComponent<
       this.state !== nextState
     );
   }
-  onChange(e: any, key: string) {
+  onChange<T>(e: T, key: string) {
     const nextState = produce(this.state[0], (draft) => {
       const splitted = key.split("|");
       splitted.forEach((k, i) => {
         if (k.trim() === "") return;
         if (i === splitted.length - 1) {
           // @ts-ignore
-          draft[k] = e;
+          draft[k] = k === "type" && draft[k] === e ? "" : e;
           return;
         }
         // @ts-ignore
@@ -92,6 +90,7 @@ class CategoryControl extends PureComponent<
         css={css`
           display: flex;
           flex-direction: column;
+          position: relative;
         `}
       >
         <button
@@ -119,6 +118,13 @@ class CategoryControl extends PureComponent<
             widgetProps={this.props}
             onChange={onChange}
             onRemove={onRemove}
+          />
+        ) : type === "markdown" ? (
+          <MDXControl
+            defaultKey=""
+            onChange={onChange}
+            value={this.state[0].markdown}
+            widgetProps={this.props}
           />
         ) : null}
       </div>

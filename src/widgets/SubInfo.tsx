@@ -8,12 +8,13 @@ import { CategoryControlState } from "./Category";
 import { ImagesControl } from "./Images";
 import colors from "../constants/colors";
 import { WidgetProps } from "./type";
+import { MDXControl } from "./MDX";
 
 export type SubInfoControlProps = {
   defaultKey: string;
   value: CategoryControlState;
   widgetProps: WidgetProps;
-  onChange: (value: any, key: string) => void;
+  onChange: <T>(value: T, key: string) => void;
   onRemove: (key: string) => void;
 };
 
@@ -23,8 +24,16 @@ class SubInfoControl extends PureComponent<SubInfoControlProps> {
     this.onClick = this.onClick.bind(this);
   }
   shouldComponentUpdate(nextProps: Readonly<SubInfoControlProps>): boolean {
-    const { value } = this.props;
-    return value !== nextProps.value;
+    const {
+      value,
+      widgetProps: { classNameWrapper, hasActiveStyle, mediaPaths },
+    } = this.props;
+    return (
+      value !== nextProps.value ||
+      classNameWrapper !== nextProps.widgetProps.classNameWrapper ||
+      hasActiveStyle !== nextProps.widgetProps.hasActiveStyle ||
+      mediaPaths !== nextProps.widgetProps.mediaPaths
+    );
   }
   onClick() {
     const { onChange, defaultKey, value } = this.props;
@@ -57,12 +66,12 @@ class SubInfoControl extends PureComponent<SubInfoControlProps> {
           `}
         >
           {value.length
-            ? value.map(({ type, title, images, markdown, sub }, idx) => (
+            ? value.map(({ type, title, images, sub, markdown }, idx) => (
                 <div
                   key={idx}
                   css={css`
                     margin-top: 0.5rem;
-                    border: 1px solid #dbdbdb;
+                    border: 2px solid ${colors.sub};
                     position: relative;
                   `}
                 >
@@ -112,6 +121,13 @@ class SubInfoControl extends PureComponent<SubInfoControlProps> {
                       widgetProps={widgetProps}
                       onChange={onChange}
                       onRemove={onRemove}
+                    />
+                  ) : type === "markdown" ? (
+                    <MDXControl
+                      defaultKey={`${defaultKey}|${idx}`}
+                      value={markdown}
+                      onChange={onChange}
+                      widgetProps={widgetProps}
                     />
                   ) : null}
                 </div>

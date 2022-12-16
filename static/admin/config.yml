@@ -9,12 +9,15 @@ publish_mode: editorial_workflow
 
 media_folder: static/img
 public_folder: img
+locale: "ko"
 
 collections: # A list of collections the CMS should be able to edit
   - name: "setting"
     label: "Setting"
     slug: "Setting"
     delete: false # Prevent users from deleting documents in this collection
+    public_folder: ""
+    media_folder: ""
     files:
       - name: "general"
         label: "Site Settings"
@@ -32,6 +35,7 @@ collections: # A list of collections the CMS should be able to edit
                   name: "logo_image",
                   widget: image,
                   required: true,
+                  default: "/"
                 }
               - {
                   label: "로고 설명",
@@ -90,18 +94,27 @@ collections: # A list of collections the CMS should be able to edit
               name: "footerImageAlt",
               widget: "string",
             }
-  - name: "pages"
-    label: "Pages"
-    files:
-      - file: "src/pages/about/index.md"
-        label: "About"
-        name: "about"
-        fields:
-          - {
-              label: "Template Key",
-              name: "templateKey",
-              widget: "hidden",
-              default: "about-page",
-            }
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Body", name: "body", widget: "markdown" }
+  - name: "category"
+    label: "분양 정보"
+    description: "사업 개요, 입지환경 등 페이지 추가"
+    folder: "contents/category"
+    slug: "{{title_en}}"
+    path: "{{slug}}/index"
+    extension: "mdx"
+    format: "frontmatter"
+    create: true
+    fields:
+      - { label: "Template Key", name: "templateKey", widget: "hidden", default: "category" }
+      - { label: "제목(한글)", name: "title", widget: "string" }
+      - label: "제목(영문)"
+        name: "title_en"
+        widget: "string"
+        hint: >
+          페이지 주소의 https:.../info/ 뒤에 사용될 값
+          ex)
+          사업개요 - overview |
+          입지환경 - environment |
+          상품안내 - production |
+          프리미엄 - premium |
+          관심고객등록 - register
+      - { label: "정보", name: "info", widget: "category" }
