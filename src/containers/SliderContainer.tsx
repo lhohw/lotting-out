@@ -18,6 +18,7 @@ export type SliderData = {
           };
         };
         alt: string;
+        title: string;
       }[];
     };
   };
@@ -36,6 +37,7 @@ const SliderContainer = () => {
               }
             }
             alt
+            title
           }
         }
       }

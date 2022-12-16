@@ -32,7 +32,7 @@ class ImagesControl extends PureComponent<ImagesControlProps> {
   }
   onClick() {
     const { onChange, defaultKey, value } = this.props;
-    onChange<ImageProps[]>(
+    onChange<ImagesControlProps["value"]>(
       (value || []).concat({
         image: "",
         alt: "",

@@ -8,18 +8,21 @@ import { useColors } from "../recoil/theme/useTheme";
 import PreviewCompatibleImage from "./PreviewCompatibleImage";
 
 export type HeaderProps = {
-  logo_image:
-    | string
-    | {
-        childImageSharp: {
-          gatsbyImageData: IGatsbyImageData;
+  logo: {
+    image:
+      | string
+      | {
+          childImageSharp: {
+            gatsbyImageData: IGatsbyImageData;
+          };
         };
-      };
-  logo_image_alt: string;
-  menu: string[];
+    alt: string;
+    title: string;
+  };
   isOpen: boolean;
+  menu: string[];
 };
-const Header = ({ logo_image, logo_image_alt, menu, isOpen }: HeaderProps) => {
+const Header = ({ logo, menu, isOpen }: HeaderProps) => {
   const colors = useColors();
   return (
     <header
@@ -28,7 +31,7 @@ const Header = ({ logo_image, logo_image_alt, menu, isOpen }: HeaderProps) => {
         display: flex;
         flex-direction: row;
         align-items: center;
-        height: 6rem;
+        height: 7rem;
       `}
     >
       <Link
@@ -37,7 +40,10 @@ const Header = ({ logo_image, logo_image_alt, menu, isOpen }: HeaderProps) => {
           min-width: 100px;
           height: 100%;
           box-shadow: 0px 2px 4px ${colors.text};
-          margin-right: 1rem;
+          margin-left: 4rem;
+          @media (max-width: 768px) {
+            margin-left: 2rem;
+          }
         `}
         to="/"
       >
@@ -45,12 +51,9 @@ const Header = ({ logo_image, logo_image_alt, menu, isOpen }: HeaderProps) => {
           css={css`
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
           `}
-          imageInfo={{
-            image: logo_image,
-            alt: logo_image_alt,
-          }}
+          imageInfo={logo}
         />
       </Link>
       <AiOutlineMenu
@@ -105,6 +108,8 @@ const Header = ({ logo_image, logo_image_alt, menu, isOpen }: HeaderProps) => {
               padding: 0.5rem 0;
               display: flex;
               flex: 1;
+              font-weight: bold;
+              font-family: Nanum Gothic;
               &:hover {
                 font-weight: 900;
                 color: ${colors.main};

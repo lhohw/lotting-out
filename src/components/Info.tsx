@@ -1,5 +1,6 @@
 import React from "react";
 import { css } from "@emotion/react";
+import { Link } from "gatsby";
 
 export type InfoProps = {
   menu: string[];
@@ -18,12 +19,10 @@ const Info = ({ menu }: InfoProps) => {
     }
     return true;
   });
-  for (let i = 0; i < 2; i++) filtered.push(`item${i}`);
   const gridStyle = css`
     display: grid;
     border: 1px solid black;
-    align-items: center;
-    justify-content: center;
+    padding: 1rem;
     margin: 0.3rem;
     cursor: pointer;
   `;
@@ -36,11 +35,15 @@ const Info = ({ menu }: InfoProps) => {
         margin: 2rem 1rem;
         grid-auto-flow: row;
         justify-content: end;
+        font-size: 1.25rem;
+        font-family: Song Myung;
+        /* font-family: Nanum Gothic; */
       `}
     >
       {prioritized.map((title) => (
-        <div
+        <Link
           key={title}
+          to={`/info/contact`}
           css={css`
             ${gridStyle}
             grid-column: span 3;
@@ -48,7 +51,7 @@ const Info = ({ menu }: InfoProps) => {
           `}
         >
           {title}
-        </div>
+        </Link>
       ))}
       {filtered.length && (
         <div
@@ -57,7 +60,7 @@ const Info = ({ menu }: InfoProps) => {
             display: grid;
             grid-column: span 6;
             grid-row: span 3;
-            grid-template-columns: repeat(auto-fit, minmax(50%, auto));
+            grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
             grid-template-rows: repeat(auto-fit, auto);
           `}
         >

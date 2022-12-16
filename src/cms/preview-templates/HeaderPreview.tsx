@@ -3,20 +3,22 @@ import React from "react";
 import { useRecoilState } from "recoil";
 
 import Header from "../../components/Header";
-import { headerState } from "../../recoil/header";
-import { HeaderState } from "../../recoil/header/atom";
+import { headerState, HeaderState } from "../../recoil/header";
 
 const HeaderPreview = ({ entry, getAsset }: PreviewTemplateComponentProps) => {
   const data = entry.getIn(["data"]).toJS();
-  const logo_image = getAsset(data.logo.logo_image).url;
-  const logo_image_alt = data.logo.logo_image_alt;
-  const menu = data.menu;
+  const {
+    logo: { image, alt, title },
+  } = data;
   const [state] = useRecoilState<HeaderState>(headerState);
   return (
     <Header
-      logo_image={logo_image}
-      logo_image_alt={logo_image_alt}
-      menu={menu}
+      logo={{
+        image: getAsset(image).url,
+        alt,
+        title,
+      }}
+      menu={["사업개요", "입지환경", "상품안내", "프리미엄", "관심고객등록"]}
       isOpen={state.isOpen}
     />
   );

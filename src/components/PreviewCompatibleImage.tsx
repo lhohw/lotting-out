@@ -16,6 +16,7 @@ export type PreviewCompatibleImageProps = {
           };
         };
     alt: string;
+    title: string;
     childImageSharp?: {
       gatsbyImageData: IGatsbyImageData;
     };
@@ -28,7 +29,7 @@ const PreviewCompatibleImage = ({
   imageInfo,
   ...props
 }: PreviewCompatibleImageProps) => {
-  const { image, alt = "", childImageSharp } = imageInfo;
+  const { image, alt = "", title = "", childImageSharp } = imageInfo;
   const cssStyle = css`
     width: 100%;
     height: 100%;
@@ -41,8 +42,10 @@ const PreviewCompatibleImage = ({
         {...props}
         image={image.childImageSharp.gatsbyImageData}
         alt={alt}
+        title={title}
       />
     );
+    // eslint-disable-next-line no-extra-boolean-cast
   } else if (!!childImageSharp) {
     return (
       <GatsbyImage
@@ -50,10 +53,11 @@ const PreviewCompatibleImage = ({
         {...props}
         image={childImageSharp.gatsbyImageData}
         alt={alt}
+        title={title}
       />
     );
   } else if (image && typeof image === "string") {
-    return <img src={image} css={cssStyle} alt={alt} />;
+    return <img src={image} css={cssStyle} alt={alt} title={title} />;
   }
   return null;
 };

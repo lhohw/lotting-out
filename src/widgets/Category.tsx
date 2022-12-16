@@ -93,15 +93,6 @@ class CategoryControl extends PureComponent<WidgetProps, CategoryControlState> {
           position: relative;
         `}
       >
-        <button
-          css={css`
-            display: flex;
-            flex: 1;
-          `}
-          onClick={() => console.log(this.state[0])}
-        >
-          check state
-        </button>
         <SelectControl value={type} defaultKey="" onChange={onChange} />
         {type === "subInfo" ? (
           <SubInfoControl
