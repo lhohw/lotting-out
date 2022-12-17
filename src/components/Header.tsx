@@ -119,7 +119,7 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
             `}
           >
             <Link
-              to={`/blog/${title_en}`}
+              to={`/info/${title_en}`}
               css={css`
                 width: 100%;
               `}
