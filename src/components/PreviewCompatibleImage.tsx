@@ -6,21 +6,22 @@ import {
 } from "gatsby-plugin-image";
 import { css, CSSObject, SerializedStyles } from "@emotion/react";
 
-export type PreviewCompatibleImageProps = {
-  imageInfo: {
-    image:
-      | string
-      | {
-          childImageSharp: {
-            gatsbyImageData: IGatsbyImageData;
-          };
+export type PreviewCompatibleImageData = {
+  image:
+    | string
+    | {
+        childImageSharp: {
+          gatsbyImageData: IGatsbyImageData;
         };
-    alt: string;
-    title: string;
-    childImageSharp?: {
-      gatsbyImageData: IGatsbyImageData;
-    };
+      };
+  alt: string;
+  title: string;
+  childImageSharp?: {
+    gatsbyImageData: IGatsbyImageData;
   };
+};
+export type PreviewCompatibleImageProps = {
+  imageInfo: PreviewCompatibleImageData;
   style?: CSSObject;
   css?: SerializedStyles;
 } & Omit<GatsbyImageProps, "alt" | "image">;
@@ -57,7 +58,15 @@ const PreviewCompatibleImage = ({
       />
     );
   } else if (image && typeof image === "string") {
-    return <img src={image} css={cssStyle} alt={alt} title={title} />;
+    return (
+      <img
+        src={image}
+        css={cssStyle}
+        className={props.className}
+        alt={alt}
+        title={title}
+      />
+    );
   }
   return null;
 };
