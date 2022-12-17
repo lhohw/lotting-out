@@ -23,6 +23,7 @@ const config: GatsbyConfig = {
     "gatsby-plugin-mdx",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
+    "gatsby-transformer-remark",
     {
       resolve: "gatsby-source-filesystem",
       options: {
@@ -74,10 +75,10 @@ const config: GatsbyConfig = {
     {
       resolve: "gatsby-source-filesystem",
       options: {
-        name: "info",
-        path: `${__dirname}/contents/info`,
+        name: "category",
+        path: `${__dirname}/contents/category`,
       },
-      __key: "info",
+      __key: "category",
     },
     {
       resolve: "gatsby-plugin-netlify-cms",
