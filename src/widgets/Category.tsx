@@ -32,7 +32,7 @@ class CategoryControl extends PureComponent<WidgetProps, CategoryControlState> {
     this.onRemove = this.onRemove.bind(this);
   }
   componentDidMount(): void {
-    if (this.props.value) this.setState([this.props.value]);
+    if (this.props.value) this.setState([this.props.value.toJS()]);
   }
   shouldComponentUpdate(
     nextProps: Readonly<WidgetProps>,
