@@ -1,90 +1,100 @@
-import React from "react";
+import React, { useState } from "react";
 import { css } from "@emotion/react";
-import { Link } from "gatsby";
+import { PreviewCompatibleImageData } from "./PreviewCompatibleImage";
+import Images from "./Images";
+import { useColors } from "../recoil/theme/useTheme";
 
-export type InfoProps = Record<
-  "prioritized" | "filtered" | "register",
-  {
-    title: string;
-    title_en: string;
-  }[]
->;
-const Info = ({ prioritized, filtered, register }: InfoProps) => {
-  const gridStyle = css`
-    display: grid;
-    border: 1px solid black;
-    padding: 1rem;
-    margin: 0.3rem;
-    cursor: pointer;
-  `;
+export type InfoProps = {
+  data: {
+    type: "subInfo" | "images" | "markdown";
+    images: PreviewCompatibleImageData[];
+    markdown: string;
+    sub: InfoProps["data"];
+    title?: string;
+  }[];
+  className?: string;
+  title_en: string;
+  depth: number;
+};
+
+const Info = ({ data, className, title_en, depth }: InfoProps) => {
+  const [idx, setIdx] = useState(0);
+  const list = data.map((p) => p.title).filter(Boolean);
+  const colors = useColors();
   return (
     <div
+      className={className}
       css={css`
-        display: grid;
-        grid-template-columns: repeat(9, 1fr);
-        grid-auto-rows: 8vw;
-        margin: 2rem 1rem;
-        grid-auto-flow: row;
-        justify-content: end;
-        font-size: 1.25rem;
-        font-family: Song Myung;
-        /* font-family: Nanum Gothic; */
+        display: flex;
+        flex-direction: column;
+        margin-top: 1rem;
+        padding: 1rem;
       `}
     >
-      {prioritized.length
-        ? prioritized.map(({ title, title_en }) => (
-            <Link
-              key={title}
-              to={`/info/${title_en}`}
-              css={css`
-                ${gridStyle}
-                grid-column: span 3;
-                grid-row: span 3;
-              `}
-            >
-              {title}
-            </Link>
-          ))
-        : null}
-      {filtered.length ? (
+      {list.length ? (
         <div
-          key={"filtered"}
           css={css`
-            display: grid;
-            grid-column: span 6;
-            grid-row: span 3;
-            grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
-            grid-template-rows: repeat(auto-fit, auto);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            /* width: ${depth === 1 ? "100%" : "auto"}; */
           `}
         >
-          {filtered.map(({ title, title_en }) => (
-            <Link
-              key={title_en}
-              to={`/info/${title_en}`}
+          {list.map((title, i) => (
+            <button
+              key={title}
               css={css`
-                ${gridStyle}
+                display: flex;
+                /* flex: ${depth === 1 ? 1 : 0}; */
+                padding: 1rem 2rem;
+                align-items: center;
+                justify-content: center;
+                color: ${i === idx ? colors.background : colors.text};
+                font-weight: ${i === idx ? "bold" : "normal"};
+                font-size: 1.4rem;
+                background-color: ${i === idx ? colors.sub : colors.background};
+                border: 2px solid #bdbdbd;
+                border-radius: 8px;
+                transition: all 0.25s ease-in-out;
+                cursor: pointer;
+                & + button {
+                  margin-left: 2rem;
+                }
               `}
+              onClick={() => setIdx(i)}
             >
               {title}
-            </Link>
+            </button>
           ))}
         </div>
       ) : null}
-      {register.length ? (
-        <Link
-          key={"register"}
-          to={`/info/${register[0].title_en}`}
-          css={css`
-            ${gridStyle}
-            grid-column: span 3;
-            grid-row: span 3;
-          `}
-        >
-          {register[0].title}
-        </Link>
-      ) : null}
+      {data.map(({ type, images, markdown, sub, title }, i) => (
+        <React.Fragment key={title}>
+          {type === "images" ? (
+            <Images
+              css={css`
+                display: ${i === idx ? "inherit" : "none"};
+              `}
+              images={images}
+              title_en={title_en}
+            />
+          ) : type === "subInfo" ? (
+            <Info
+              css={css`
+                display: ${i === idx ? "inherit" : "none"};
+              `}
+              title_en={title_en}
+              data={sub}
+              depth={depth + 1}
+            />
+          ) : type === "markdown" ? (
+            <span>{`markdown: ${markdown}`}</span>
+          ) : null}
+        </React.Fragment>
+      ))}
     </div>
   );
 };
 
-export default React.memo(Info);
+export default Info;

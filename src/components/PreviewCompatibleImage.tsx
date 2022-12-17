@@ -34,7 +34,6 @@ const PreviewCompatibleImage = ({
   const cssStyle = css`
     width: 100%;
     height: 100%;
-    object-fit: contain;
   `;
   if (!!image && typeof image !== "string" && !!image.childImageSharp) {
     return (
@@ -62,6 +61,8 @@ const PreviewCompatibleImage = ({
       <img
         src={image}
         css={cssStyle}
+        decoding={props.decoding || "async"}
+        loading={props.loading || "lazy"}
         className={props.className}
         alt={alt}
         title={title}
