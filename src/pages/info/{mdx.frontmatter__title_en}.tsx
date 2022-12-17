@@ -17,7 +17,6 @@ export type InfoPageProps = {
       };
     };
   };
-  children: React.ReactNode;
 };
 const InfoPage = ({ data }: InfoPageProps) => {
   const { title, title_en, info } = useFrontmatter(data);
