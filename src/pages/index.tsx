@@ -5,7 +5,7 @@ import Layout from "../components/Layout";
 import Seo from "../components/Seo";
 import HeaderContainer from "../containers/HeaderContainer";
 import SliderContainer from "../containers/SliderContainer";
-import Info from "../components/Info";
+import Category from "../components/Category";
 import Footer, { FooterProps } from "../components/Footer";
 import RegisterButton from "../components/RegisterButton";
 
@@ -64,7 +64,11 @@ const IndexPage = ({ data }: IndexPageData) => {
     <Layout>
       <HeaderContainer menu={sortedMenu} logo={logo} />
       <SliderContainer imageInfos={imageInfos} />
-      <Info prioritized={prioritized} filtered={filtered} register={register} />
+      <Category
+        prioritized={prioritized}
+        filtered={filtered}
+        register={register}
+      />
       <Footer {...rest} />
       <RegisterButton />
     </Layout>
