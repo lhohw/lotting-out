@@ -20,8 +20,7 @@ class ImagesWidgetControl extends PureComponent<
   }
   componentDidMount(): void {
     if (this.props.value) {
-      const nextState = JSON.parse(this.props.value);
-      this.setState(nextState);
+      this.setState(this.props.value.toJS());
     }
   }
   shouldComponentUpdate(
@@ -52,7 +51,7 @@ class ImagesWidgetControl extends PureComponent<
         draft = draft[k];
       });
     });
-    this.props.onChange(JSON.stringify(nextState));
+    this.props.onChange(nextState);
     this.setState(nextState);
   }
   onRemove(key: string) {
@@ -69,7 +68,7 @@ class ImagesWidgetControl extends PureComponent<
         draft = draft[k];
       });
     });
-    this.props.onChange(JSON.stringify(nextState));
+    this.props.onChange(nextState);
     this.setState(nextState);
   }
   render() {

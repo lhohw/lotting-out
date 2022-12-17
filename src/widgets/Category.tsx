@@ -32,7 +32,7 @@ class CategoryControl extends PureComponent<WidgetProps, CategoryControlState> {
     this.onRemove = this.onRemove.bind(this);
   }
   componentDidMount(): void {
-    if (this.props.value) this.setState([JSON.parse(this.props.value)]);
+    if (this.props.value) this.setState([this.props.value]);
   }
   shouldComponentUpdate(
     nextProps: Readonly<WidgetProps>,
@@ -62,7 +62,7 @@ class CategoryControl extends PureComponent<WidgetProps, CategoryControlState> {
         draft = draft[k];
       });
     });
-    this.props.onChange(JSON.stringify(nextState));
+    this.props.onChange(nextState);
     this.setState([nextState]);
   }
   onRemove(key: string) {
@@ -79,7 +79,7 @@ class CategoryControl extends PureComponent<WidgetProps, CategoryControlState> {
         draft = draft[k];
       });
     });
-    this.props.onChange(JSON.stringify(nextState));
+    this.props.onChange(nextState);
     this.setState([nextState]);
   }
   render() {
