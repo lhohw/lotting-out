@@ -1,50 +1,15 @@
+import type { SliderState } from "../recoil/slider/atom";
 import React, { useCallback } from "react";
-import { useStaticQuery, graphql } from "gatsby";
-import { IGatsbyImageData } from "gatsby-plugin-image";
 import { useRecoilState } from "recoil";
 import { sliderState } from "../recoil/slider";
-import type { SliderState } from "../recoil/slider/atom";
-
-import useFrontmatter from "../utils/hooks/useFrontmatter";
 import Slider from "../components/Slider";
+import type { PreviewCompatibleImageData } from "../components/PreviewCompatibleImage";
 
 export type SliderData = {
-  mdx: {
-    frontmatter: {
-      imageInfos: {
-        image: {
-          childImageSharp: {
-            gatsbyImageData: IGatsbyImageData;
-          };
-        };
-        alt: string;
-        title: string;
-      }[];
-    };
-  };
+  imageInfos: PreviewCompatibleImageData[];
 };
-const SliderContainer = () => {
+const SliderContainer = ({ imageInfos }: SliderData) => {
   const [state, setState] = useRecoilState<SliderState>(sliderState);
-
-  const data = useStaticQuery<SliderData>(graphql`
-    {
-      mdx(frontmatter: { templateKey: { eq: "slider" } }) {
-        frontmatter {
-          imageInfos {
-            image {
-              childImageSharp {
-                gatsbyImageData
-              }
-            }
-            alt
-            title
-          }
-        }
-      }
-    }
-  `);
-
-  const { imageInfos } = useFrontmatter<SliderData>(data);
 
   const handleIndex = useCallback(
     (idx: number) => {

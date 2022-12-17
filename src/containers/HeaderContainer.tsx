@@ -1,45 +1,18 @@
 import React, { useEffect } from "react";
-import { useStaticQuery, graphql } from "gatsby";
-import { IGatsbyImageData } from "gatsby-plugin-image";
 import { useRecoilState } from "recoil";
 
 import Header from "../components/Header";
-import { headerState } from "../recoil/header";
-import { HeaderState } from "../recoil/header/atom";
+import { headerState, HeaderState } from "../recoil/header";
+import type { PreviewCompatibleImageData } from "../components/PreviewCompatibleImage";
 
 export type HeaderData = {
-  settingJson: {
-    menu: string[];
-    logo: {
-      logo_image: {
-        childImageSharp: {
-          gatsbyImageData: IGatsbyImageData;
-        };
-      };
-      logo_image_alt: string;
-    };
-  };
+  menu: {
+    title: string;
+    title_en: string;
+  }[];
+  logo: PreviewCompatibleImageData;
 };
-const HeaderContainer = () => {
-  const data = useStaticQuery<HeaderData>(graphql`
-    {
-      settingJson {
-        menu
-        logo {
-          logo_image {
-            childImageSharp {
-              gatsbyImageData
-            }
-          }
-          logo_image_alt
-        }
-      }
-    }
-  `);
-  const {
-    menu,
-    logo: { logo_image, logo_image_alt },
-  } = data.settingJson;
+const HeaderContainer = ({ menu, logo }: HeaderData) => {
   const [state, setState] = useRecoilState<HeaderState>(headerState);
 
   useEffect(() => {
@@ -64,14 +37,7 @@ const HeaderContainer = () => {
       window.removeEventListener("click", closeByClick);
     };
   }, [setState, state]);
-  return (
-    <Header
-      menu={menu}
-      logo_image={logo_image}
-      logo_image_alt={logo_image_alt}
-      isOpen={state.isOpen}
-    />
-  );
+  return <Header menu={menu} logo={logo} isOpen={state.isOpen} />;
 };
 
 export default React.memo(HeaderContainer);

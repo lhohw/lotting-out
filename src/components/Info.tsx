@@ -2,23 +2,14 @@ import React from "react";
 import { css } from "@emotion/react";
 import { Link } from "gatsby";
 
-export type InfoProps = {
-  menu: string[];
-};
-const Info = ({ menu }: InfoProps) => {
-  const prioritized: string[] = [];
-  let register = "";
-  const filtered = menu.filter((title) => {
-    if (title === "사업개요" || title === "입지환경" || title === "상품안내") {
-      prioritized.push(title);
-      return false;
-    }
-    if (title === "관심고객등록") {
-      register = title;
-      return false;
-    }
-    return true;
-  });
+export type InfoProps = Record<
+  "prioritized" | "filtered" | "register",
+  {
+    title: string;
+    title_en: string;
+  }[]
+>;
+const Info = ({ prioritized, filtered, register }: InfoProps) => {
   const gridStyle = css`
     display: grid;
     border: 1px solid black;
@@ -40,20 +31,22 @@ const Info = ({ menu }: InfoProps) => {
         /* font-family: Nanum Gothic; */
       `}
     >
-      {prioritized.map((title) => (
-        <Link
-          key={title}
-          to={`/info/contact`}
-          css={css`
-            ${gridStyle}
-            grid-column: span 3;
-            grid-row: span 3;
-          `}
-        >
-          {title}
-        </Link>
-      ))}
-      {filtered.length && (
+      {prioritized.length
+        ? prioritized.map(({ title, title_en }) => (
+            <Link
+              key={title}
+              to={`/info/${title_en}`}
+              css={css`
+                ${gridStyle}
+                grid-column: span 3;
+                grid-row: span 3;
+              `}
+            >
+              {title}
+            </Link>
+          ))
+        : null}
+      {filtered.length ? (
         <div
           key={"filtered"}
           css={css`
@@ -64,30 +57,32 @@ const Info = ({ menu }: InfoProps) => {
             grid-template-rows: repeat(auto-fit, auto);
           `}
         >
-          {filtered.map((title) => (
-            <div
-              key={title}
+          {filtered.map(({ title, title_en }) => (
+            <Link
+              key={title_en}
+              to={`/info/${title_en}`}
               css={css`
                 ${gridStyle}
               `}
             >
               {title}
-            </div>
+            </Link>
           ))}
         </div>
-      )}
-      {register && (
-        <div
-          key={register}
+      ) : null}
+      {register.length ? (
+        <Link
+          key={"register"}
+          to={`/info/${register[0].title_en}`}
           css={css`
             ${gridStyle}
             grid-column: span 3;
             grid-row: span 3;
           `}
         >
-          {register}
-        </div>
-      )}
+          {register[0].title}
+        </Link>
+      ) : null}
     </div>
   );
 };

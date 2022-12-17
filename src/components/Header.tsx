@@ -1,26 +1,19 @@
-import type { IGatsbyImageData } from "gatsby-plugin-image";
-
 import React from "react";
 import { css } from "@emotion/react";
 import { Link } from "gatsby";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useColors } from "../recoil/theme/useTheme";
-import PreviewCompatibleImage from "./PreviewCompatibleImage";
+import PreviewCompatibleImage, {
+  PreviewCompatibleImageData,
+} from "./PreviewCompatibleImage";
 
 export type HeaderProps = {
-  logo: {
-    image:
-      | string
-      | {
-          childImageSharp: {
-            gatsbyImageData: IGatsbyImageData;
-          };
-        };
-    alt: string;
-    title: string;
-  };
+  logo: PreviewCompatibleImageData;
   isOpen: boolean;
-  menu: string[];
+  menu: {
+    title: string;
+    title_en: string;
+  }[];
 };
 const Header = ({ logo, menu, isOpen }: HeaderProps) => {
   const colors = useColors();
@@ -95,7 +88,7 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
           }
         `}
       >
-        {menu.map((title, idx) => (
+        {menu.map(({ title, title_en }, idx) => (
           <li
             key={idx}
             css={css`
@@ -126,7 +119,7 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
             `}
           >
             <Link
-              to={"/blog"}
+              to={`/blog/${title_en}`}
               css={css`
                 width: 100%;
               `}
