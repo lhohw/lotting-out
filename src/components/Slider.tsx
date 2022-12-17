@@ -3,14 +3,14 @@ import { css } from "@emotion/react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 import PreviewCompatibleImage, {
-  PreviewCompatibleImageProps,
+  PreviewCompatibleImageData,
 } from "./PreviewCompatibleImage";
 import Dots from "./Dots";
 import colors from "../constants/colors";
 
 export type SliderProps = {
   idx: number;
-  imageInfos: PreviewCompatibleImageProps["imageInfo"][];
+  imageInfos: PreviewCompatibleImageData[];
   handleIndex: (idx: number) => void;
 };
 const Slider = ({ idx, imageInfos, handleIndex }: SliderProps) => {
@@ -38,7 +38,7 @@ const Slider = ({ idx, imageInfos, handleIndex }: SliderProps) => {
       ref={container}
       css={css`
         width: 100%;
-        height: 25rem;
+        height: 30rem;
         overflow: hidden;
         position: relative;
         box-shadow: 0px 2px 8px ${colors.text["light"]};
@@ -50,13 +50,13 @@ const Slider = ({ idx, imageInfos, handleIndex }: SliderProps) => {
           display: flex;
           flex-direction: row;
           width: ${100 * imageInfos.length}vw;
-          max-width: ${1200 * imageInfos.length}px;
+          /* max-width: ${1200 * imageInfos.length}px; */
           height: 100%;
           will-change: transform;
           transform: ${`translateX(${-idx * 100}vw)`};
-          @media (min-width: 1200px) {
+          /* @media (min-width: 1200px) {
             transform: ${`translateX(${-idx * 1200}px)`};
-          }
+          } */
         `}
       >
         {imageInfos.map((imageInfo, i) => (
@@ -64,7 +64,7 @@ const Slider = ({ idx, imageInfos, handleIndex }: SliderProps) => {
             key={i}
             css={css`
               width: 100vw;
-              max-width: 1200px;
+              /* max-width: 1200px; */
               height: 100%;
               object-fit: cover;
             `}
@@ -84,7 +84,7 @@ const Slider = ({ idx, imageInfos, handleIndex }: SliderProps) => {
             left: 1rem;
             cursor: pointer;
           `}
-          size={40}
+          size={45}
           color={"#ededed"}
           onClick={() => handleIndex(idx - 1)}
         />
@@ -98,7 +98,7 @@ const Slider = ({ idx, imageInfos, handleIndex }: SliderProps) => {
             right: 1rem;
             cursor: pointer;
           `}
-          size={40}
+          size={45}
           color={"#ededed"}
           onClick={() => handleIndex(idx + 1)}
         />

@@ -11,7 +11,7 @@ const Layout = ({ children }: LayoutProps) => {
         display: flex;
         flex-direction: column;
         flex: 1;
-        max-width: 1200px;
+        /* max-width: 1200px; */
         margin: 0 auto;
       `}
     >
