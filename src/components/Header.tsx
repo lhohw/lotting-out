@@ -7,13 +7,14 @@ import PreviewCompatibleImage, {
   PreviewCompatibleImageData,
 } from "./PreviewCompatibleImage";
 
+export type MenuTitle = {
+  title: string;
+  title_en: string;
+};
 export type HeaderProps = {
   logo: PreviewCompatibleImageData;
   isOpen: boolean;
-  menu: {
-    title: string;
-    title_en: string;
-  }[];
+  menu: MenuTitle[];
 };
 const Header = ({ logo, menu, isOpen }: HeaderProps) => {
   const colors = useColors();
