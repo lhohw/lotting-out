@@ -23,7 +23,7 @@ const HeaderContainer = ({ menu, logo }: HeaderData) => {
     };
     const closeByClick = (e: MouseEvent) => {
       if (e.target instanceof Element) {
-        const id = e.target.closest("svg")?.id;
+        const id = e.target.closest("button")?.id;
         if (id && id === "menu")
           setState((state) => ({ ...state, isOpen: !state.isOpen }));
         else if (state.isOpen)

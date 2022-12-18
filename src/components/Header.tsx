@@ -51,18 +51,24 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
           imageInfo={logo}
         />
       </Link>
-      <AiOutlineMenu
+      <button
         id="menu"
-        size={25}
         css={css`
+          display: flex;
+          align-items: center;
           margin-left: auto;
-          margin-right: 2rem;
+          margin-right: 1rem;
           cursor: pointer;
+          background-color: transparent;
+          border: none;
+          color: inherit;
           @media (min-width: 600px) {
             display: none;
           }
         `}
-      />
+      >
+        <AiOutlineMenu size={22} />
+      </button>
       <ul
         css={css`
           display: flex;
@@ -107,7 +113,7 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
               font-family: Nanum Gothic;
               &:hover {
                 font-weight: 900;
-                color: ${colors.main};
+                color: ${colors.gold};
               }
               @media (max-width: 600px) {
                 width: 100%;

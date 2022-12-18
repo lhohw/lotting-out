@@ -24,11 +24,11 @@ const Dots = ({ length, idx, handleIndex }: DotsProps) => {
         <li
           key={i}
           css={css`
-            width: 10px;
-            height: 10px;
-            border: 1px solid ${colors.text};
+            width: 12px;
+            height: 12px;
+            border: 2px solid ${colors.dark};
             border-radius: 50%;
-            background-color: ${idx === i ? colors.main : colors.background};
+            background-color: ${idx === i ? colors.gold : "#fefefe"};
             cursor: pointer;
             & + li {
               margin-left: 0.3rem;

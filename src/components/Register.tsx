@@ -72,6 +72,7 @@ const Register = ({
               color: ${colors.main};
               text-shadow: 1px 1px 3px ${colors.gold};
               font-size: 2.2rem;
+              margin-left: 1.5rem;
             `}
           >
             Find Out More
@@ -147,8 +148,14 @@ const Register = ({
                 background-color: ${colors.dark + "dd"};
                 color: #fefefedd;
                 border-radius: 8px;
-                border: 1px solid ${colors.widgetBorder};
+                border: 2px solid ${colors.widgetBorder};
+                transition: all 0.3s ease-in-out;
                 cursor: pointer;
+                &:hover {
+                  color: ${colors.gold};
+                  border-color: ${colors.gold};
+                  font-weight: bold;
+                }
               `}
             >
               제출
