@@ -35,14 +35,6 @@ const config: GatsbyConfig = {
     {
       resolve: "gatsby-source-filesystem",
       options: {
-        name: "uploads",
-        path: `${__dirname}/static/img`,
-      },
-      __key: "uploads",
-    },
-    {
-      resolve: "gatsby-source-filesystem",
-      options: {
         name: "pages",
         path: "./src/pages/",
       },
