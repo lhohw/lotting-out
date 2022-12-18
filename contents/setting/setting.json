@@ -1,9 +1,44 @@
 {
-  "type": "setting",
-  "apartment": "양주옥정 파티오포레 힐스테이트!!",
-  "menu": ["사업개요", "입지환경", "상품안내", "프리미엄", "관심고객등록"],
+  "slider": {
+    "images": [
+      {
+        "image": "terrace.jpg",
+        "alt": "테라스 이미지",
+        "title": "테라스"
+      },
+      {
+        "image": "courtyard.jpg",
+        "alt": "중정 이미지",
+        "title": "중정"
+      },
+      {
+        "image": "c_type_attic.jpg",
+        "alt": "C 타입 다락 이미지",
+        "title": "C 타입 다락"
+      }
+    ]
+  },
+  "corporate": "Campusride",
   "logo": {
-    "logo_image": "logo.jpg",
-    "logo_image_alt": "양주옥정 파티오포레 힐스테이트"
-  }
+    "logo_image": "2.png",
+    "logo_image_alt": "양주옥정 파티오포레 힐스테이트",
+    "image": "logo.jpg",
+    "alt": "힐스테이트 로고 이미지",
+    "title": "힐스테이트 로고"
+  },
+  "name": "안동호",
+  "apartment": "양주옥정 파티오포레 힐스테이트",
+  "address": "충청남도 천안시 동남구 청수 14로 96, (백석문화센터) ,706호",
+  "phoneNumber": "1661-0426",
+  "declaration": "제2019-충남천안-1455호",
+  "type": "setting",
+  "RN": "110-1112-34342",
+  "email": "abcd@naver.com",
+  "menu": [
+    "사업개요",
+    "입지환경",
+    "상품안내",
+    "프리미엄",
+    "관심고객등록"
+  ]
 }
