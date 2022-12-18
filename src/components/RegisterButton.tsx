@@ -10,13 +10,15 @@ const RegisterButton = ({ className }: RegisterButtonProps) => {
   const colors = useColors();
   return (
     <Link
-      to="/info/contact"
+      to="/info/register"
       className={className}
       css={css`
         display: flex;
-        border: 1px solid ${colors.main};
+        flex-direction: column;
+        z-index: 2;
+        border: 1px solid #c6aa94;
         border-radius: 100%;
-        box-shadow: 1px 3px 5px ${colors.text};
+        box-shadow: 0px 0px 5px #c6aa94;
         align-items: center;
         justify-content: center;
         width: 8rem;
@@ -24,22 +26,23 @@ const RegisterButton = ({ className }: RegisterButtonProps) => {
         position: fixed;
         right: 1rem;
         bottom: 3rem;
-        background-color: ${colors.background};
+        /* background-color: ${colors.background}; */
+        background-color: #333333;
         font-family: "Cinzel", serif;
-        color: ${colors.main};
         font-weight: bolder;
         transition: all 0.4s ease-in-out;
         font-size: 1.2rem;
+        /* color: ${colors.main}; */
+        color: #c6aa94;
+        filter: grayscale(100%);
         &:hover {
-          width: 9rem;
-          height: 9rem;
-          right: 0.5rem;
-          bottom: 2.5rem;
+          filter: grayscale(0%);
+          transform: scale(1.1);
         }
         @media (max-width: 992px) {
           width: 5rem;
           height: 5rem;
-          font-size: 0.9rem;
+          font-size: 0.8rem;
           &:hover {
             width: 6rem;
             height: 6rem;
@@ -48,6 +51,16 @@ const RegisterButton = ({ className }: RegisterButtonProps) => {
       `}
     >
       <span>Register</span>
+      <span
+        css={css`
+          font-size: 0.8rem;
+          @media (max-width: 992px) {
+            font-size: 0.7rem;
+          }
+        `}
+      >
+        관심고객등록
+      </span>
     </Link>
   );
 };

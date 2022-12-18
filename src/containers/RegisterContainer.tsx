@@ -1,10 +1,14 @@
+import type { PreviewCompatibleImageData } from "../components/PreviewCompatibleImage";
 import React, { useCallback, useEffect, useMemo } from "react";
 import Register from "../components/Register";
 import { registerState, RegisterState } from "../recoil/register";
 import { useRecoilState } from "recoil";
 import produce from "immer";
 
-const RegisterContainer = () => {
+export type RegisterContainerProps = {
+  backgroundImage: PreviewCompatibleImageData;
+};
+const RegisterContainer = ({ backgroundImage }: RegisterContainerProps) => {
   const [state, setState] = useRecoilState<RegisterState>(registerState);
   useEffect(() => {
     return () => {
@@ -84,6 +88,7 @@ const RegisterContainer = () => {
       questions={questions}
       onChange={onChange}
       onSubmit={onSubmit}
+      backgroundImage={backgroundImage}
     />
   );
 };
