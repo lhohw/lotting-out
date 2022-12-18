@@ -20,8 +20,6 @@
   },
   "corporate": "Campusride",
   "logo": {
-    "logo_image": "2.png",
-    "logo_image_alt": "양주옥정 파티오포레 힐스테이트",
     "image": "logo.jpg",
     "alt": "힐스테이트 로고 이미지",
     "title": "힐스테이트 로고"
@@ -34,11 +32,5 @@
   "type": "setting",
   "RN": "110-1112-34342",
   "email": "abcd@naver.com",
-  "menu": [
-    "사업개요",
-    "입지환경",
-    "상품안내",
-    "프리미엄",
-    "관심고객등록"
-  ]
+  "menu": ["사업개요", "입지환경", "상품안내", "프리미엄", "관심고객등록"]
 }
