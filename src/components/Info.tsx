@@ -1,3 +1,4 @@
+import type { PreviewTemplateComponentProps } from "netlify-cms-core";
 import React, { useState } from "react";
 import { css } from "@emotion/react";
 import { PreviewCompatibleImageData } from "./PreviewCompatibleImage";
@@ -15,12 +16,22 @@ export type InfoProps = {
   className?: string;
   title_en: string;
   depth: number;
+  isPreview?: boolean;
+  getAsset?: PreviewTemplateComponentProps["getAsset"];
 };
 
-const Info = ({ data, className, title_en, depth }: InfoProps) => {
+const Info = ({
+  data,
+  className,
+  title_en,
+  depth,
+  isPreview = false,
+  getAsset,
+}: InfoProps) => {
   const [idx, setIdx] = useState(0);
   const list = data.map((p) => p.title).filter(Boolean);
   const colors = useColors();
+  if (data.length === 0) return null;
   return (
     <div
       className={className}
@@ -78,6 +89,8 @@ const Info = ({ data, className, title_en, depth }: InfoProps) => {
               `}
               images={images}
               title_en={title_en}
+              isPreview={isPreview}
+              getAsset={getAsset}
             />
           ) : type === "subInfo" ? (
             <Info
@@ -87,6 +100,8 @@ const Info = ({ data, className, title_en, depth }: InfoProps) => {
               title_en={title_en}
               data={sub}
               depth={depth + 1}
+              isPreview={isPreview}
+              getAsset={getAsset}
             />
           ) : type === "markdown" ? (
             <span>{`markdown: ${markdown}`}</span>

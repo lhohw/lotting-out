@@ -1,5 +1,7 @@
 import type { PreviewCompatibleImageData } from "../components/PreviewCompatibleImage";
-import React from "react";
+import type { InfoProps } from "../components/Info";
+import type { CategoryMenu } from "../components/Category";
+import React, { useCallback, useMemo } from "react";
 import { graphql } from "gatsby";
 import Layout from "../components/Layout";
 import Seo from "../components/Seo";
@@ -18,6 +20,7 @@ export type IndexPageData = {
           frontmatter: {
             title: string;
             title_en: string;
+            info: InfoProps["data"][number];
           };
         };
       }[];
@@ -31,35 +34,59 @@ export type IndexPageData = {
     } & FooterProps;
   };
 };
-export type MenuTitle = {
-  title: string;
-  title_en: string;
-};
 const IndexPage = ({ data }: IndexPageData) => {
-  const menu = data.allMdx.edges.map((edge) => edge.node.frontmatter);
+  const findImage = useCallback(
+    (info: InfoProps["data"][number]): PreviewCompatibleImageData["image"] => {
+      if (info.type === "images") return info.images[0].image;
+      if (info.type === "subInfo") {
+        for (let i = 0; i < info.sub.length; i++) {
+          const image = findImage(info.sub[i]);
+          if (image) return image;
+        }
+      }
+      return "";
+    },
+    []
+  );
+  const menu: CategoryMenu[] = data.allMdx.edges.map((edge) => {
+    const { title, title_en, info } = edge.node.frontmatter;
+    return { title, title_en, thumbnail: findImage(info) };
+  });
   const {
     logo,
     slider: { images: imageInfos },
     ...rest
   } = data.settingJson;
 
-  const prioritized: MenuTitle[] = [];
-  const register: MenuTitle[] = [];
-  const filtered = menu.filter(({ title, title_en }) => {
-    if (title === "사업개요" || title === "입지환경" || title === "상품안내") {
-      prioritized.push({ title, title_en });
-      return false;
-    }
-    if (title === "관심고객등록") {
-      register.push({
-        title,
-        title_en,
-      });
-      return false;
-    }
-    return true;
-  });
-  const sortedMenu = [...prioritized, ...filtered].concat(register);
+  const prioritized: CategoryMenu[] = useMemo(
+    () =>
+      menu.filter(
+        ({ title }) =>
+          title === "사업개요" || title === "입지환경" || title === "상품안내"
+      ),
+    [menu]
+  );
+  const register: CategoryMenu[] = useMemo(
+    () => menu.filter(({ title }) => title === "관심고객등록"),
+    [menu]
+  );
+  const filtered: CategoryMenu[] = useMemo(
+    () =>
+      menu.filter(
+        ({ title }) =>
+          !(
+            title === "사업개요" ||
+            title === "입지환경" ||
+            title === "상품안내" ||
+            title === "관심고객등록"
+          )
+      ),
+    [menu]
+  );
+  const sortedMenu = useMemo(
+    () => [...prioritized, ...filtered, ...register],
+    [prioritized, filtered, register]
+  );
   return (
     <Layout>
       <HeaderContainer menu={sortedMenu} logo={logo} />
@@ -82,6 +109,47 @@ export const query = graphql`
         node {
           id
           frontmatter {
+            info {
+              markdown
+              sub {
+                type
+                title
+                markdown
+                images {
+                  image {
+                    childImageSharp {
+                      gatsbyImageData
+                    }
+                  }
+                  alt
+                  title
+                }
+                sub {
+                  type
+                  title
+                  markdown
+                  images {
+                    image {
+                      childImageSharp {
+                        gatsbyImageData
+                      }
+                    }
+                    alt
+                    title
+                  }
+                }
+              }
+              type
+              images {
+                image {
+                  childImageSharp {
+                    gatsbyImageData
+                  }
+                }
+                alt
+                title
+              }
+            }
             title
             title_en
           }

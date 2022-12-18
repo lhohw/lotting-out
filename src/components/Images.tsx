@@ -1,3 +1,4 @@
+import type { PreviewTemplateComponentProps } from "netlify-cms-core";
 import React, { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import PreviewCompatibleImage, {
@@ -8,8 +9,16 @@ export type ImagesProps = {
   className?: string;
   images: PreviewCompatibleImageData[];
   title_en?: string;
+  isPreview?: boolean;
+  getAsset?: PreviewTemplateComponentProps["getAsset"];
 };
-const Images = ({ className, images, title_en }: ImagesProps) => {
+const Images = ({
+  className,
+  images,
+  title_en,
+  isPreview,
+  getAsset,
+}: ImagesProps) => {
   const [imgs] = useState<PreviewCompatibleImageData[]>(
     images.map((image) => ({ ...image }))
   );
@@ -18,13 +27,12 @@ const Images = ({ className, images, title_en }: ImagesProps) => {
     (async () => {
       for (let i = 0; i < images.length; i++) {
         const image = imgs[i];
-        if (
-          typeof image.image === "string" &&
-          !image.image.startsWith("blob://")
-        ) {
-          image.image = (
-            await import(`../../contents/category/${title_en}/${image.image}`)
-          ).default;
+        if (typeof image.image === "string") {
+          if (isPreview) image.image = getAsset!(image.image).url;
+          else
+            image.image = (
+              await import(`../../contents/category/${title_en}/${image.image}`)
+            ).default;
         }
       }
     })().then(() => {

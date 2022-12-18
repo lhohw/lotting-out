@@ -5,6 +5,7 @@ import colors from "../constants/colors";
 export type SelectControlProps = {
   value: string;
   defaultKey: string;
+  depth?: number;
   onChange: <T>(value: T, key: string) => void;
 };
 
@@ -13,7 +14,7 @@ class SelectControl extends PureComponent<SelectControlProps> {
     return this.props.value !== nextProps.value;
   }
   render() {
-    const { value, defaultKey, onChange } = this.props;
+    const { value, defaultKey, depth, onChange } = this.props;
     return (
       <ul
         css={css`
@@ -26,6 +27,7 @@ class SelectControl extends PureComponent<SelectControlProps> {
           ["images", "이미지"],
           ["markdown", "마크다운"],
         ].map(([key, title]) => {
+          if (depth === 2 && key === "subInfo") return null;
           return (
             <li
               key={key}

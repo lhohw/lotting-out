@@ -1,4 +1,3 @@
-import type { CmsWidgetPreviewProps } from "netlify-cms-core";
 import type { WidgetProps, SelectKeys, ImageProps } from "./type";
 
 import React, { PureComponent } from "react";
@@ -9,7 +8,6 @@ import { SubInfoControl } from "./SubInfo";
 import { ImagesControl } from "./Images";
 import { MDXControl } from "./MDX";
 
-// export type CategoryControlProps<T = any> = WidgetProps<T>;
 export type CategoryControlState = {
   type: SelectKeys | "";
   images: ImageProps[];
@@ -123,7 +121,7 @@ class CategoryControl extends PureComponent<WidgetProps, CategoryControlState> {
   }
 }
 
-const CategoryPreview = (props: CmsWidgetPreviewProps<string>) => {
+const CategoryPreview = () => {
   return <div />;
 };
 

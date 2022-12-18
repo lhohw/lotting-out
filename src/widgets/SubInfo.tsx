@@ -14,6 +14,7 @@ export type SubInfoControlProps = {
   defaultKey: string;
   value: CategoryControlState;
   widgetProps: WidgetProps;
+  depth?: number;
   onChange: <T>(value: T, key: string) => void;
   onRemove: (key: string) => void;
 };
@@ -49,7 +50,14 @@ class SubInfoControl extends PureComponent<SubInfoControlProps> {
     );
   }
   render() {
-    const { defaultKey, value, onChange, onRemove, widgetProps } = this.props;
+    const {
+      defaultKey,
+      value,
+      onChange,
+      onRemove,
+      widgetProps,
+      depth = 0,
+    } = this.props;
     return (
       <div
         css={css`
@@ -105,6 +113,7 @@ class SubInfoControl extends PureComponent<SubInfoControlProps> {
                     defaultKey={`${defaultKey}|${idx}`}
                     value={type}
                     onChange={onChange}
+                    depth={depth + 1}
                   />
                   {type === "subInfo" ? (
                     <SubInfoControl
@@ -113,6 +122,7 @@ class SubInfoControl extends PureComponent<SubInfoControlProps> {
                       widgetProps={widgetProps}
                       onChange={onChange}
                       onRemove={onRemove}
+                      depth={depth + 1}
                     />
                   ) : type === "images" ? (
                     <ImagesControl

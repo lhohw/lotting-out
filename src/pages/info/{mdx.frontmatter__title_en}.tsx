@@ -1,3 +1,4 @@
+import type { PreviewTemplateComponentProps } from "netlify-cms-core";
 import * as React from "react";
 import { css } from "@emotion/react";
 import Layout from "../../components/Layout";
@@ -17,13 +18,15 @@ export type InfoPageProps = {
       };
     };
   };
+  isPreview?: boolean;
+  getAsset?: PreviewTemplateComponentProps["getAsset"];
 };
-const InfoPage = ({ data }: InfoPageProps) => {
+const InfoPage = ({ data, isPreview, getAsset }: InfoPageProps) => {
   const { title, title_en, info } = useFrontmatter(data);
   return (
     <Layout>
-      {title_en === "contact" ? (
-        <RegisterContainer />
+      {title_en === "register" ? (
+        <RegisterContainer backgroundImage={info?.sub[0]?.sub[0]?.images[0]} />
       ) : (
         <div
           css={css`
@@ -40,7 +43,13 @@ const InfoPage = ({ data }: InfoPageProps) => {
           >
             {title}
           </h1>
-          <Info data={[info]} title_en={title_en} depth={0} />
+          <Info
+            data={info ? [info] : []}
+            title_en={title_en}
+            depth={0}
+            isPreview={isPreview}
+            getAsset={getAsset}
+          />
         </div>
       )}
     </Layout>
@@ -71,7 +80,11 @@ export const query = graphql`
               title
               markdown
               images {
-                image
+                image {
+                  childImageSharp {
+                    gatsbyImageData
+                  }
+                }
                 alt
                 title
               }
