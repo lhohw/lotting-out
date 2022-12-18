@@ -1,5 +1,5 @@
 import type { RegisterState } from "../recoil/register";
-import React, { useEffect } from "react";
+import React from "react";
 import { css } from "@emotion/react";
 import { useColors } from "../recoil/theme/useTheme";
 import Input from "./Input";
@@ -34,17 +34,13 @@ const Register = ({
   onSubmit,
 }: RegisterProps) => {
   const colors = useColors();
-  useEffect(() => {
-    return () => {
-      console.log(window.scrollY);
-    };
-  }, []);
   return (
     <div
       css={css`
         display: flex;
         width: 100%;
         flex-direction: column;
+        position: relative;
       `}
     >
       <PreviewCompatibleImage
@@ -74,7 +70,7 @@ const Register = ({
           <h1
             css={css`
               color: ${colors.main};
-              text-shadow: 1px 1px 3px ${colors.background};
+              text-shadow: 1px 1px 3px ${colors.gold};
               font-size: 2.2rem;
             `}
           >
@@ -84,7 +80,6 @@ const Register = ({
             css={css`
               display: flex;
               flex-direction: column;
-              background-color: ${colors.background + "55"};
               border-radius: 8px;
               padding: 0.5rem;
               margin-bottom: 2rem;
@@ -96,14 +91,49 @@ const Register = ({
             onChange={onChange}
           >
             {keys.map(({ name, title }) => (
-              <Input
+              <label
                 key={name}
-                name={name}
-                value={value[name]}
-                placeholder={title}
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
-                onChange={() => {}}
-              />
+                css={css`
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  background-color: ${colors.dark + "dd"};
+                  margin-top: 0.5rem;
+                  border-radius: 8px;
+                `}
+              >
+                <span
+                  css={css`
+                    /* padding: 0 1rem; */
+                    text-align: center;
+                    color: ${colors.gold + "dd"};
+                    font-weight: bold;
+                    width: 80px;
+                  `}
+                >
+                  {title}
+                </span>
+                <Input
+                  css={css`
+                    height: 2rem;
+                    background-color: ${colors.dark + "00"};
+                    color: #fefefedd;
+                    border-left: none;
+                    border-top: none;
+                    border-right: none;
+                    border-radius: 0;
+                    &:focus {
+                      outline: none;
+                    }
+                  `}
+                  key={name}
+                  name={name}
+                  value={value[name]}
+                  placeholder={""}
+                  // eslint-disable-next-line @typescript-eslint/no-empty-function
+                  onChange={() => {}}
+                />
+              </label>
             ))}
             {questions.map(({ title, keys, name }) => (
               <Question key={title} title={title} name={name} keys={keys} />
@@ -114,9 +144,10 @@ const Register = ({
                 margin-top: 1rem;
                 padding: 0.8rem 0;
                 font-size: 0.9rem;
-                background-color: ${colors.background + "dd"};
+                background-color: ${colors.dark + "dd"};
+                color: #fefefedd;
                 border-radius: 8px;
-                border: 1px solid #dbdbdb;
+                border: 1px solid ${colors.widgetBorder};
                 cursor: pointer;
               `}
             >

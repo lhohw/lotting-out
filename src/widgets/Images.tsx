@@ -73,13 +73,13 @@ class ImagesControl extends PureComponent<ImagesControlProps> {
                       align-items: center;
                       justify-content: center;
                       background-color: ${colors.background["light"]};
-                      color: #c54141;
+                      color: ${colors.red};
                       padding: 0.15rem;
                       position: absolute;
                       right: 0;
                       top: 0;
                       border-radius: 5px;
-                      border: 1px solid #bdbdbd;
+                      border: 1px solid ${colors.widgetBorder};
                       cursor: pointer;
                       z-index: 2;
                     `}

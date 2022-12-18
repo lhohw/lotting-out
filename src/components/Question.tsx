@@ -1,5 +1,6 @@
 import React from "react";
 import { css } from "@emotion/react";
+import { useColors } from "../recoil/theme/useTheme";
 
 export type QuestionProps = {
   title: string;
@@ -9,6 +10,7 @@ export type QuestionProps = {
 };
 
 const Question = ({ title, keys, name, className }: QuestionProps) => {
+  const colors = useColors();
   return (
     <fieldset
       className={className}
@@ -17,7 +19,7 @@ const Question = ({ title, keys, name, className }: QuestionProps) => {
         flex-direction: column;
         margin-top: 0;
         border: none;
-        background-color: #ffffffdd;
+        background-color: ${colors.dark + "dd"};
         border-radius: 10px;
       `}
     >
@@ -27,6 +29,7 @@ const Question = ({ title, keys, name, className }: QuestionProps) => {
           font-size: 0.95rem;
           padding: 3rem 1rem 0 1rem;
           font-weight: bold;
+          color: ${colors.gold};
         `}
       >
         {title}
@@ -38,6 +41,7 @@ const Question = ({ title, keys, name, className }: QuestionProps) => {
             display: flex;
             flex-direction: row;
             padding: 0.3rem;
+            color: #fefefedd;
           `}
         >
           <input
@@ -45,6 +49,7 @@ const Question = ({ title, keys, name, className }: QuestionProps) => {
               margin-right: 1rem;
               cursor: pointer;
               margin-bottom: 0.11rem;
+              accent-color: ${colors.gold};
             `}
             type="radio"
             name={name}

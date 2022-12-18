@@ -61,11 +61,13 @@ const Info = ({
                 padding: 1rem 2rem;
                 align-items: center;
                 justify-content: center;
-                color: ${i === idx ? colors.background : colors.text};
+                color: ${i === idx ? colors.gold : colors.text};
                 font-weight: ${i === idx ? "bold" : "normal"};
                 font-size: 1.4rem;
-                background-color: ${i === idx ? colors.sub : colors.background};
-                border: 2px solid #bdbdbd;
+                background-color: ${i === idx
+                  ? colors.dark
+                  : colors.background};
+                border: 2px solid ${colors.widgetBorder};
                 border-radius: 8px;
                 transition: all 0.25s ease-in-out;
                 cursor: pointer;

@@ -6,6 +6,7 @@ import { useColors } from "../recoil/theme/useTheme";
 import PreviewCompatibleImage, {
   PreviewCompatibleImageData,
 } from "./PreviewCompatibleImage";
+import DarkMode from "./DarkMode";
 
 export type MenuTitle = {
   title: string;
@@ -25,7 +26,7 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
         display: flex;
         flex-direction: row;
         align-items: center;
-        height: 7rem;
+        height: 6rem;
       `}
     >
       <Link
@@ -33,7 +34,7 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
           width: 100px;
           min-width: 100px;
           height: 100%;
-          box-shadow: 0px 2px 4px ${colors.text};
+          box-shadow: 0px 0px 4px ${colors.text};
           margin-left: 4rem;
           @media (max-width: 768px) {
             margin-left: 2rem;
@@ -130,6 +131,7 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
           </li>
         ))}
       </ul>
+      <DarkMode key="darkmode" />
     </header>
   );
 };

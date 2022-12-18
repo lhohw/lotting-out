@@ -1,6 +1,10 @@
 const colors = {
   main: "#3258a8",
   sub: "#6886be",
+  dark: "#333333",
+  gold: "#c6aa94",
+  red: "#c54141",
+  widgetBorder: "#bdbdbd",
   background: {
     light: "#fefefe",
     dark: "#121212",

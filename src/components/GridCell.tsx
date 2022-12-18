@@ -28,17 +28,13 @@ const GridCell = ({
         transition: all 0.25s ease-in-out;
         box-shadow: 1px 2px 4px ${colors.text};
         overflow: hidden;
-        /* filter: grayscale(100%);
-        &:hover {
-          filter: grayscale(0%);
-          transform: scale(1.02);
-        } */
+        background-color: ${colors.text};
         &::after {
           content: "";
           width: 100%;
           height: 100%;
           position: absolute;
-          background-color: #bdbdbd88;
+          background-color: ${colors.widgetBorder + "88"};
           transition: opacity 0.25s ease-in-out;
         }
         &:hover::after {
@@ -53,6 +49,7 @@ const GridCell = ({
           left: 1rem;
           top: 1rem;
           text-shadow: 1px 1px 5px ${colors.text};
+          color: ${colors.background};
         `}
       >
         {title}

@@ -34,6 +34,7 @@ const PreviewCompatibleImage = ({
   const cssStyle = css`
     width: 100%;
     height: 100%;
+    background-color: #fefefe;
   `;
   if (!!image && typeof image !== "string" && !!image.childImageSharp) {
     return (

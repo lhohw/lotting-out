@@ -16,9 +16,9 @@ const RegisterButton = ({ className }: RegisterButtonProps) => {
         display: flex;
         flex-direction: column;
         z-index: 2;
-        border: 1px solid #c6aa94;
+        border: 1px solid ${colors.gold};
         border-radius: 100%;
-        box-shadow: 0px 0px 5px #c6aa94;
+        box-shadow: 0px 0px 5px ${colors.gold};
         align-items: center;
         justify-content: center;
         width: 8rem;
@@ -27,13 +27,13 @@ const RegisterButton = ({ className }: RegisterButtonProps) => {
         right: 1rem;
         bottom: 3rem;
         /* background-color: ${colors.background}; */
-        background-color: #333333;
+        background-color: ${colors.dark};
         font-family: "Cinzel", serif;
         font-weight: bolder;
         transition: all 0.4s ease-in-out;
         font-size: 1.2rem;
         /* color: ${colors.main}; */
-        color: #c6aa94;
+        color: ${colors.gold};
         filter: grayscale(100%);
         &:hover {
           filter: grayscale(0%);
