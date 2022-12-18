@@ -30,6 +30,9 @@ const DarkMode = () => {
         color: ${colors.text};
         margin-right: 0.5rem;
         border: none;
+        &:hover {
+          color: ${colors.gold};
+        }
       `}
       onClick={setMode}
     >

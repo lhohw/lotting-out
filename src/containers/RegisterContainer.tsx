@@ -54,7 +54,11 @@ const RegisterContainer = ({ backgroundImage }: RegisterContainerProps) => {
     ],
     []
   );
-  const questions = useMemo(
+  const questions: {
+    title: string;
+    name: keyof RegisterState;
+    keys: string[];
+  }[] = useMemo(
     () => [
       {
         title: "단독주택 거주 시 가장 선호하는 사항은 무엇입니까?",

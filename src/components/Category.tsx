@@ -65,4 +65,4 @@ const Category = ({ prioritized, filtered, register }: CategoryProps) => {
   );
 };
 
-export default React.memo(Category);
+export default Category;

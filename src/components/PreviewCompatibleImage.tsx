@@ -73,4 +73,7 @@ const PreviewCompatibleImage = ({
   return null;
 };
 
-export default PreviewCompatibleImage;
+export default React.memo(
+  PreviewCompatibleImage,
+  (prevProps, nextProps) => prevProps.imageInfo === nextProps.imageInfo
+);

@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import { useColors } from "../recoil/theme/useTheme";
 
 export type InputProps = {
+  title: string;
   value: string;
   placeholder: string;
   name: string;
@@ -10,6 +11,7 @@ export type InputProps = {
   className?: string;
 };
 const Input = ({
+  title,
   value,
   onChange,
   placeholder,
@@ -18,26 +20,57 @@ const Input = ({
 }: InputProps) => {
   const colors = useColors();
   return (
-    <input
+    <label
       css={css`
         display: flex;
-        flex: 1;
-        height: 4rem;
-        margin: 0.5rem;
-        padding: 0.5rem;
-        font-size: 1.05rem;
-        border: 1px solid ${colors.widgetBorder};
-        border-radius: 5px;
-        background-color: ${colors.background};
-        color: ${colors.text};
+        flex-direction: row;
+        align-items: center;
+        background-color: ${colors.dark + "dd"};
+        margin-top: 0.5rem;
+        border-radius: 8px;
       `}
-      className={className}
-      name={name}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-    />
+    >
+      <span
+        css={css`
+          /* padding: 0 1rem; */
+          text-align: center;
+          color: ${colors.gold + "dd"};
+          font-weight: bold;
+          width: 80px;
+        `}
+      >
+        {title}
+      </span>
+      <input
+        css={css`
+          display: flex;
+          flex: 1;
+          height: 4rem;
+          margin: 0.5rem;
+          padding: 0.5rem;
+          font-size: 1.05rem;
+          height: 2rem;
+          background-color: ${colors.dark + "00"};
+          color: #fefefedd;
+          border-left: none;
+          border-top: none;
+          border-right: none;
+          border-radius: 0;
+          &:focus {
+            outline: none;
+          }
+        `}
+        className={className}
+        name={name}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+      />
+    </label>
   );
 };
 
-export default Input;
+export default React.memo(
+  Input,
+  (prevProps, nextProps) => prevProps.value === nextProps.value
+);

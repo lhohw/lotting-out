@@ -6,10 +6,11 @@ export type QuestionProps = {
   title: string;
   keys: string[];
   name: string;
+  value: string;
   className?: string;
 };
 
-const Question = ({ title, keys, name, className }: QuestionProps) => {
+const Question = ({ title, keys, name, value, className }: QuestionProps) => {
   const colors = useColors();
   return (
     <fieldset
@@ -41,7 +42,7 @@ const Question = ({ title, keys, name, className }: QuestionProps) => {
             display: flex;
             flex-direction: row;
             padding: 0.3rem;
-            color: #fefefedd;
+            color: ${value === key ? colors.gold : "#fefefedd"};
           `}
         >
           <input
@@ -62,4 +63,7 @@ const Question = ({ title, keys, name, className }: QuestionProps) => {
   );
 };
 
-export default Question;
+export default React.memo(
+  Question,
+  (prevProps, nextProps) => prevProps.value === nextProps.value
+);

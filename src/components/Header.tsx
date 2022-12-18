@@ -106,7 +106,6 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
               width: 100px;
               transition: all 0.15s ease-in-out;
               justify-content: center;
-              padding: 0.5rem 0;
               display: flex;
               flex: 1;
               font-weight: bold;
@@ -130,6 +129,8 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
               to={`/info/${title_en}`}
               css={css`
                 width: 100%;
+                height: 100%;
+                padding: 0.5rem 0;
               `}
             >
               {title}

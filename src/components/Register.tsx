@@ -21,7 +21,7 @@ export type RegisterProps = {
   backgroundImage: PreviewCompatibleImageData;
   questions: {
     title: string;
-    name: string;
+    name: keyof RegisterState;
     keys: string[];
   }[];
 };
@@ -92,52 +92,24 @@ const Register = ({
             onChange={onChange}
           >
             {keys.map(({ name, title }) => (
-              <label
+              <Input
                 key={name}
-                css={css`
-                  display: flex;
-                  flex-direction: row;
-                  align-items: center;
-                  background-color: ${colors.dark + "dd"};
-                  margin-top: 0.5rem;
-                  border-radius: 8px;
-                `}
-              >
-                <span
-                  css={css`
-                    /* padding: 0 1rem; */
-                    text-align: center;
-                    color: ${colors.gold + "dd"};
-                    font-weight: bold;
-                    width: 80px;
-                  `}
-                >
-                  {title}
-                </span>
-                <Input
-                  css={css`
-                    height: 2rem;
-                    background-color: ${colors.dark + "00"};
-                    color: #fefefedd;
-                    border-left: none;
-                    border-top: none;
-                    border-right: none;
-                    border-radius: 0;
-                    &:focus {
-                      outline: none;
-                    }
-                  `}
-                  key={name}
-                  name={name}
-                  value={value[name]}
-                  placeholder={""}
-                  // eslint-disable-next-line @typescript-eslint/no-empty-function
-                  onChange={() => {}}
-                />
-              </label>
+                title={title}
+                name={name}
+                value={value[name]}
+                placeholder={""}
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                onChange={() => {}}
+              />
             ))}
             {questions.map(({ title, keys, name }) => (
-              <Question key={title} title={title} name={name} keys={keys} />
+              <Question
+                key={title}
+                value={value[name]}
+                title={title}
+                name={name}
+                keys={keys}
+              />
             ))}
             <button
               type="submit"

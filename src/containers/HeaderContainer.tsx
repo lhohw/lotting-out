@@ -40,4 +40,4 @@ const HeaderContainer = ({ menu, logo }: HeaderData) => {
   return <Header menu={menu} logo={logo} isOpen={state.isOpen} />;
 };
 
-export default React.memo(HeaderContainer);
+export default HeaderContainer;

@@ -108,7 +108,4 @@ const Slider = ({ idx, imageInfos, handleIndex }: SliderProps) => {
   );
 };
 
-export default React.memo(
-  Slider,
-  (prevProps, nextProps) => prevProps.idx === nextProps.idx
-);
+export default Slider;
