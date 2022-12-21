@@ -17,7 +17,7 @@ class ButtonControl extends PureComponent<ButtonControlProps> {
         css={css`
           border: 1px solid #dbdbdb;
           padding: 0.5rem 1rem;
-          background-color: ${colors.background};
+          background-color: ${colors.background["light"]};
           cursor: pointer;
         `}
         onClick={onClick}

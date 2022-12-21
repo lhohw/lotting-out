@@ -1,13 +1,9 @@
 import { atom } from "recoil";
 
-export type ThemeState = "light" | "dark";
+export type ThemeState = "default" | "light" | "dark";
 
-// const initialState: ThemeState = "light";
-const initialState: ThemeState = window.matchMedia(
-  "(prefers-color-scheme: dark)"
-).matches
-  ? "dark"
-  : "light";
+const initialState = "default" as ThemeState;
+
 const themeState = atom({
   key: "themeState",
   default: initialState,

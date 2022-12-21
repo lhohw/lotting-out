@@ -20,7 +20,6 @@
 html {
   color: var(--text);
   background-color: var(--background);
-  /* background-color: #333333; */
 }
 body {
   margin: 0;

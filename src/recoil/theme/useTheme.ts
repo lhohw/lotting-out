@@ -14,9 +14,9 @@ const colorState = selector({
       gold: colors.gold,
       red: colors.red,
       widgetBorder: colors.widgetBorder,
-      text: colors.text[theme],
-      background: colors.background[theme],
-      placeholder: colors.placeholder[theme],
+      text: theme === "default" ? "inherit" : colors.text[theme],
+      background: theme === "default" ? "inherit" : colors.background[theme],
+      placeholder: theme === "default" ? "inherit" : colors.placeholder[theme],
     };
   },
 });

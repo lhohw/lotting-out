@@ -49,7 +49,6 @@ const Info = ({
             flex-direction: row;
             align-items: center;
             justify-content: center;
-            /* width: ${depth === 1 ? "100%" : "auto"}; */
           `}
         >
           {list.map((title, i) => (
@@ -57,7 +56,6 @@ const Info = ({
               key={title}
               css={css`
                 display: flex;
-                /* flex: ${depth === 1 ? 1 : 0}; */
                 padding: 1rem 2rem;
                 align-items: center;
                 justify-content: center;

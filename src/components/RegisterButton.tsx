@@ -26,13 +26,11 @@ const RegisterButton = ({ className }: RegisterButtonProps) => {
         position: fixed;
         right: 1rem;
         bottom: 3rem;
-        /* background-color: ${colors.background}; */
         background-color: ${colors.dark};
         font-family: "Cinzel", serif;
         font-weight: bolder;
         transition: all 0.4s ease-in-out;
         font-size: 1.2rem;
-        /* color: ${colors.main}; */
         color: ${colors.gold};
         filter: grayscale(100%);
         &:hover {

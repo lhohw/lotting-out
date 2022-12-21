@@ -110,17 +110,19 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
               flex: 1;
               font-weight: bold;
               font-family: Nanum Gothic;
+              color: inherit;
               &:hover {
                 font-weight: 900;
                 color: ${colors.gold};
               }
               @media (max-width: 600px) {
+                color: #d1d1d1;
                 width: 100%;
                 max-width: 100%;
                 min-width: ${isOpen ? "auto" : "100px"};
-                background-color: ${colors.background + "77"};
+                background-color: #12121277;
                 &:hover {
-                  background-color: ${colors.background + "aa"};
+                  background-color: #121212aa;
                 }
               }
             `}

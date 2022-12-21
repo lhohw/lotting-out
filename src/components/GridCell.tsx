@@ -19,16 +19,16 @@ const GridCell = ({
       to={`/info/${title_en}`}
       css={css`
         display: grid;
-        border: 1px solid black;
+        border: 1px solid ${colors.widgetBorder};
         margin: 0.4rem;
         cursor: pointer;
         grid-column: ${gridColumn};
         grid-row: ${gridRow};
         position: relative;
         transition: all 0.25s ease-in-out;
-        box-shadow: 1px 2px 4px ${colors.text};
+        box-shadow: 1px 2px 4px ${colors.widgetBorder};
         overflow: hidden;
-        background-color: ${colors.text};
+        background-color: "inherit";
         &::after {
           content: "";
           width: 100%;
@@ -48,8 +48,8 @@ const GridCell = ({
           z-index: 1;
           left: 1rem;
           top: 1rem;
-          text-shadow: 1px 1px 5px ${colors.text};
-          color: ${colors.background};
+          text-shadow: 1px 1px 5px #fefefe;
+          color: #202020;
         `}
       >
         {title}
