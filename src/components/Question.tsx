@@ -3,25 +3,36 @@ import { css } from "@emotion/react";
 import { useColors } from "../recoil/theme/useTheme";
 
 export type QuestionProps = {
-  title: string;
-  keys: string[];
-  name: string;
+  question: string;
+  answers: string[];
   value: string;
+  name: string;
   className?: string;
+  isPreview?: boolean;
 };
 
-const Question = ({ title, keys, name, value, className }: QuestionProps) => {
+const Question = ({
+  question,
+  answers,
+  value,
+  name,
+  className,
+  isPreview = false,
+}: QuestionProps) => {
   const colors = useColors();
   return (
     <fieldset
       className={className}
       css={css`
         display: flex;
+        flex: 1;
+        width: 100%;
         flex-direction: column;
-        margin-top: 0;
+        margin: 0 auto;
         border: none;
         background-color: ${colors.dark + "dd"};
         border-radius: 10px;
+        max-width: ${isPreview ? "500px" : "auto"};
       `}
     >
       <legend
@@ -33,9 +44,9 @@ const Question = ({ title, keys, name, value, className }: QuestionProps) => {
           color: ${colors.gold};
         `}
       >
-        {title}
+        {question}
       </legend>
-      {keys.map((key) => (
+      {answers.map((key) => (
         <label
           key={key}
           css={css`
@@ -65,5 +76,6 @@ const Question = ({ title, keys, name, value, className }: QuestionProps) => {
 
 export default React.memo(
   Question,
-  (prevProps, nextProps) => prevProps.value === nextProps.value
+  (prevProps, nextProps) =>
+    !nextProps.isPreview && prevProps.value === nextProps.value
 );

@@ -18,13 +18,14 @@ collections: # A list of collections the CMS should be able to edit
     delete: false # Prevent users from deleting documents in this collection
     public_folder: ""
     media_folder: ""
-    description: "기본 세팅 - 아파트 명, 로고, 전화번호 등"
+    description: "General - 기본 세팅 - 아파트 명, 로고, 전화번호 등 | 질문지 - 관심고객등록 정보 입력"
     files:
       - name: "general"
         label: "Site Settings"
         file: "contents/setting/setting.json"
-        path: "setting"
+        path: "contents/setting"
         fields:
+          - { label: "Type", name: "type", widget: "hidden", default: "setting" }
           - { label: "아파트 명", name: "apartment", widget: "string" }
           - label: "로고"
             name: "logo"
@@ -48,7 +49,7 @@ collections: # A list of collections the CMS should be able to edit
                   widget: "string",
                   required: true,
                 }
-          - { label: "썸네일 이미지", name: "slider", widget: "images", public_folder: "{{public_folder}}", media_folder: "{{media_folder}}" }
+          - { label: "썸네일 이미지", name: "slider", widget: "images" }
           - { label: "회사명", name: "corporate", widget: "string" }
           - { label: "대표자", name: "name", widget: "string" }
           - { label: "사업자 등록 번호", name: "RN", widget: "string" }
@@ -56,6 +57,20 @@ collections: # A list of collections the CMS should be able to edit
           - { label: "사무실 주소", name: "address", widget: "string" }
           - { label: "이메일", name: "email", widget: "string" }
           - { label: "전화번호", name: "phoneNumber", widget: "string" }
+      - name: "question"
+        label: "질문지"
+        file: "contents/setting/question.json"
+        path: "contents/setting"
+        fields:
+          - { label: "Type", name: "type", widget: "hidden", default: "questions" }
+          - { label: "질문지", name: "questions", widget: "questions" }
+          - label: "입력 정보"
+            name: "info"
+            widget: "list"
+            hint: 입력받을 정보
+            fields:
+              - { label: "정보 명", name: "title", widget: string }
+              - { label: "정보 명(영어)", name: "name", widget: string }
   - name: "category"
     label: "분양 정보"
     description: "사업 개요, 입지환경 등 페이지 추가"

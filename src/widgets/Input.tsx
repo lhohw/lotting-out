@@ -6,6 +6,7 @@ export type InputControlProps = {
   defaultKey: string;
   placeholder: string;
   name: string;
+  className?: string;
   onChange: (value: string, key: string) => void;
 };
 class InputControl extends PureComponent<InputControlProps> {
@@ -13,9 +14,11 @@ class InputControl extends PureComponent<InputControlProps> {
     return this.props.value !== nextProps.value;
   }
   render() {
-    const { value, defaultKey, onChange, placeholder, name } = this.props;
+    const { value, defaultKey, onChange, placeholder, name, className } =
+      this.props;
     return (
       <div
+        className={className}
         css={css`
           display: flex;
           flex: 1;

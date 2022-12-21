@@ -1,4 +1,5 @@
 import type { WidgetProps, SelectKeys, ImageProps } from "./type";
+import type { PreviewTemplateComponentProps } from "netlify-cms-core";
 
 import React, { PureComponent } from "react";
 import { css } from "@emotion/react";
@@ -7,6 +8,7 @@ import { SelectControl } from "./Select";
 import { SubInfoControl } from "./SubInfo";
 import { ImagesControl } from "./Images";
 import { MDXControl } from "./MDX";
+import Category from "../pages/info/{mdx.frontmatter__title_en}";
 
 export type CategoryControlState = {
   type: SelectKeys | "";
@@ -121,8 +123,24 @@ class CategoryControl extends PureComponent<WidgetProps, CategoryControlState> {
   }
 }
 
-const CategoryPreview = () => {
-  return <div />;
+const CategoryPreview = ({
+  entry,
+  getAsset,
+}: PreviewTemplateComponentProps) => {
+  const data = entry.getIn(["data"]).toJS();
+  return (
+    <Category
+      data={{
+        mdx: {
+          frontmatter: {
+            ...data,
+          },
+        },
+      }}
+      isPreview={true}
+      getAsset={getAsset}
+    />
+  );
 };
 
 export { CategoryControl, CategoryPreview };

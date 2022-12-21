@@ -6,25 +6,27 @@ import { ko } from "netlify-cms-locales";
 import * as CategoryWidget from "../widgets/Category";
 import * as ImagesWidget from "../widgets/ImagesWidget";
 import GeneralPreview from "./preview-templates/GeneralPreview";
-import CategoryPreview from "./preview-templates/CategoryPreview";
+import * as QuestionWidget from "../widgets/Question";
 
 CMS.registerLocale("ko", ko);
 
 CMS.registerPreviewTemplate("general", withEmotion("general", GeneralPreview));
-CMS.registerPreviewTemplate(
-  "category",
-  withEmotion("category", CategoryPreview)
-);
 
 CMS.registerWidget(
   "category",
   // @ts-ignore
   CategoryWidget.CategoryControl,
-  CategoryWidget.CategoryPreview
+  withEmotion("category", CategoryWidget.CategoryPreview)
 );
 CMS.registerWidget(
   "images",
   // @ts-ignore
   ImagesWidget.ImagesWidgetControl,
   ImagesWidget.ImagesWidgetPreview
+);
+CMS.registerWidget(
+  "questions",
+  // @ts-ignore
+  QuestionWidget.QuestionControl,
+  withEmotion("questions", QuestionWidget.QuestionPreview)
 );

@@ -156,7 +156,7 @@ export const query = graphql`
         }
       }
     }
-    settingJson {
+    settingJson(type: { eq: "setting" }) {
       id
       logo {
         image {

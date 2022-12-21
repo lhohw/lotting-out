@@ -1,6 +1,5 @@
 import React, { PureComponent } from "react";
 import { css } from "@emotion/react";
-import { FaTimes } from "react-icons/fa";
 import { InputControl } from "./Input";
 import { ButtonControl } from "./Button";
 import { SelectControl } from "./Select";
@@ -9,6 +8,7 @@ import { ImagesControl } from "./Images";
 import colors from "../constants/colors";
 import { WidgetProps } from "./type";
 import { MDXControl } from "./MDX";
+import RemoveButton from "./RemoveButton";
 
 export type SubInfoControlProps = {
   defaultKey: string;
@@ -83,25 +83,10 @@ class SubInfoControl extends PureComponent<SubInfoControlProps> {
                     position: relative;
                   `}
                 >
-                  <span
-                    css={css`
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      background-color: ${colors.background["light"]};
-                      color: ${colors.red};
-                      padding: 0.15rem;
-                      position: absolute;
-                      right: 0;
-                      top: 0;
-                      border-radius: 5px;
-                      border: 1px solid ${colors.widgetBorder};
-                      cursor: pointer;
-                    `}
+                  <RemoveButton
+                    size={15}
                     onClick={() => onRemove(`${defaultKey}|${idx}`)}
-                  >
-                    <FaTimes size={15} />
-                  </span>
+                  />
                   <InputControl
                     value={title || ""}
                     placeholder="제목"

@@ -1,10 +1,9 @@
 import type { ImageProps, WidgetProps } from "./type";
 import React, { PureComponent } from "react";
 import { css } from "@emotion/react";
-import { FaTimes } from "react-icons/fa";
 import { ImageControl } from "./Image";
 import { ButtonControl } from "./Button";
-import colors from "../constants/colors";
+import RemoveButton from "./RemoveButton";
 
 export type ImagesControlProps = {
   defaultKey: string;
@@ -67,26 +66,13 @@ class ImagesControl extends PureComponent<ImagesControlProps> {
                     position: relative;
                   `}
                 >
-                  <span
+                  <RemoveButton
                     css={css`
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      background-color: ${colors.background["light"]};
-                      color: ${colors.red};
-                      padding: 0.15rem;
-                      position: absolute;
-                      right: 0;
-                      top: 0;
-                      border-radius: 5px;
-                      border: 1px solid ${colors.widgetBorder};
-                      cursor: pointer;
                       z-index: 2;
                     `}
+                    size={15}
                     onClick={() => onRemove(`${defaultKey}|${idx}`)}
-                  >
-                    <FaTimes size={15} />
-                  </span>
+                  />
                   <ImageControl
                     value={v}
                     defaultKey={`${defaultKey}|${idx}`}
