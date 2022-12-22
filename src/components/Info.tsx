@@ -75,7 +75,15 @@ const Info = ({
               `}
               onClick={() => setIdx(i)}
             >
-              {title}
+              <h2
+                css={css`
+                  margin: 0;
+                  padding: 0;
+                  font-size: inherit;
+                `}
+              >
+                {title}
+              </h2>
             </button>
           ))}
         </div>
