@@ -40,7 +40,7 @@ const Images = ({
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  if (!appState) return <div>loading...</div>;
+  if (!appState) return null;
   return (
     <div
       className={className}

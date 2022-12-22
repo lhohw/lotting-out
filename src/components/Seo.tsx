@@ -12,7 +12,7 @@ export type SeoData = {
 const Seo = ({ title }: SeoProps) => {
   const data = useStaticQuery<SeoData>(graphql`
     {
-      settingJson {
+      settingJson(type: { eq: "setting" }) {
         apartment
       }
     }

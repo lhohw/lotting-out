@@ -58,7 +58,7 @@ const DarkMode = () => {
           height: 100%;
           transition: transform 0.6s ease-in-out, color 0.25s ease-in-out;
           transform-origin: center bottom;
-          transform: ${theme === "light"
+          transform: ${theme === "light" || theme === "default"
             ? "rotate(-90deg) scale(0)"
             : "rotate(0deg) scale(1)"};
           ${theme === "default"
@@ -77,7 +77,7 @@ const DarkMode = () => {
           height: 100%;
           transition: all 0.6s ease-in-out;
           transform-origin: center bottom;
-          transform: ${theme === "light"
+          transform: ${theme === "light" || theme === "default"
             ? "rotate(0deg) scale(1)"
             : "rotate(-90deg) scale(0)"};
           ${theme === "default"
