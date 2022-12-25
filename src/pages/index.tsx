@@ -31,6 +31,7 @@ export type IndexPageData = {
         images: PreviewCompatibleImageData[];
       };
       logo: PreviewCompatibleImageData;
+      short: string;
     } & FooterProps;
   };
 };
@@ -55,6 +56,8 @@ const IndexPage = ({ data }: IndexPageData) => {
   const {
     logo,
     slider: { images: imageInfos },
+    apartment,
+    short,
     ...rest
   } = data.settingJson;
 
@@ -90,13 +93,17 @@ const IndexPage = ({ data }: IndexPageData) => {
   return (
     <Layout>
       <HeaderContainer menu={sortedMenu} logo={logo} />
-      <SliderContainer imageInfos={imageInfos} />
+      <SliderContainer
+        imageInfos={imageInfos}
+        apartment={apartment}
+        short={short}
+      />
       <Category
         prioritized={prioritized}
         filtered={filtered}
         register={register}
       />
-      <Footer {...rest} />
+      <Footer apartment={apartment} {...rest} />
       <RegisterButton />
     </Layout>
   );
@@ -184,6 +191,7 @@ export const query = graphql`
       declaration
       corporate
       apartment
+      short
       address
       RN
     }

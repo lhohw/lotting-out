@@ -1,109 +1,107 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { css } from "@emotion/react";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 import PreviewCompatibleImage, {
   PreviewCompatibleImageData,
 } from "./PreviewCompatibleImage";
+import Jumbotron from "./Jumbotron";
 import Dots from "./Dots";
-import colors from "../constants/colors";
+import { useColors } from "../recoil/theme";
 
 export type SliderProps = {
+  slider: React.MutableRefObject<HTMLDivElement>;
+  wrapper: React.MutableRefObject<HTMLDivElement>;
+  apartment: string;
+  short: string;
   idx: number;
   imageInfos: PreviewCompatibleImageData[];
   handleIndex: (idx: number) => void;
 };
-const Slider = ({ idx, imageInfos, handleIndex }: SliderProps) => {
-  const thumbnail = useRef<HTMLDivElement>(null!);
-  const container = useRef<HTMLDivElement>(null!);
-  useEffect(() => {
-    const addTransition = () => {
-      thumbnail.current.style.transition = "transform 0.4s ease-in-out";
-    };
-    const removeTransition = () => {
-      if (thumbnail.current.style.transition) {
-        thumbnail.current.style.transition = "none";
-      }
-    };
-    const cur = container.current;
-    cur.addEventListener("mouseenter", addTransition);
-    window.addEventListener("resize", removeTransition);
-    return () => {
-      cur.removeEventListener("mouseenter", addTransition);
-      window.removeEventListener("resize", removeTransition);
-    };
-  }, []);
+const Slider = ({
+  slider,
+  wrapper,
+  apartment,
+  short,
+  idx,
+  imageInfos,
+  handleIndex,
+}: SliderProps) => {
+  const colors = useColors();
   return (
     <div
-      ref={container}
       css={css`
         width: 100%;
         height: 30rem;
         overflow: hidden;
         position: relative;
-        box-shadow: 0px 2px 8px ${colors.text["light"]};
+        box-shadow: 0px 2px 8px ${colors.text};
       `}
     >
+      <Jumbotron title={apartment} content={short} />
       <div
-        ref={thumbnail}
+        ref={slider}
+        style={{
+          transform: `translateX(${-window.innerWidth * (idx + 1)}px)`,
+        }}
         css={css`
           display: flex;
           flex-direction: row;
-          width: ${100 * imageInfos.length}vw;
-          /* max-width: ${1200 * imageInfos.length}px; */
+          width: ${100 * (imageInfos.length + 2)}vw;
           height: 100%;
           will-change: transform;
-          transform: ${`translateX(${-idx * 100}vw)`};
-          /* @media (min-width: 1200px) {
-            transform: ${`translateX(${-idx * 1200}px)`};
-          } */
+          transition: transform 0.4s ease-in-out;
         `}
       >
+        <PreviewCompatibleImage
+          key={"-1"}
+          css={css`
+            width: 100vw;
+            height: 100%;
+            object-fit: cover;
+          `}
+          loading="eager"
+          imageInfo={imageInfos[imageInfos.length - 1]}
+          draggable={false}
+        />
         {imageInfos.map((imageInfo, i) => (
           <PreviewCompatibleImage
             key={i}
             css={css`
               width: 100vw;
-              /* max-width: 1200px; */
               height: 100%;
               object-fit: cover;
             `}
             loading="eager"
             imageInfo={imageInfo}
             draggable={false}
-            onDrag={(e) => e.preventDefault()}
           />
         ))}
+        <PreviewCompatibleImage
+          key={imageInfos.length.toString()}
+          css={css`
+            width: 100vw;
+            height: 100%;
+            object-fit: cover;
+          `}
+          loading="eager"
+          imageInfo={imageInfos[0]}
+          draggable={false}
+        />
       </div>
-      {idx !== 0 && (
-        <FiChevronLeft
-          css={css`
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            left: 1rem;
-            cursor: pointer;
-          `}
-          size={45}
-          color={"#ededed"}
-          onClick={() => handleIndex(idx - 1)}
-        />
-      )}
-      {idx !== imageInfos.length - 1 && (
-        <FiChevronRight
-          css={css`
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            right: 1rem;
-            cursor: pointer;
-          `}
-          size={45}
-          color={"#ededed"}
-          onClick={() => handleIndex(idx + 1)}
-        />
-      )}
-      <Dots length={imageInfos.length} idx={idx} handleIndex={handleIndex} />
+      <div
+        ref={wrapper}
+        css={css`
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: ${colors.placeholder} + "11";
+          z-index: 2;
+        `}
+      >
+        <Dots length={imageInfos.length} idx={idx} handleIndex={handleIndex} />
+      </div>
     </div>
   );
 };

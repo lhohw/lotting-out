@@ -7,6 +7,7 @@ import * as CategoryWidget from "../widgets/Category";
 import * as ImagesWidget from "../widgets/ImagesWidget";
 import GeneralPreview from "./preview-templates/GeneralPreview";
 import * as QuestionWidget from "../widgets/Question";
+import * as ListWidget from "../widgets/List";
 
 CMS.registerLocale("ko", ko);
 
@@ -29,4 +30,10 @@ CMS.registerWidget(
   // @ts-ignore
   QuestionWidget.QuestionControl,
   withEmotion("questions", QuestionWidget.QuestionPreview)
+);
+CMS.registerWidget(
+  "customList",
+  // @ts-ignore
+  ListWidget.ListControl,
+  withEmotion("customList", ListWidget.ListPreview)
 );

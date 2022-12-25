@@ -3,11 +3,15 @@ import React from "react";
 import Footer from "../../components/Footer";
 import HeaderContainer from "../../containers/HeaderContainer";
 import SliderContainer from "../../containers/SliderContainer";
+import { List as ListPreview } from "../../widgets/List";
 
 const GeneralPreview = ({ entry, getAsset }: PreviewTemplateComponentProps) => {
   const {
     logo: { image, alt, title },
     slider: { images: imageInfos },
+    apartment,
+    short,
+    keywords,
     ...rest
   } = entry.getIn(["data"]).toJS();
   return (
@@ -42,6 +46,8 @@ const GeneralPreview = ({ entry, getAsset }: PreviewTemplateComponentProps) => {
         ]}
       />
       <SliderContainer
+        apartment={apartment}
+        short={short}
         imageInfos={(
           imageInfos as {
             image: string;
@@ -54,7 +60,8 @@ const GeneralPreview = ({ entry, getAsset }: PreviewTemplateComponentProps) => {
           title,
         }))}
       />
-      <Footer {...rest} />
+      <Footer apartment={apartment} {...rest} />
+      <ListPreview list={keywords?.list || []} />
     </div>
   );
 };

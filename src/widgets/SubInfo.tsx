@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { css } from "@emotion/react";
-import { InputControl } from "./Input";
+import { CategoryInputControl } from "./CategoryInput";
 import { ButtonControl } from "./Button";
 import { SelectControl } from "./Select";
 import { CategoryControlState } from "./Category";
@@ -87,7 +87,7 @@ class SubInfoControl extends PureComponent<SubInfoControlProps> {
                     size={15}
                     onClick={() => onRemove(`${defaultKey}|${idx}`)}
                   />
-                  <InputControl
+                  <CategoryInputControl
                     value={title || ""}
                     placeholder="제목"
                     name="title"

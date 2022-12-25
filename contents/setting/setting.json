@@ -19,6 +19,20 @@
     ]
   },
   "corporate": "Campusride",
+  "keywords": {
+    "list": [
+      "힐스테이트",
+      "힐스테이트 양주옥정",
+      "힐스테이트 양주옥정 파티오포레",
+      "파티오포레",
+      "양주옥정 아파트",
+      "프리미엄 아파트",
+      "아파트 분양",
+      "hillstate",
+      "patioforet",
+      "hillstate patioforet"
+    ]
+  },
   "logo": {
     "image": "logo.jpg",
     "alt": "힐스테이트 로고 이미지",
@@ -30,7 +44,7 @@
   "phoneNumber": "1661-0426",
   "declaration": "제2019-충남천안-1455호",
   "type": "setting",
+  "short": "총 809세대 대단지 블록형 단독주택 | 1661-0426",
   "RN": "110-1112-34342",
-  "email": "abcd@naver.com",
-  "menu": ["사업개요", "입지환경", "상품안내", "프리미엄", "관심고객등록"]
+  "email": "abcd@naver.com"
 }

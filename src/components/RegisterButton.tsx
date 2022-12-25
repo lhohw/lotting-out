@@ -15,7 +15,7 @@ const RegisterButton = ({ className }: RegisterButtonProps) => {
       css={css`
         display: flex;
         flex-direction: column;
-        z-index: 2;
+        z-index: 3;
         border: 1px solid ${colors.gold};
         border-radius: 100%;
         box-shadow: 0px 0px 5px ${colors.gold};

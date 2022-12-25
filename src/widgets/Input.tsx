@@ -1,46 +1,59 @@
 import React, { PureComponent } from "react";
 import { css } from "@emotion/react";
+import colors from "../constants/colors";
 
-export type InputControlProps = {
-  value: string;
-  defaultKey: string;
+export type InputProps = {
   placeholder: string;
-  name: string;
+  value?: string;
   className?: string;
-  onChange: (value: string, key: string) => void;
 };
-class InputControl extends PureComponent<InputControlProps> {
-  shouldComponentUpdate(nextProps: Readonly<InputControlProps>) {
-    return this.props.value !== nextProps.value;
+export type InputState = {
+  value: string;
+};
+class InputControl extends PureComponent<InputProps, InputState> {
+  state = {
+    value: "",
+  };
+  componentDidMount() {
+    if (this.props.value) this.setState({ value: this.props.value });
   }
-  render() {
-    const { value, defaultKey, onChange, placeholder, name, className } =
-      this.props;
+  shouldComponentUpdate(nextProps: InputProps, nextState: { value: string }) {
+    return this.state !== nextState;
+  }
+  onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ value: e.target.value });
+  };
+  render(): React.ReactNode {
+    const { placeholder, className } = this.props;
     return (
       <div
         className={className}
         css={css`
           display: flex;
           flex: 1;
-          height: 3rem;
-          margin: 0.5rem;
-          border: 1px solid #dbdbdb;
+          flex-direction: row;
+          height: 2.5rem;
+          border: 1px solid ${colors.gold};
           border-radius: 5px;
+          align-items: center;
+          margin-top: 0;
         `}
       >
         <input
           css={css`
+            display: flex;
             width: 100%;
             height: 100%;
-            padding: 0.3rem;
+            border-radius: 5px;
+            padding: 1rem;
           `}
           placeholder={placeholder}
-          value={value}
-          onChange={(e) => onChange(e.target.value, `${defaultKey}|${name}`)}
+          onChange={this.onChange}
+          value={this.state.value}
         />
       </div>
     );
   }
 }
 
-export { InputControl };
+export default InputControl;

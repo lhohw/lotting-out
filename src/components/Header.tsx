@@ -62,7 +62,7 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
           background-color: transparent;
           border: none;
           color: inherit;
-          @media (min-width: 600px) {
+          @media (min-width: 601px) {
             display: none;
           }
         `}
@@ -81,13 +81,13 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
           right: 0;
           top: 6rem;
           transition: width 0.4s ease-in-out;
-          overflow: ${isOpen ? "visible" : "hidden"};
-          z-index: 1;
+          overflow: hidden;
+          z-index: 3;
           text-align: center;
           @media (max-width: 768px) {
             font-size: 0.8rem;
           }
-          @media (min-width: 600px) {
+          @media (min-width: 601px) {
             position: static;
             flex-direction: row;
             justify-content: flex-end;
@@ -104,13 +104,16 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
               max-width: 100px;
               min-width: 50px;
               width: 100px;
-              transition: all 0.15s ease-in-out;
               justify-content: center;
+              align-items: center;
+              padding: 0.5rem 0;
+              transition: all 0.15s ease-in-out;
               display: flex;
               flex: 1;
               font-weight: bold;
               font-family: Nanum Gothic;
               color: inherit;
+              word-break: keep-all;
               &:hover {
                 font-weight: 900;
                 color: ${colors.gold};
@@ -127,15 +130,16 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
               }
             `}
           >
-            <Link
-              to={`/info/${title_en}`}
-              css={css`
-                width: 100%;
-                height: 100%;
-                padding: 0.5rem 0;
-              `}
-            >
-              {title}
+            <Link to={`/info/${title_en}`}>
+              <h2
+                css={css`
+                  padding: 0;
+                  margin: 0;
+                  font-size: inherit;
+                `}
+              >
+                {title}
+              </h2>
             </Link>
           </li>
         ))}

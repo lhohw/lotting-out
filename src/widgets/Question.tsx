@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import Question from "../components/Question";
 import colors from "../constants/colors";
-import QuestionInput from "./QuestionInput";
+import InputControl from "./Input";
 import RemoveButton from "./RemoveButton";
 
 export type Question = {
@@ -123,7 +123,7 @@ class QuestionControl extends PureComponent<WidgetProps, QuestionControlState> {
               onSubmit={(e) => e.preventDefault()}
               onClick={this.addAnswer}
             >
-              <QuestionInput
+              <InputControl
                 css={css`
                   height: 3rem;
                   margin-right: 1rem;
@@ -140,7 +140,7 @@ class QuestionControl extends PureComponent<WidgetProps, QuestionControlState> {
                   margin-top: 0.5rem;
                 `}
               >
-                <QuestionInput placeholder="Answer" />
+                <InputControl placeholder="Answer" />
                 <ButtonControl
                   css={css`
                     position: absolute;
