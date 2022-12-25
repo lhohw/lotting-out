@@ -4,6 +4,7 @@ import { css } from "@emotion/react";
 import { PreviewCompatibleImageData } from "./PreviewCompatibleImage";
 import Images from "./Images";
 import { useColors } from "../recoil/theme/useTheme";
+import { v4 as uuidv4 } from "uuid";
 
 export type InfoProps = {
   data: {
@@ -53,7 +54,7 @@ const Info = ({
         >
           {list.map((title, i) => (
             <button
-              key={title}
+              key={uuidv4()}
               css={css`
                 display: flex;
                 padding: 1rem 2rem;
@@ -88,8 +89,8 @@ const Info = ({
           ))}
         </div>
       ) : null}
-      {data.map(({ type, images, markdown, sub, title }, i) => (
-        <React.Fragment key={title}>
+      {data.map(({ type, images, markdown, sub }, i) => (
+        <React.Fragment key={uuidv4()}>
           {type === "images" ? (
             <Images
               css={css`
