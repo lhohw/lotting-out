@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import { sliderState } from "../recoil/slider";
 import Slider from "../components/Slider";
 import produce from "immer";
+import { isMobile } from "react-device-detect";
 
 export type SliderData = {
   imageInfos: PreviewCompatibleImageData[];
@@ -17,9 +18,10 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
   const timer = useRef(Date.now());
   const flag = useRef(1);
   const prev = useRef(0);
+  const prevTouch = useRef(0);
   const slider = useRef<HTMLDivElement>(null!);
   const wrapper = useRef<HTMLDivElement>(null!);
-  const threshold = useMemo(() => 100, []);
+  const threshold = useMemo(() => (isMobile ? 50 : 100), []);
 
   const handleIndex = useCallback(
     (idx: number) => {
@@ -76,6 +78,86 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
     },
     [getTransform, imageInfos.length, state.idx, threshold]
   );
+  const onTouchMove = useCallback(
+    (e: TouchEvent) => {
+      if (timer.current + 1000 / 60 > Date.now()) return;
+      const width = wrapper.current.clientWidth;
+      const x = getTransform(slider.current);
+      let nextX = x + ((e.touches[0].pageX - prevTouch.current) / 3) * 2;
+      if (state.idx === 0) {
+        if (flag.current === 1) {
+          if (nextX >= -width + threshold) {
+            nextX -= width * imageInfos.length;
+            flag.current = -1;
+          }
+        } else if (
+          flag.current === -1 &&
+          nextX <= -width * imageInfos.length - (width - threshold)
+        ) {
+          nextX += width * imageInfos.length;
+          flag.current = 1;
+        }
+      } else if (state.idx === imageInfos.length - 1) {
+        if (flag.current === 1) {
+          if (nextX <= -width * imageInfos.length - threshold) {
+            nextX += width * imageInfos.length;
+            flag.current = -1;
+          }
+        } else if (flag.current === -1 && nextX >= -threshold) {
+          nextX -= width * imageInfos.length;
+          flag.current = 1;
+        }
+      }
+      slider.current.style.transform = `translateX(${nextX}px)`;
+      prevTouch.current = e.touches[0].pageX;
+      timer.current = Date.now();
+    },
+    [getTransform, state.idx, imageInfos.length, threshold]
+  );
+  const onTouchStart = useCallback(
+    (e: TouchEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target || target.tagName !== "DIV") return;
+      prevTouch.current = e.touches[0].pageX;
+      prev.current = -wrapper.current.clientWidth * (state.idx + 1);
+      slider.current.style.transition = "none";
+      wrapper.current.addEventListener("touchmove", onTouchMove);
+    },
+    [onTouchMove, state.idx]
+  );
+  const onTouchEnd = useCallback(() => {
+    const prevX = prev.current;
+    const width = wrapper.current.clientWidth;
+    wrapper.current.removeEventListener("touchmove", onTouchMove);
+
+    const x = getTransform(slider.current);
+    const gap = prevX - x;
+    if (gap === 0) return;
+
+    let nextIdx = Math.round((-x - width) / width);
+    if (Math.abs(gap) >= threshold) {
+      const sign = gap > 0 ? 1 : -1;
+      if (state.idx === 0) {
+        if (gap > width) nextIdx = imageInfos.length - 1;
+        else nextIdx++;
+      } else if (state.idx === imageInfos.length - 1) {
+        if (gap < -width) nextIdx = 0;
+        else nextIdx--;
+      } else nextIdx += sign;
+    }
+    slider.current.style.transform = `translateX(${-width * (nextIdx + 1)}px)`;
+    slider.current.style.transition = "transform 0.4s ease-in-out";
+    flag.current = 1;
+    prev.current = -width * (nextIdx + 1);
+    handleIndex(nextIdx);
+  }, [
+    getTransform,
+    handleIndex,
+    imageInfos.length,
+    onTouchMove,
+    state.idx,
+    threshold,
+  ]);
 
   const onMouseDown = useCallback(
     (e: MouseEvent) => {
@@ -140,19 +222,37 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
       prev.current = nextX;
     };
     const wp = wrapper.current;
-    wp.addEventListener("mousedown", onMouseDown);
-    wp.addEventListener("mouseup", onMouseUp);
-    wp.addEventListener("mouseleave", onMouseUp);
-    wp.addEventListener("selectstart", onSelectStart);
+    if (isMobile) {
+      wp.addEventListener("touchstart", onTouchStart);
+      wp.addEventListener("touchend", onTouchEnd);
+    } else {
+      wp.addEventListener("mousedown", onMouseDown);
+      wp.addEventListener("mouseup", onMouseUp);
+      wp.addEventListener("mouseleave", onMouseUp);
+    }
     window.addEventListener("resize", onResize);
+    wp.addEventListener("selectstart", onSelectStart);
     return () => {
-      wp.removeEventListener("mousedown", onMouseDown);
-      wp.removeEventListener("mouseup", onMouseUp);
-      wp.removeEventListener("mouseleave", onMouseUp);
-      wp.removeEventListener("selectstart", onSelectStart);
+      if (isMobile) {
+        wp.removeEventListener("touchstart", onTouchStart);
+        wp.removeEventListener("touchend", onTouchEnd);
+      } else {
+        wp.removeEventListener("mousedown", onMouseDown);
+        wp.removeEventListener("mouseup", onMouseUp);
+        wp.removeEventListener("mouseleave", onMouseUp);
+      }
       window.removeEventListener("resize", onResize);
+      wp.removeEventListener("selectstart", onSelectStart);
     };
-  }, [onMouseDown, onMouseUp, onSelectStart, state.idx, imageInfos.length]);
+  }, [
+    onMouseDown,
+    onMouseUp,
+    onSelectStart,
+    state.idx,
+    imageInfos.length,
+    onTouchStart,
+    onTouchEnd,
+  ]);
   return (
     <Slider
       slider={slider}
