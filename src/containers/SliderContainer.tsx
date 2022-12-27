@@ -34,7 +34,10 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
     [imageInfos.length, setState, state]
   );
   const getTransform = useCallback((target: HTMLElement) => {
-    return -target.style.transform.match(/\d+/)![0];
+    const transform = target.style.transform;
+    let x = -transform.match(/\d+/)![0];
+    if (transform.endsWith("vw)")) x *= wrapper.current.clientWidth / 100;
+    return x;
   }, []);
 
   const onMove = useCallback(

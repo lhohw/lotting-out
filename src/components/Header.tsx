@@ -131,7 +131,13 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
               }
             `}
           >
-            <Link to={`/info/${title_en}`}>
+            <Link
+              css={css`
+                width: 100%;
+                height: 100%;
+              `}
+              to={`/info/${title_en}`}
+            >
               <h2
                 css={css`
                   padding: 0;
