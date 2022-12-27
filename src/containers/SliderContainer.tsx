@@ -121,9 +121,7 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
 
   const onSelectStart = useCallback((e: Event) => e.preventDefault(), []);
   useEffect(() => {
-    prev.current = -window.innerWidth;
-    if (!slider?.current) return;
-    slider.current.style.transform = `translateX(${-window.innerWidth}px)`;
+    prev.current = -wrapper?.current.clientWidth || 0;
   }, []);
   useEffect(() => {
     if (!wrapper?.current) return;

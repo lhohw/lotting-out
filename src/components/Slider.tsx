@@ -41,8 +41,8 @@ const Slider = ({
       <div
         ref={slider}
         style={{
-          transform: window
-            ? `translateX(${-window?.innerWidth * (idx + 1)}px)`
+          transform: wrapper?.current
+            ? `translateX(${-wrapper.current.clientWidth * (idx + 1)}px)`
             : `translateX(-100vw)`,
         }}
         css={css`
