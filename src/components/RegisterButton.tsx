@@ -2,6 +2,7 @@ import React from "react";
 import { css } from "@emotion/react";
 import { Link } from "gatsby";
 import { useColors } from "../recoil/theme/useTheme";
+import { isMobile, isDesktop } from "react-device-detect";
 
 export type RegisterButtonProps = {
   className?: string;
@@ -32,19 +33,30 @@ const RegisterButton = ({ className }: RegisterButtonProps) => {
         transition: all 0.4s ease-in-out;
         font-size: 1.2rem;
         color: ${colors.gold};
-        filter: grayscale(100%);
-        &:hover {
-          filter: grayscale(0%);
-          transform: scale(1.1);
-        }
-        @media (max-width: 992px) {
-          width: 5rem;
-          height: 5rem;
-          font-size: 0.8rem;
+        ${isDesktop &&
+        `filter: grayscale(100%);
           &:hover {
-            width: 6rem;
-            height: 6rem;
-          }
+            filter: grayscale(0%);
+            transform: scale(1.1);
+          }`}
+        @media (max-width: 992px) {
+          ${isMobile
+            ? `
+            width: 4rem;
+            height: 4rem;
+            font-size: 0.4rem;
+            right: 0.5rem;
+            bottom: 1rem;
+            `
+            : `
+            width: 5rem;
+            height: 5rem;
+            font-size: 0.8rem;
+            &:hover {
+              width: 6rem;
+              height: 6rem;
+            } 
+            `}
         }
       `}
     >
@@ -54,6 +66,11 @@ const RegisterButton = ({ className }: RegisterButtonProps) => {
           font-size: 0.8rem;
           @media (max-width: 992px) {
             font-size: 0.7rem;
+            ${isMobile &&
+            `
+              font-size: 0.4rem;
+              font-family: -apple-system san-serif;
+            `}
           }
         `}
       >

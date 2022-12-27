@@ -16,7 +16,7 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
 
   const timer = useRef(Date.now());
   const flag = useRef(1);
-  const prev = useRef(-window.innerWidth);
+  const prev = useRef(0);
   const slider = useRef<HTMLDivElement>(null!);
   const wrapper = useRef<HTMLDivElement>(null!);
   const threshold = useMemo(() => 100, []);
@@ -120,6 +120,11 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
   ]);
 
   const onSelectStart = useCallback((e: Event) => e.preventDefault(), []);
+  useEffect(() => {
+    prev.current = -window.innerWidth;
+    if (!slider?.current) return;
+    slider.current.style.transform = `translateX(${-window.innerWidth}px)`;
+  }, []);
   useEffect(() => {
     if (!wrapper?.current) return;
     if (!slider?.current) return;

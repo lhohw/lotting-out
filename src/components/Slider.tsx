@@ -41,7 +41,9 @@ const Slider = ({
       <div
         ref={slider}
         style={{
-          transform: `translateX(${-window.innerWidth * (idx + 1)}px)`,
+          transform: window
+            ? `translateX(${-window?.innerWidth * (idx + 1)}px)`
+            : `translateX(-100vw)`,
         }}
         css={css`
           display: flex;

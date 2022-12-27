@@ -1,9 +1,10 @@
 import type { MenuTitle } from "./Header";
-import React from "react";
+import React, { useMemo } from "react";
 import { css } from "@emotion/react";
 import { PreviewCompatibleImageData } from "./PreviewCompatibleImage";
 import GridCell from "./GridCell";
 import { useColors } from "../recoil/theme/useTheme";
+import { isMobile } from "react-device-detect";
 
 export type CategoryMenu = MenuTitle & {
   thumbnail: PreviewCompatibleImageData["image"];
@@ -13,7 +14,11 @@ export type CategoryProps = Record<
   CategoryMenu[]
 >;
 
-const Category = ({ prioritized, filtered, register }: CategoryProps) => {
+const CategoryDesktop = ({
+  prioritized,
+  filtered,
+  register,
+}: CategoryProps) => {
   const colors = useColors();
   return (
     <div
@@ -65,4 +70,40 @@ const Category = ({ prioritized, filtered, register }: CategoryProps) => {
   );
 };
 
+const CategoryMobile = ({ prioritized, filtered, register }: CategoryProps) => {
+  const colors = useColors();
+  const arr = useMemo(
+    () => prioritized.concat(filtered).concat(register),
+    [prioritized, filtered, register]
+  );
+  return (
+    <div
+      css={css`
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 30vw;
+        margin: 3rem 1rem;
+        grid-auto-flow: row;
+        justify-content: end;
+        font-size: 1.5rem;
+        font-family: Song Myung;
+        color: ${colors.background};
+        font-size: 0.8rem;
+      `}
+    >
+      {arr.length
+        ? arr.map((categoryMenu) => (
+            <GridCell
+              key={categoryMenu.title}
+              {...categoryMenu}
+              gridColumn="span 1"
+              gridRow="span 1"
+            />
+          ))
+        : null}
+    </div>
+  );
+};
+const Category = (props: CategoryProps) =>
+  isMobile ? <CategoryMobile {...props} /> : <CategoryDesktop {...props} />;
 export default Category;

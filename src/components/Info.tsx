@@ -1,10 +1,11 @@
 import type { PreviewTemplateComponentProps } from "netlify-cms-core";
 import React, { useState } from "react";
 import { css } from "@emotion/react";
+import { v4 as uuidv4 } from "uuid";
+import { isMobile } from "react-device-detect";
 import { PreviewCompatibleImageData } from "./PreviewCompatibleImage";
 import Images from "./Images";
 import { useColors } from "../recoil/theme/useTheme";
-import { v4 as uuidv4 } from "uuid";
 
 export type InfoProps = {
   data: {
@@ -39,8 +40,8 @@ const Info = ({
       css={css`
         display: flex;
         flex-direction: column;
-        margin-top: 1rem;
-        padding: 1rem;
+        margin-top: ${isMobile ? "0.5rem" : "1rem"};
+        padding: ${isMobile ? "0.5rem" : "1rem"};
       `}
     >
       {list.length ? (
@@ -48,6 +49,7 @@ const Info = ({
           css={css`
             display: flex;
             flex-direction: row;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: center;
           `}
@@ -57,12 +59,12 @@ const Info = ({
               key={uuidv4()}
               css={css`
                 display: flex;
-                padding: 1rem 2rem;
+                padding: ${isMobile ? ".6rem 1.2rem" : "1rem 2rem"};
                 align-items: center;
                 justify-content: center;
                 color: ${i === idx ? colors.gold : colors.text};
-                font-weight: ${i === idx ? "bold" : "normal"};
-                font-size: 1.4rem;
+                font-weight: ${i === idx ? "900" : "normal"};
+                font-size: ${isMobile ? "0.8rem" : "1.4rem"};
                 background-color: ${i === idx
                   ? colors.dark
                   : colors.background};
@@ -70,9 +72,7 @@ const Info = ({
                 border-radius: 8px;
                 transition: all 0.25s ease-in-out;
                 cursor: pointer;
-                & + button {
-                  margin-left: 2rem;
-                }
+                margin: ${isMobile ? "0 0.5rem" : "0.5rem 1rem"};
               `}
               onClick={() => setIdx(i)}
             >

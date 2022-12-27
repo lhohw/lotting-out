@@ -7,6 +7,7 @@ import PreviewCompatibleImage, {
   PreviewCompatibleImageData,
 } from "./PreviewCompatibleImage";
 import DarkMode from "./DarkMode";
+import { isMobile } from "react-device-detect";
 
 export type MenuTitle = {
   title: string;
@@ -37,7 +38,7 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
           box-shadow: 0px 0px 4px ${colors.text};
           margin-left: 4rem;
           @media (max-width: 768px) {
-            margin-left: 2rem;
+            margin-left: ${isMobile ? 0 : "2rem"};
           }
         `}
         to="/"
