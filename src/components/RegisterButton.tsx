@@ -46,7 +46,7 @@ const RegisterButton = ({ className }: RegisterButtonProps) => {
             height: 6rem;
           }
         }
-        @media (max-width: 500px) {
+        @media (max-width: 499px) {
           width: 4rem;
           height: 4rem;
           font-size: 0.4rem;
