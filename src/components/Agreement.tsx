@@ -27,6 +27,9 @@ const Agreement = ({
         color: ${colors.background["light"]};
         padding: 1rem;
         position: relative;
+        @media (max-width: 320px) {
+          font-size: 0.8rem;
+        }
       `}
     >
       <div

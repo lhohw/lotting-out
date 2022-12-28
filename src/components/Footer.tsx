@@ -1,7 +1,6 @@
 import React from "react";
 import { css } from "@emotion/react";
 import { useColors } from "../recoil/theme/useTheme";
-import { isMobile } from "react-device-detect";
 
 export type ItemProps = {
   title: string;
@@ -159,7 +158,7 @@ const Footer = ({
         css={css`
           margin: 0.8rem 0 1.1rem 6.35rem;
           font-weight: 600;
-          font-size: ${isMobile ? "0.6rem" : "0.8rem"};
+          font-size: 0.8rem;
           color: #555555;
           cursor: pointer;
           &:hover {
@@ -167,6 +166,7 @@ const Footer = ({
           }
           @media (max-width: 768px) {
             margin-left: 3.5rem;
+            font-size: 0.6rem;
           }
         `}
       >

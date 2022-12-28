@@ -28,6 +28,9 @@ const Input = ({
         background-color: ${colors.dark + "dd"};
         margin-top: 0.5rem;
         border-radius: 8px;
+        @media (max-width: 320px) {
+          font-size: 0.8rem;
+        }
       `}
     >
       <span

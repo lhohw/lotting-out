@@ -4,7 +4,7 @@ import { css } from "@emotion/react";
 import { Link } from "gatsby";
 import PreviewCompatibleImage from "./PreviewCompatibleImage";
 import { useColors } from "../recoil/theme/useTheme";
-import { isMobile, isBrowser } from "react-device-detect";
+import { isBrowser } from "react-device-detect";
 
 type GridCellProps = { gridColumn?: string; gridRow?: string } & CategoryMenu;
 const GridCell = ({
@@ -51,11 +51,15 @@ const GridCell = ({
         css={css`
           position: absolute;
           z-index: 1;
-          left: ${isMobile ? ".3rem" : "1rem"};
-          top: ${isMobile ? ".3rem" : "1rem"};
+          left: 1rem;
+          top: 1rem;
           text-shadow: 1px 1px 5px #fefefe;
           color: #202020;
-          /* font-size: ${isMobile ? ".8rem" : "1rem"}; */
+          @media (max-width: 600px) {
+            left: 0.3rem;
+            top: 0.3rem;
+            font-size: 0.8rem;
+          }
         `}
       >
         {title}

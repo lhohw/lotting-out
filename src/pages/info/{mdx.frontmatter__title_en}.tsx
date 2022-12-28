@@ -7,7 +7,6 @@ import { graphql } from "gatsby";
 import useFrontmatter from "../../utils/hooks/useFrontmatter";
 import RegisterContainer from "../../containers/RegisterContainer";
 import Info, { InfoProps } from "../../components/Info";
-import { isMobile } from "react-device-detect";
 
 export type InfoPageProps = {
   data: {
@@ -40,7 +39,9 @@ const InfoPage = ({ data, isPreview, getAsset }: InfoPageProps) => {
             css={css`
               padding: 1rem 1rem 0 1rem;
               font-weight: bold;
-              ${isMobile && `margin: 1rem 0 0 0;`}
+              @media (max-width: 499px) {
+                margin: 1rem 0 0 0;
+              }
             `}
           >
             {title}

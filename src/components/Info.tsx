@@ -2,7 +2,6 @@ import type { PreviewTemplateComponentProps } from "netlify-cms-core";
 import React, { useState } from "react";
 import { css } from "@emotion/react";
 import { v4 as uuidv4 } from "uuid";
-import { isMobile } from "react-device-detect";
 import { PreviewCompatibleImageData } from "./PreviewCompatibleImage";
 import Images from "./Images";
 import { useColors } from "../recoil/theme/useTheme";
@@ -40,8 +39,12 @@ const Info = ({
       css={css`
         display: flex;
         flex-direction: column;
-        margin-top: ${isMobile ? "0.5rem" : "1rem"};
-        padding: ${isMobile ? "0.5rem" : "1rem"};
+        margin-top: 0.5rem;
+        padding: 1rem;
+        @media (max-width: 600px) {
+          margin-top: 0.5rem;
+          padding: 0.5rem;
+        }
       `}
     >
       {list.length ? (
@@ -59,12 +62,12 @@ const Info = ({
               key={uuidv4()}
               css={css`
                 display: flex;
-                padding: ${isMobile ? ".6rem 1.2rem" : "1rem 2rem"};
+                padding: 1rem 2rem;
                 align-items: center;
                 justify-content: center;
                 color: ${i === idx ? colors.gold : colors.text};
                 font-weight: ${i === idx ? "900" : "normal"};
-                font-size: ${isMobile ? "0.8rem" : "1.4rem"};
+                font-size: 1.4rem;
                 background-color: ${i === idx
                   ? colors.dark
                   : colors.background};
@@ -72,7 +75,12 @@ const Info = ({
                 border-radius: 8px;
                 transition: all 0.25s ease-in-out;
                 cursor: pointer;
-                margin: ${isMobile ? "0 0.5rem" : "0.5rem 1rem"};
+                margin: 0.5rem 1rem;
+                @media (max-width: 600px) {
+                  padding: 0.6rem 1.2rem;
+                  font-size: 0.8rem;
+                  margin: 0 0.5rem;
+                }
               `}
               onClick={() => setIdx(i)}
             >

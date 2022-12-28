@@ -1,9 +1,8 @@
+import type { PreviewCompatibleImageData } from "../components/PreviewCompatibleImage";
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
-
 import Header from "../components/Header";
 import { headerState, HeaderState } from "../recoil/header";
-import type { PreviewCompatibleImageData } from "../components/PreviewCompatibleImage";
 
 export type HeaderData = {
   menu: {
@@ -22,12 +21,20 @@ const HeaderContainer = ({ menu, logo }: HeaderData) => {
       }
     };
     const closeByClick = (e: MouseEvent) => {
-      if (e.target instanceof Element) {
-        const id = e.target.closest("button")?.id;
-        if (id && id === "menu")
-          setState((state) => ({ ...state, isOpen: !state.isOpen }));
-        else if (state.isOpen)
+      const target = e.target as HTMLElement;
+      const id = target.closest("button")?.id;
+      if (id && id === "menu")
+        setState((state) => ({ ...state, isOpen: !state.isOpen }));
+      else if (state.isOpen) {
+        const ul = target.closest("ul");
+        if (target.tagName === "H2" && ul) {
+          ul.style.transition = "none";
+          ul.style.width = "0";
           setState((state) => ({ ...state, isOpen: false }));
+          ul.style.transition = "width 0.4s ease-in-out;";
+          return;
+        }
+        setState((state) => ({ ...state, isOpen: false }));
       }
     };
     window.addEventListener("resize", close);

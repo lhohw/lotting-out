@@ -1,7 +1,6 @@
 import React from "react";
 import { css } from "@emotion/react";
 import { useColors } from "../recoil/theme";
-import { isMobile } from "react-device-detect";
 
 export type JumbotronProps = {
   title: string;
@@ -30,8 +29,11 @@ const Jumbotron = ({ title, content }: JumbotronProps) => {
           margin: 0;
           padding: 0;
           margin-bottom: 1rem;
-          font-size: ${isMobile ? "1.5rem" : "3rem"};
+          font-size: 3rem;
           color: ${colors.gold};
+          @media (max-width: 600px) {
+            font-size: 1.5rem;
+          }
         `}
       >
         {title}
@@ -43,7 +45,10 @@ const Jumbotron = ({ title, content }: JumbotronProps) => {
           margin-top: 1rem;
           color: #efefef;
           font-weight: bold;
-          font-size: ${isMobile ? "1rem" : "1.5rem"};
+          font-size: 1.5rem;
+          @media (max-width: 600px) {
+            font-size: 1rem;
+          }
         `}
       >
         {content}

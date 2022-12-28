@@ -83,7 +83,7 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
       if (timer.current + 1000 / 60 > Date.now()) return;
       const width = wrapper.current.clientWidth;
       const x = getTransform(slider.current);
-      let nextX = x + ((e.touches[0].pageX - prevTouch.current) / 3) * 2;
+      let nextX = x + (e.touches[0].pageX - prevTouch.current);
       if (state.idx === 0) {
         if (flag.current === 1) {
           if (nextX >= -width + threshold) {
@@ -207,6 +207,8 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
   const onSelectStart = useCallback((e: Event) => e.preventDefault(), []);
   useEffect(() => {
     prev.current = -wrapper?.current.clientWidth || 0;
+    setState({ ...state, idx: 0 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (!wrapper?.current) return;

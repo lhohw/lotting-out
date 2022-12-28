@@ -42,6 +42,9 @@ const Question = ({
           padding: 3rem 1rem 0 1rem;
           font-weight: bold;
           color: ${colors.gold};
+          @media (max-width: 320px) {
+            font-size: 0.8rem;
+          }
         `}
       >
         {question}
@@ -54,6 +57,9 @@ const Question = ({
             flex-direction: row;
             padding: 0.3rem;
             color: ${value === key ? colors.gold : "#fefefedd"};
+            @media (max-width: 320px) {
+              font-size: 0.8rem;
+            }
           `}
         >
           <input

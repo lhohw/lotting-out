@@ -68,7 +68,7 @@ const Register = ({
             display: flex;
             flex: 1;
             flex-direction: column;
-            max-width: 500px;
+            max-width: min(100vw, 500px);
             margin: 0 auto;
           `}
         >
@@ -78,6 +78,11 @@ const Register = ({
               text-shadow: 1px 1px 3px ${colors.gold};
               font-size: 2.2rem;
               margin-left: 1.5rem;
+              margin-right: 0;
+              padding: 0;
+              @media (max-width: 320px) {
+                margin: 1.5rem auto;
+              }
             `}
           >
             Find Out More
