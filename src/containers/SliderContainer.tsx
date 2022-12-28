@@ -21,7 +21,7 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
   const prevTouch = useRef(0);
   const slider = useRef<HTMLDivElement>(null!);
   const wrapper = useRef<HTMLDivElement>(null!);
-  const threshold = useMemo(() => (isMobile ? 50 : 100), []);
+  const threshold = useMemo(() => 50, []);
 
   const handleIndex = useCallback(
     (idx: number) => {
@@ -231,8 +231,8 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
       wp.addEventListener("mousedown", onMouseDown);
       wp.addEventListener("mouseup", onMouseUp);
       wp.addEventListener("mouseleave", onMouseUp);
+      window.addEventListener("resize", onResize);
     }
-    window.addEventListener("resize", onResize);
     wp.addEventListener("selectstart", onSelectStart);
     return () => {
       if (isMobile) {
@@ -242,8 +242,8 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
         wp.removeEventListener("mousedown", onMouseDown);
         wp.removeEventListener("mouseup", onMouseUp);
         wp.removeEventListener("mouseleave", onMouseUp);
+        window.removeEventListener("resize", onResize);
       }
-      window.removeEventListener("resize", onResize);
       wp.removeEventListener("selectstart", onSelectStart);
     };
   }, [
