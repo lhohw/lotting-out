@@ -109,7 +109,7 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
               width: 100px;
               justify-content: center;
               align-items: center;
-              padding: 0.5rem 0;
+              padding: 0;
               transition: all 0.15s ease-in-out;
               display: flex;
               flex: 1;
@@ -135,6 +135,7 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
           >
             <Link
               css={css`
+                padding: 0.5rem 0;
                 width: 100%;
                 height: 100%;
               `}

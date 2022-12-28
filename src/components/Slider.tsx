@@ -35,6 +35,9 @@ const Slider = ({
         overflow: hidden;
         position: relative;
         box-shadow: 0px 2px 8px ${colors.text};
+        @media (min-width: 1440px) {
+          height: 40rem;
+        }
       `}
     >
       <Jumbotron title={apartment} content={short} />
