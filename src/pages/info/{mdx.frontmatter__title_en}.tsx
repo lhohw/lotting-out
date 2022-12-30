@@ -7,6 +7,8 @@ import { graphql } from "gatsby";
 import useFrontmatter from "../../utils/hooks/useFrontmatter";
 import RegisterContainer from "../../containers/RegisterContainer";
 import Info, { InfoProps } from "../../components/Info";
+import BackButton from "../../components/BackButton";
+import { useColors } from "../../recoil/theme";
 
 export type InfoPageProps = {
   data: {
@@ -22,9 +24,23 @@ export type InfoPageProps = {
   getAsset?: PreviewTemplateComponentProps["getAsset"];
 };
 const InfoPage = ({ data, isPreview, getAsset }: InfoPageProps) => {
+  const colors = useColors();
   const { title, title_en, info } = useFrontmatter(data);
   return (
     <Layout>
+      <BackButton
+        css={css`
+          position: absolute;
+          left: 1.5rem;
+          top: 1.5rem;
+          z-index: 3;
+          color: ${title === "관심고객등록" ? colors.dark : "inherit"};
+          @media (max-width: 500px) {
+            left: 1rem;
+            top: 1rem;
+          }
+        `}
+      />
       {title_en === "register" ? (
         <RegisterContainer backgroundImage={info?.sub[0]?.sub[0]?.images[0]} />
       ) : (

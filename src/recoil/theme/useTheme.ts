@@ -10,6 +10,7 @@ const colorState = selector({
     return {
       main: colors.main,
       sub: colors.sub,
+      white: colors.white,
       dark: colors.dark,
       gold: colors.gold,
       red: colors.red,

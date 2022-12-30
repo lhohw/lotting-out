@@ -8,6 +8,7 @@
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:jsx-a11y/recommended",
     "prettier"
   ],
   "parser": "@typescript-eslint/parser",
@@ -18,11 +19,19 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint", "@emotion", "react-hooks"],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "@emotion",
+    "react-hooks",
+    "jsx-a11y"
+  ],
   "rules": {
     "react-hooks/exhaustive-deps": "error",
     "react/no-unknown-property": ["error", { "ignore": ["css"] }],
     "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/ban-ts-comment": "off"
+    "@typescript-eslint/ban-ts-comment": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/no-noninteractive-tabindex": "off"
   }
 }

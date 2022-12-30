@@ -21,6 +21,7 @@ const Input = ({
   const colors = useColors();
   return (
     <label
+      htmlFor={title}
       css={css`
         display: flex;
         flex-direction: row;
@@ -37,7 +38,7 @@ const Input = ({
         css={css`
           /* padding: 0 1rem; */
           text-align: center;
-          color: ${colors.gold + "dd"};
+          color: ${colors.gold};
           font-weight: bold;
           width: 80px;
         `}
@@ -45,6 +46,7 @@ const Input = ({
         {title}
       </span>
       <input
+        id={title}
         css={css`
           display: flex;
           flex: 1;
@@ -59,10 +61,14 @@ const Input = ({
           border-top: none;
           border-right: none;
           border-radius: 0;
+          transition: border-color 0.3s ease-in-out;
           &:focus {
             outline: none;
+            border-color: ${colors.gold};
+            border-bottom-width: 2px;
           }
         `}
+        autoComplete={"off"}
         className={className}
         name={name}
         placeholder={placeholder}

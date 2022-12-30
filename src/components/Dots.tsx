@@ -1,13 +1,14 @@
+import type { PreviewCompatibleImageData } from "./PreviewCompatibleImage";
 import React from "react";
 import { css } from "@emotion/react";
 import { useColors } from "../recoil/theme/useTheme";
 
 export type DotsProps = {
-  length: number;
+  imageInfos: PreviewCompatibleImageData[];
   idx: number;
   handleIndex: (idx: number) => void;
 };
-const Dots = ({ length, idx, handleIndex }: DotsProps) => {
+const Dots = ({ imageInfos, idx, handleIndex }: DotsProps) => {
   const colors = useColors();
   return (
     <ul
@@ -20,22 +21,35 @@ const Dots = ({ length, idx, handleIndex }: DotsProps) => {
         flex-direction: row;
       `}
     >
-      {new Array(length).fill(undefined).map((_, i) => (
+      {imageInfos.map((imageInfo, i) => (
         <li
           key={i}
           css={css`
-            width: 12px;
-            height: 12px;
-            border: 2px solid ${colors.dark};
-            border-radius: 50%;
-            background-color: ${idx === i ? colors.gold : "#fefefe"};
-            cursor: pointer;
+            padding: 0;
+            margin: 0;
             & + li {
               margin-left: 0.3rem;
             }
           `}
-          onClick={() => handleIndex(i)}
-        />
+        >
+          <button
+            type="button"
+            aria-pressed={idx === i}
+            aria-label={`${i + 1}번째 이미지로 이동 - ${imageInfo.title}`}
+            aria-describedby={imageInfo.alt}
+            css={css`
+              width: 12px;
+              height: 12px;
+              border: 2px solid ${colors.dark};
+              padding: 0;
+              margin: 0;
+              border-radius: 50%;
+              background-color: ${idx === i ? colors.gold : "#fefefe"};
+              cursor: pointer;
+            `}
+            onClick={() => handleIndex(i)}
+          />
+        </li>
       ))}
     </ul>
   );

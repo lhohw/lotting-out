@@ -4,6 +4,7 @@ const colors = {
   dark: "#333333",
   gold: "#c6aa94",
   red: "#c54141",
+  white: "#fefefe",
   widgetBorder: "#bdbdbd",
   background: {
     light: "#fefefe",

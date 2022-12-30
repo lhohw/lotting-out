@@ -55,7 +55,7 @@ const Item = ({ title, info }: ItemProps) => {
             line-height: 1.8;
             font-family: "Roboto", "Nanum Gothic";
             font-size: 10px;
-            color: #999;
+            color: #a2a2a2;
             letter-spacing: 0.15em;
             margin-bottom: 0;
 
@@ -159,11 +159,8 @@ const Footer = ({
           margin: 0.8rem 0 1.1rem 6.35rem;
           font-weight: 600;
           font-size: 0.8rem;
-          color: #555555;
+          color: ${colors.widgetBorder};
           cursor: pointer;
-          &:hover {
-            color: white;
-          }
           @media (max-width: 768px) {
             margin-left: 3.5rem;
             font-size: 0.6rem;

@@ -59,6 +59,7 @@ class ListControl extends PureComponent<WidgetProps, ListControlState> {
           flex-direction: column;
         `}
       >
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <form
           css={css`
             display: flex;

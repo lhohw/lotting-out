@@ -35,27 +35,39 @@ class SelectControl extends PureComponent<SelectControlProps> {
                 display: flex;
                 flex: 1;
                 margin: 0 1rem;
-                padding: 0.5rem;
+                padding: 0;
                 height: 100%;
-                cursor: pointer;
-                color: ${value === key
-                  ? colors.background["light"]
-                  : colors.text["light"]};
-                align-items: center;
-                justify-content: center;
-                border-radius: 8px;
-                background-color: ${value === key
-                  ? colors.sub
-                  : colors.background["light"]};
-                transition: background-color 0.3s ease-in-out,
-                  color 0.7s ease-in-out;
-                border: 1px solid #dbdbdb;
               `}
-              onClick={() => {
-                onChange(key, `${defaultKey}|type`);
-              }}
             >
-              {title}
+              <button
+                type="button"
+                css={css`
+                  display: flex;
+                  flex: 1;
+                  margin: 0;
+                  padding: 0.5rem;
+                  height: 100%;
+                  cursor: pointer;
+                  color: ${value === key
+                    ? colors.background["light"]
+                    : colors.text["light"]};
+                  align-items: center;
+                  justify-content: center;
+                  border-radius: 8px;
+                  background-color: ${value === key
+                    ? colors.sub
+                    : colors.background["light"]};
+                  transition: background-color 0.2s ease-in-out,
+                    color 0.6s ease-in-out;
+                  border: 1px solid #dbdbdb;
+                  font-size: 1rem;
+                `}
+                onClick={() => {
+                  onChange(key, `${defaultKey}|type`);
+                }}
+              >
+                {title}
+              </button>
             </li>
           );
         })}

@@ -21,7 +21,7 @@ const CategoryDesktop = ({
 }: CategoryProps) => {
   const colors = useColors();
   return (
-    <div
+    <section
       css={css`
         display: grid;
         grid-template-columns: repeat(9, 1fr);
@@ -66,7 +66,7 @@ const CategoryDesktop = ({
       {register.length ? (
         <GridCell {...register[0]} gridColumn="span 3" gridRow="span 3" />
       ) : null}
-    </div>
+    </section>
   );
 };
 
@@ -77,7 +77,7 @@ const CategoryMobile = ({ prioritized, filtered, register }: CategoryProps) => {
     [prioritized, filtered, register]
   );
   return (
-    <div
+    <section
       css={css`
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -101,7 +101,7 @@ const CategoryMobile = ({ prioritized, filtered, register }: CategoryProps) => {
             />
           ))
         : null}
-    </div>
+    </section>
   );
 };
 const Category = (props: CategoryProps) =>

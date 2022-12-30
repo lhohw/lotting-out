@@ -58,6 +58,7 @@ const Slider = ({
         `}
       >
         <PreviewCompatibleImage
+          aria-hidden={true}
           key={"-1"}
           css={css`
             width: 100vw;
@@ -70,6 +71,7 @@ const Slider = ({
         />
         {imageInfos.map((imageInfo, i) => (
           <PreviewCompatibleImage
+            aria-hidden={true}
             key={i}
             css={css`
               width: 100vw;
@@ -82,6 +84,7 @@ const Slider = ({
           />
         ))}
         <PreviewCompatibleImage
+          aria-hidden={true}
           key={imageInfos.length.toString()}
           css={css`
             width: 100vw;
@@ -105,7 +108,7 @@ const Slider = ({
           z-index: 2;
         `}
       >
-        <Dots length={imageInfos.length} idx={idx} handleIndex={handleIndex} />
+        <Dots imageInfos={imageInfos} idx={idx} handleIndex={handleIndex} />
       </div>
     </div>
   );

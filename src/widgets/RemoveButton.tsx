@@ -15,7 +15,7 @@ class RemoveButton extends PureComponent<RemoveButtonProps> {
   render() {
     const { className, size = 20, onClick, right = 0, top = 0 } = this.props;
     return (
-      <span
+      <button
         className={className}
         css={css`
           display: flex;
@@ -24,6 +24,7 @@ class RemoveButton extends PureComponent<RemoveButtonProps> {
           background-color: ${colors.background["light"]};
           color: ${colors.red};
           padding: 0.15rem;
+          margin: 0;
           position: absolute;
           border-radius: 5px;
           border: 1px solid ${colors.widgetBorder};
@@ -34,7 +35,7 @@ class RemoveButton extends PureComponent<RemoveButtonProps> {
         onClick={onClick}
       >
         <FaTimes size={size} />
-      </span>
+      </button>
     );
   }
 }

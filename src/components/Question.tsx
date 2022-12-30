@@ -52,6 +52,7 @@ const Question = ({
       {answers.map((key) => (
         <label
           key={key}
+          htmlFor={key}
           css={css`
             display: flex;
             flex-direction: row;
@@ -63,6 +64,7 @@ const Question = ({
           `}
         >
           <input
+            id={key}
             css={css`
               margin-right: 1rem;
               cursor: pointer;

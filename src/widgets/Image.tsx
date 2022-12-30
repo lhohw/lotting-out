@@ -1,6 +1,5 @@
 import React, { PureComponent } from "react";
 import { css } from "@emotion/react";
-import { CmsWidgetPreviewProps } from "netlify-cms-core";
 import CMS from "netlify-cms-app";
 import type { WidgetProps } from "./type";
 
@@ -121,26 +120,4 @@ class ImageControl extends PureComponent<ImageControlProps> {
   }
 }
 
-const ImagePreview = (props: CmsWidgetPreviewProps<string>) => {
-  const { value, getAsset } = props;
-  if (!value) return null;
-  return (
-    <div
-      css={css`
-        display: flex;
-        flex: 1;
-      `}
-    >
-      <img
-        src={getAsset(value).url}
-        css={css`
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-        `}
-      />
-    </div>
-  );
-};
-
-export { ImageControl, ImagePreview };
+export { ImageControl };

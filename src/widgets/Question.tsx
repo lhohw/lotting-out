@@ -65,6 +65,7 @@ class QuestionControl extends PureComponent<WidgetProps, QuestionControlState> {
       const { value: answer } = form.children[1].firstChild
         ?.firstChild as HTMLInputElement;
       if (!form.dataset.idx) throw new Error("form index is required");
+      if (!answer.trim()) return;
       const { idx } = form.dataset;
       const nextState: QuestionControlState = produce(this.state, (draft) => {
         draft.questions[+idx].question = question;
@@ -106,6 +107,7 @@ class QuestionControl extends PureComponent<WidgetProps, QuestionControlState> {
           `}
         >
           {this.state.questions.map(({ answers }, i) => (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <form
               data-idx={i}
               key={uuidv4()}

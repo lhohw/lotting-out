@@ -16,8 +16,18 @@ export type HeaderProps = {
   logo: PreviewCompatibleImageData;
   isOpen: boolean;
   menu: MenuTitle[];
+  onKeyDown: (e: React.KeyboardEvent) => void;
+  onFocus: () => void;
+  hide: () => void;
 };
-const Header = ({ logo, menu, isOpen }: HeaderProps) => {
+const Header = ({
+  logo,
+  menu,
+  isOpen,
+  onKeyDown,
+  onFocus,
+  hide,
+}: HeaderProps) => {
   const colors = useColors();
   return (
     <header
@@ -56,6 +66,10 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
       </Link>
       <button
         id="menu"
+        type="button"
+        aria-expanded={isOpen}
+        aria-controls="info-list"
+        onFocus={hide}
         css={css`
           display: flex;
           align-items: center;
@@ -73,9 +87,12 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
         <AiOutlineMenu size={22} />
       </button>
       <ul
+        id="info-list"
+        tabIndex={0}
         css={css`
           display: flex;
           flex-direction: column;
+          flex-wrap: wrap;
           align-items: center;
           justify-content: space-evenly;
           list-style: none;
@@ -98,14 +115,15 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
             width: 100%;
           }
         `}
+        onKeyDown={onKeyDown}
+        onFocus={onFocus}
       >
         {menu.map(({ title, title_en }, idx) => (
           <li
             key={idx}
             css={css`
-              cursor: pointer;
               max-width: 100px;
-              min-width: 50px;
+              min-width: ${title === "관심고객등록" ? "100px" : "50px"};
               width: 100px;
               justify-content: center;
               align-items: center;
@@ -117,10 +135,6 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
               font-family: Nanum Gothic;
               color: inherit;
               word-break: keep-all;
-              &:hover {
-                font-weight: 900;
-                color: ${colors.gold};
-              }
               @media (max-width: 600px) {
                 color: #d1d1d1;
                 width: 100%;
@@ -134,17 +148,22 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
             `}
           >
             <Link
+              data-idx={idx}
               css={css`
-                padding: 0.5rem 0;
+                margin: 0.1rem;
                 width: 100%;
                 height: 100%;
+                &:hover {
+                  font-weight: 900;
+                  color: ${colors.gold};
+                }
               `}
               to={`/info/${title_en}`}
             >
               <h2
                 css={css`
                   padding: 0;
-                  margin: 0;
+                  margin: 0.5rem 0;
                   font-size: inherit;
                 `}
               >
@@ -154,7 +173,7 @@ const Header = ({ logo, menu, isOpen }: HeaderProps) => {
           </li>
         ))}
       </ul>
-      <DarkMode key="darkmode" />
+      <DarkMode key="darkmode" onFocus={hide} />
     </header>
   );
 };

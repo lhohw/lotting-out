@@ -23,8 +23,10 @@ const Checkbox = ({
 }: CheckboxProps) => {
   const colors = useColors();
   return (
-    <span
+    <button
       className={className}
+      aria-pressed={checked}
+      type="button"
       css={css`
         border: 1px solid ${borderColor ? borderColor : colors.text};
         width: ${size}px;
@@ -54,6 +56,7 @@ const Checkbox = ({
       onClick={onClick}
     >
       <BsCheckLg
+        aria-hidden={true}
         css={css`
           color: ${color ? color : colors.gold};
           width: 100%;
@@ -61,7 +64,7 @@ const Checkbox = ({
         `}
         size={size}
       />
-    </span>
+    </button>
   );
 };
 export default Checkbox;

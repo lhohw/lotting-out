@@ -1,8 +1,9 @@
 import type { PreviewCompatibleImageData } from "../components/PreviewCompatibleImage";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import Header from "../components/Header";
+import Header, { HeaderProps } from "../components/Header";
 import { headerState, HeaderState } from "../recoil/header";
+import produce from "immer";
 
 export type HeaderData = {
   menu: {
@@ -13,6 +14,53 @@ export type HeaderData = {
 };
 const HeaderContainer = ({ menu, logo }: HeaderData) => {
   const [state, setState] = useRecoilState<HeaderState>(headerState);
+  const toggle = useCallback(() => {
+    const nextState = produce(state, (draft) => {
+      draft.isOpen = !draft.isOpen;
+    });
+    setState(nextState);
+  }, [state, setState]);
+
+  const onKeyDown = useCallback<HeaderProps["onKeyDown"]>(
+    (e) => {
+      const target = e.target as HTMLElement;
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (target.tagName === "UL") {
+          const firstLink = target.firstChild?.firstChild as HTMLElement;
+          if (firstLink && firstLink.tagName === "A") firstLink.focus();
+        } else {
+          const sibling = target.parentElement?.nextSibling
+            ?.firstChild as HTMLElement;
+          if (sibling) sibling.focus();
+        }
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (target.tagName === "UL") {
+          const lastLink = target.lastChild?.firstChild as HTMLElement;
+          if (lastLink && lastLink.tagName === "A") lastLink.focus();
+        } else {
+          const sibling = target.parentElement?.previousSibling
+            ?.firstChild as HTMLElement;
+          if (sibling) sibling.focus();
+        }
+      } else if (e.key === "Escape") toggle();
+    },
+    [toggle]
+  );
+
+  const onFocus = useCallback<HeaderProps["onFocus"]>(() => {
+    if (!state.isOpen) toggle();
+  }, [state.isOpen, toggle]);
+
+  const hide = useCallback<HeaderProps["hide"]>(() => {
+    if (state.isOpen) {
+      const nextState = produce(state, (draft) => {
+        draft.isOpen = false;
+      });
+      setState(nextState);
+    }
+  }, [state, setState]);
 
   useEffect(() => {
     const close = () => {
@@ -20,11 +68,10 @@ const HeaderContainer = ({ menu, logo }: HeaderData) => {
         setState({ ...state, isOpen: false });
       }
     };
-    const closeByClick = (e: MouseEvent) => {
+    const onClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const id = target.closest("button")?.id;
-      if (id && id === "menu")
-        setState((state) => ({ ...state, isOpen: !state.isOpen }));
+      if (id && id === "menu") toggle();
       else if (state.isOpen) {
         const ul = target.closest("ul");
         if (target.tagName === "H2" && ul) {
@@ -38,13 +85,22 @@ const HeaderContainer = ({ menu, logo }: HeaderData) => {
       }
     };
     window.addEventListener("resize", close);
-    window.addEventListener("click", closeByClick);
+    window.addEventListener("click", onClick);
     return () => {
       window.removeEventListener("resize", close);
-      window.removeEventListener("click", closeByClick);
+      window.removeEventListener("click", onClick);
     };
-  }, [setState, state]);
-  return <Header menu={menu} logo={logo} isOpen={state.isOpen} />;
+  }, [setState, state, toggle]);
+  return (
+    <Header
+      menu={menu}
+      logo={logo}
+      isOpen={state.isOpen}
+      onKeyDown={onKeyDown}
+      onFocus={onFocus}
+      hide={hide}
+    />
+  );
 };
 
 export default HeaderContainer;

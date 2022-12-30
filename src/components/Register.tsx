@@ -8,6 +8,8 @@ import PreviewCompatibleImage, {
   PreviewCompatibleImageData,
 } from "./PreviewCompatibleImage";
 import Agreement from "./Agreement";
+import Modal, { ModalProps } from "./Modal";
+import { isDesktop } from "react-device-detect";
 
 export type Value = {
   [key: string]: string;
@@ -22,124 +24,132 @@ export type RegisterProps = {
     value: Value;
     agreement: Record<"marketing" | "termsAndConditions", boolean>;
   };
+  backgroundImage: PreviewCompatibleImageData;
+  questions: QuestionType[];
+  submitButtonRef: React.RefObject<HTMLButtonElement>;
   onChange: (e: React.ChangeEvent<HTMLFormElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   onClick: (title: keyof RegisterProps["state"]["agreement"]) => void;
-  backgroundImage: PreviewCompatibleImageData;
-  questions: QuestionType[];
+  onModalButtonClick: ModalProps["onClick"];
+  onModalKeyDown: ModalProps["onKeyDown"];
 };
 const Register = ({
   info,
   state,
   questions,
   backgroundImage,
+  submitButtonRef,
   onChange,
   onSubmit,
   onClick,
+  onModalButtonClick,
+  onModalKeyDown,
 }: RegisterProps) => {
   const colors = useColors();
   const { value, agreement } = state;
   return (
-    <div
-      css={css`
-        display: flex;
-        width: 100%;
-        flex-direction: column;
-        position: relative;
-      `}
-    >
-      <PreviewCompatibleImage
-        css={css`
-          position: absolute;
-        `}
-        imageInfo={backgroundImage}
-      />
+    <React.Fragment>
       <div
         css={css`
           display: flex;
-          flex: 1;
-          flex-direction: column;
           width: 100%;
-          z-index: 1;
+          flex-direction: column;
+          position: relative;
         `}
       >
+        <PreviewCompatibleImage
+          aria-hidden={true}
+          css={css`
+            position: absolute;
+          `}
+          imageInfo={backgroundImage}
+        />
         <div
           css={css`
             display: flex;
             flex: 1;
             flex-direction: column;
-            max-width: min(100vw, 500px);
-            margin: 0 auto;
+            width: 100%;
+            z-index: 1;
           `}
         >
-          <h1
-            css={css`
-              color: ${colors.main};
-              text-shadow: 1px 1px 3px ${colors.gold};
-              font-size: 2.2rem;
-              margin-left: 1.5rem;
-              margin-right: 0;
-              padding: 0;
-              @media (max-width: 320px) {
-                margin: 1.5rem auto;
-              }
-            `}
-          >
-            Find Out More
-          </h1>
-          <form
+          <div
             css={css`
               display: flex;
+              flex: 1;
               flex-direction: column;
-              border-radius: 8px;
-              padding: 0.5rem;
-              margin-bottom: 2rem;
+              max-width: min(100vw, 500px);
+              margin: 0 auto;
             `}
-            onSubmit={(e) => {
-              e.preventDefault();
-              onSubmit(e);
-            }}
-            onChange={onChange}
           >
-            {info.map(({ name, title }) => (
-              <Input
-                key={name}
-                title={title}
-                name={name}
-                value={value[name]}
-                placeholder={""}
-                onChange={() => null}
-              />
-            ))}
-            {questions.map(({ question, answers }, idx) => (
-              <Question
-                key={question}
-                value={value[idx]}
-                question={question}
-                name={idx.toString()}
-                answers={answers}
-              />
-            ))}
-            <Agreement
+            <h1
               css={css`
-                margin: 1.5rem 0 0.8rem 0;
-                border-radius: 8px;
+                color: ${colors.main};
+                text-shadow: 1px 1px 3px ${colors.gold};
+                font-size: 2.2rem;
+                margin-left: 1.5rem;
+                margin-right: 0;
+                padding: 0;
+                @media (max-width: 600px) {
+                  margin: 2.5rem auto 1.5rem auto;
+                }
               `}
-              size={30}
-              checked={agreement.marketing}
-              onClick={() => onClick("marketing")}
-              title="마케팅 수신 동의"
-              content="<상품정보 제공, 이벤트 안내, 고객혜택 등 다양한 정보를 제공합니다.>"
-            />
-            <Agreement
+            >
+              Find Out More
+            </h1>
+            <form
               css={css`
+                display: flex;
+                flex-direction: column;
                 border-radius: 8px;
+                padding: 0.5rem;
+                margin-bottom: 2rem;
               `}
-              size={30}
-              checked={agreement.termsAndConditions}
-              onClick={() => onClick("termsAndConditions")}
-              title="개인정보 수집 및 이용 동의"
-              content={`관심고객등록 개인정보 수집동의 내용 공유드립니다.
+              onSubmit={(e) => {
+                e.preventDefault();
+                onSubmit(e);
+              }}
+              onChange={onChange}
+            >
+              {info.map(({ name, title }) => (
+                <Input
+                  key={name}
+                  title={title}
+                  name={name}
+                  value={value[name]}
+                  placeholder={""}
+                  onChange={() => null}
+                />
+              ))}
+              {questions.map(({ question, answers }, idx) => (
+                <Question
+                  key={question}
+                  value={value[idx]}
+                  question={question}
+                  name={idx.toString()}
+                  answers={answers}
+                />
+              ))}
+              <Agreement
+                css={css`
+                  margin: 1.5rem 0 0.8rem 0;
+                  border-radius: 8px;
+                `}
+                size={30}
+                checked={agreement.marketing}
+                onClick={() => onClick("marketing")}
+                title="마케팅 수신 동의"
+                content="<상품정보 제공, 이벤트 안내, 고객혜택 등 다양한 정보를 제공합니다.>"
+              />
+              <Agreement
+                css={css`
+                  border-radius: 8px;
+                `}
+                size={30}
+                checked={agreement.termsAndConditions}
+                onClick={() => onClick("termsAndConditions")}
+                title="개인정보 수집 및 이용 동의"
+                content={`관심고객등록 개인정보 수집동의 내용 공유드립니다.
               < 개인정보 수집 및 이용에 대한 안내 >
               '주식회사 트레이서', '주식회사 미래개발2', ‘주식회사 미래인' (이하 회사) 은 고객님의 개인정보를 중요시하며, "정보통신망 이용촉진 및 정보보호"에 관한 법률을 준수하고 있습니다. 회사는 개인정보취급방침을 통하여 고객님께서 제공하시는 개인정보가 어떠한 용도와 방식으로 이용되고 있으며, 개인정보보호를 위해 어떠한 조치가 취해지고 있는지 알려드립니다.
               고객님은 개인정보 수집 및 이용 동의에 거부하실 수 있습니다. 다만, 필수항목 동의를 거부하실 경우 관심고객등록이 제한됩니다.
@@ -169,32 +179,43 @@ const Register = ({
               2. 제공받는 자의 개인정보 이용목적 : 이벤트 등 업무 제휴 및 신규 분양 예정 상품 안내
               3. 제공하는 개인정보 항목 : 성명, 주소, 이메일, 전화번호 등
               4. 제공받는 자의 보유 및 이용기간 : 이용목적 달성 혹은 개인정보 제3자 제공 철회 시까지`}
-            />
-            <button
-              type="submit"
-              css={css`
-                margin-top: 1rem;
-                padding: 0.8rem 0;
-                font-size: 0.9rem;
-                background-color: ${colors.dark + "dd"};
-                color: #fefefedd;
-                border-radius: 8px;
-                border: 2px solid ${colors.widgetBorder};
-                transition: all 0.3s ease-in-out;
-                cursor: pointer;
-                &:hover {
-                  color: ${colors.gold};
-                  border-color: ${colors.gold};
-                  font-weight: bold;
-                }
-              `}
-            >
-              제출
-            </button>
-          </form>
+              />
+              <button
+                ref={submitButtonRef}
+                type="submit"
+                aria-haspopup="dialog"
+                css={css`
+                  margin-top: 1rem;
+                  padding: 0.8rem 0;
+                  font-size: 0.9rem;
+                  background-color: ${colors.dark + "dd"};
+                  color: #fefefedd;
+                  border-radius: 8px;
+                  border: 2px solid ${colors.widgetBorder};
+                  transition: all 0.3s ease-in-out;
+                  cursor: pointer;
+                  ${isDesktop
+                    ? `
+                    &:hover {
+                      color: ${colors.gold};
+                      border-color: ${colors.gold};
+                      font-weight: bold;
+                    }
+                    `
+                    : `
+                      color: ${colors.gold};
+                      border-color: ${colors.gold};
+                    `}
+                `}
+              >
+                제출
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+      <Modal onClick={onModalButtonClick} onKeyDown={onModalKeyDown} />
+    </React.Fragment>
   );
 };
 

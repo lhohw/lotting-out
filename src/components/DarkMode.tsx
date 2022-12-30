@@ -3,8 +3,12 @@ import { css } from "@emotion/react";
 import { useRecoilState } from "recoil";
 import { themeState, ThemeState, useColors } from "../recoil/theme";
 import { FiSun, FiMoon } from "react-icons/fi";
+import { isDesktop } from "react-device-detect";
 
-const DarkMode = () => {
+export type DarkModeProps = {
+  onFocus?: () => void;
+};
+const DarkMode = ({ onFocus }: DarkModeProps) => {
   const [theme, setTheme] = useRecoilState<ThemeState>(themeState);
   const colors = useColors();
   const setMode = useCallback(() => {
@@ -37,19 +41,24 @@ const DarkMode = () => {
         justify-content: center;
         cursor: pointer;
         background-color: inherit;
-        transition: all 0.125s ease-in-out;
         color: inherit;
         margin-right: 0.5rem;
         border: none;
         position: relative;
         overflow: hidden;
-        &:hover {
-          color: ${colors.gold};
-        }
+        ${isDesktop &&
+        `
+          &:hover {
+            color: ${colors.gold};
+          }
+          `}
       `}
       onClick={setMode}
+      onFocus={onFocus}
+      aria-label="테마 전환"
     >
       <FiMoon
+        aria-hidden={true}
         css={css`
           position: absolute;
           left: 0;
@@ -67,15 +76,17 @@ const DarkMode = () => {
             }`
             : null}
         `}
+        title="밝은 테마로 전환"
       />
       <FiSun
+        aria-hidden={true}
         css={css`
           position: absolute;
           left: 0;
           top: 0;
           width: 100%;
           height: 100%;
-          transition: all 0.6s ease-in-out;
+          transition: transform 0.6s ease-in-out, color 0.25s ease-in-out;
           transform-origin: center bottom;
           transform: ${theme === "light" || theme === "default"
             ? "rotate(0deg) scale(1)"
@@ -86,6 +97,7 @@ const DarkMode = () => {
             }`
             : null}
         `}
+        title="어두운 테마로 전환"
       />
     </button>
   );

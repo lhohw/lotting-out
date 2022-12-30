@@ -39,6 +39,7 @@ const Agreement = ({
           padding: 1rem;
           border: 1px solid ${colors.gold};
         `}
+        tabIndex={0}
       >
         {content.split("\n").map((c, i) => (
           <p

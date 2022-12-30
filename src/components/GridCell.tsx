@@ -18,6 +18,7 @@ const GridCell = ({
   return (
     <Link
       to={`/info/${title_en}`}
+      aria-labelledby={title_en}
       css={css`
         display: grid;
         border: 1px solid ${colors.widgetBorder};
@@ -43,11 +44,14 @@ const GridCell = ({
             &:hover::after {
               opacity: 0;
             }
-            
+            &:focus::after {
+              opacity: 0;
+            }
           `}
       `}
     >
       <span
+        id={title_en}
         css={css`
           position: absolute;
           z-index: 1;
