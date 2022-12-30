@@ -29,10 +29,17 @@ const Images = ({
         const image = imgs[i];
         if (typeof image.image === "string") {
           if (isPreview) image.image = getAsset!(image.image).url;
-          else
-            image.image = (
-              await import(`../../contents/category/${title_en}/${image.image}`)
-            ).default;
+          else {
+            try {
+              image.image = (
+                await import(
+                  `../../contents/category/${title_en}/${image.image}`
+                )
+              ).default;
+            } catch (e) {
+              //
+            }
+          }
         }
       }
     })().then(() => {
