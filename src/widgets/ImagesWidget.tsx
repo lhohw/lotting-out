@@ -19,7 +19,11 @@ class ImagesWidgetControl extends PureComponent<
     this.onRemove = this.onRemove.bind(this);
   }
   componentDidMount(): void {
-    if (this.props.value && "toJS" in this.props.value) {
+    if (
+      this.props.value &&
+      "toJS" in this.props.value &&
+      typeof this.props.value.toJS === "function"
+    ) {
       this.setState(this.props.value.toJS());
     }
   }
