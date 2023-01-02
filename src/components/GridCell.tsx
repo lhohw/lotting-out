@@ -2,17 +2,24 @@ import type { CategoryMenu } from "./Category";
 import React from "react";
 import { css } from "@emotion/react";
 import { Link } from "gatsby";
-import PreviewCompatibleImage from "./PreviewCompatibleImage";
+import PreviewCompatibleImage, {
+  PreviewCompatibleImageData,
+} from "./PreviewCompatibleImage";
 import { useColors } from "../recoil/theme/useTheme";
 import { isBrowser } from "react-device-detect";
 
-type GridCellProps = { gridColumn?: string; gridRow?: string } & CategoryMenu;
+type GridCellProps = {
+  gridColumn?: string;
+  gridRow?: string;
+  logo: PreviewCompatibleImageData;
+} & CategoryMenu;
 const GridCell = ({
   gridColumn = "auto",
   gridRow = "auto",
   title,
   title_en,
   thumbnail,
+  logo,
 }: GridCellProps) => {
   const colors = useColors();
   return (
@@ -72,6 +79,8 @@ const GridCell = ({
         <PreviewCompatibleImage
           imageInfo={{ image: thumbnail, title, alt: title }}
         />
+      ) : logo ? (
+        <PreviewCompatibleImage imageInfo={logo} />
       ) : null}
     </Link>
   );
