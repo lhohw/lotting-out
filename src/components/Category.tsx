@@ -37,9 +37,6 @@ const Category = ({ prioritized, filtered, register, logo }: CategoryProps) => {
           font-size: 1.1rem;
           grid-template-columns: repeat(2, 1fr);
         }
-        @media (max-width: 499px) {
-          grid-auto-rows: 8vw;
-        }
       `}
     >
       {arr.length
