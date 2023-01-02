@@ -4,12 +4,12 @@ import { micromark } from "micromark";
 import { useColors } from "../recoil/theme";
 
 export type MarkdownProps = {
+  className?: string;
   title_en: string;
   content: string;
-  contentComponent?: React.FC;
 };
 
-const Markdown = ({ content, title_en }: MarkdownProps) => {
+const Markdown = ({ content, title_en, className }: MarkdownProps) => {
   const colors = useColors();
   const [markdown, setMarkdown] = useState("");
   useEffect(() => {
@@ -48,6 +48,7 @@ const Markdown = ({ content, title_en }: MarkdownProps) => {
   }, [markdown, setMarkdown, content, title_en]);
   return (
     <div
+      className={className}
       css={css`
         display: flex;
         flex-direction: column;

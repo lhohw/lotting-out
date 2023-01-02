@@ -122,7 +122,13 @@ const Info = ({
               getAsset={getAsset}
             />
           ) : type === "markdown" ? (
-            <Markdown title_en={title_en} content={body} />
+            <Markdown
+              css={css`
+                display: ${i === idx ? "inherit" : "none"};
+              `}
+              title_en={title_en}
+              content={body}
+            />
           ) : null}
         </React.Fragment>
       ))}
