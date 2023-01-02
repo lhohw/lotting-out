@@ -1,4 +1,5 @@
 import type { PreviewTemplateComponentProps } from "netlify-cms-core";
+import type { RegisterProps } from "../../components/Register";
 import * as React from "react";
 import { css } from "@emotion/react";
 import Layout from "../../components/Layout";
@@ -19,13 +20,21 @@ export type InfoPageProps = {
         info: InfoProps["data"][number];
       };
     };
+    settingJson: {
+      questions: {
+        questions: RegisterProps["questions"];
+      };
+      info: RegisterProps["info"];
+    };
   };
   isPreview?: boolean;
   getAsset?: PreviewTemplateComponentProps["getAsset"];
 };
 const InfoPage = ({ data, isPreview, getAsset }: InfoPageProps) => {
   const colors = useColors();
-  const { title, title_en, info } = useFrontmatter(data);
+  const { mdx, settingJson } = data;
+  const { title, title_en, info } = useFrontmatter({ mdx });
+  const { questions, info: questionInfo } = settingJson;
   return (
     <Layout>
       <BackButton
@@ -42,7 +51,11 @@ const InfoPage = ({ data, isPreview, getAsset }: InfoPageProps) => {
         `}
       />
       {title_en === "register" ? (
-        <RegisterContainer backgroundImage={info?.sub[0]?.sub[0]?.images[0]} />
+        <RegisterContainer
+          backgroundImage={info?.sub[0]?.sub[0]?.images[0]}
+          questions={questions}
+          info={questionInfo}
+        />
       ) : (
         <div
           css={css`
@@ -80,11 +93,11 @@ export const query = graphql`
     mdx(id: { eq: $id }) {
       frontmatter {
         info {
-          markdown
+          body
           sub {
             type
             title
-            markdown
+            body
             images {
               image {
                 childImageSharp {
@@ -97,7 +110,7 @@ export const query = graphql`
             sub {
               type
               title
-              markdown
+              body
               images {
                 image {
                   childImageSharp {
@@ -122,6 +135,18 @@ export const query = graphql`
         }
         title
         title_en
+      }
+    }
+    settingJson(type: { eq: "questions" }) {
+      questions {
+        questions {
+          question
+          answers
+        }
+      }
+      info {
+        name
+        title
       }
     }
   }

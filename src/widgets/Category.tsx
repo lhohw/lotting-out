@@ -13,7 +13,7 @@ import Category from "../pages/info/{mdx.frontmatter__title_en}";
 export type CategoryControlState = {
   type: SelectKeys | "";
   images: ImageProps[];
-  markdown: "";
+  body: string;
   sub: CategoryControlState;
   title?: string;
 }[];
@@ -24,7 +24,7 @@ class CategoryControl extends PureComponent<WidgetProps, CategoryControlState> {
       {
         type: "",
         images: [],
-        markdown: "",
+        body: "",
         sub: [],
       },
     ];
@@ -114,7 +114,7 @@ class CategoryControl extends PureComponent<WidgetProps, CategoryControlState> {
           <MDXControl
             defaultKey=""
             onChange={onChange}
-            value={this.state[0].markdown}
+            value={this.state[0].body}
             widgetProps={this.props}
           />
         ) : null}
@@ -135,6 +135,44 @@ const CategoryPreview = ({
           frontmatter: {
             ...data,
           },
+        },
+        settingJson: {
+          questions: {
+            questions: [
+              {
+                question: "Temporary Question1",
+                answers: [
+                  "인프라 가까운 곳",
+                  "단지내 커뮤니티 가까운 곳",
+                  "조용한 곳",
+                  "공원이 가까운 곳",
+                  "상관없음",
+                ],
+              },
+              {
+                question: "Temporary Question2",
+                answers: ["있다", "고려해보겠다", "없다"],
+              },
+              {
+                question: "Temporary Question3",
+                answers: ["실거주", "투자+실거주", "투자", "증여"],
+              },
+            ],
+          },
+          info: [
+            {
+              name: "name",
+              title: "Temporary name",
+            },
+            {
+              name: "phoneNumber",
+              title: "Temporary phone",
+            },
+            {
+              name: "email",
+              title: "Temporary email",
+            },
+          ],
         },
       }}
       isPreview={true}

@@ -7,7 +7,6 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { graphql, useStaticQuery } from "gatsby";
 import Register from "../components/Register";
 import produce from "immer";
 import { useRecoilState } from "recoil";
@@ -15,38 +14,18 @@ import { modalState as ms, ModalState } from "../recoil/modal";
 
 export type RegisterContainerProps = {
   backgroundImage: PreviewCompatibleImageData;
+  questions: {
+    questions: RegisterProps["questions"];
+  };
+  info: RegisterProps["info"];
 };
 export type RegisterContainerState = RegisterProps["state"];
-export type RegisterContainerData = {
-  settingJson: {
-    questions: {
-      questions: RegisterProps["questions"];
-    };
-    info: RegisterProps["info"];
-  };
-};
 
-const RegisterContainer = ({ backgroundImage }: RegisterContainerProps) => {
-  const { settingJson } = useStaticQuery<RegisterContainerData>(graphql`
-    {
-      settingJson(type: { eq: "questions" }) {
-        questions {
-          questions {
-            question
-            answers
-          }
-        }
-        info {
-          name
-          title
-        }
-      }
-    }
-  `);
-  const {
-    questions: { questions },
-    info,
-  } = settingJson;
+const RegisterContainer = ({
+  backgroundImage,
+  questions: { questions },
+  info,
+}: RegisterContainerProps) => {
   const initialState: RegisterContainerState = useMemo(
     () => ({
       value: {
