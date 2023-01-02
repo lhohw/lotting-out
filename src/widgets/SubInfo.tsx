@@ -43,7 +43,7 @@ class SubInfoControl extends PureComponent<SubInfoControlProps> {
         type: "",
         title: "",
         images: [],
-        markdown: "",
+        body: "",
         sub: [],
       }),
       defaultKey
@@ -74,7 +74,7 @@ class SubInfoControl extends PureComponent<SubInfoControlProps> {
           `}
         >
           {value.length
-            ? value.map(({ type, title, images, sub, markdown }, idx) => (
+            ? value.map(({ type, title, images, sub, body }, idx) => (
                 <div
                   key={idx}
                   css={css`
@@ -120,7 +120,7 @@ class SubInfoControl extends PureComponent<SubInfoControlProps> {
                   ) : type === "markdown" ? (
                     <MDXControl
                       defaultKey={`${defaultKey}|${idx}`}
-                      value={markdown}
+                      value={body}
                       onChange={onChange}
                       widgetProps={widgetProps}
                     />

@@ -4,13 +4,14 @@ import { css } from "@emotion/react";
 import { v4 as uuidv4 } from "uuid";
 import { PreviewCompatibleImageData } from "./PreviewCompatibleImage";
 import Images from "./Images";
+import Markdown from "./Markdown";
 import { useColors } from "../recoil/theme/useTheme";
 
 export type InfoProps = {
   data: {
     type: "subInfo" | "images" | "markdown";
     images: PreviewCompatibleImageData[];
-    markdown: string;
+    body: string;
     sub: InfoProps["data"];
     title?: string;
   }[];
@@ -97,7 +98,7 @@ const Info = ({
           ))}
         </div>
       ) : null}
-      {data.map(({ type, images, markdown, sub }, i) => (
+      {data.map(({ type, images, body, sub }, i) => (
         <React.Fragment key={uuidv4()}>
           {type === "images" ? (
             <Images
@@ -121,7 +122,7 @@ const Info = ({
               getAsset={getAsset}
             />
           ) : type === "markdown" ? (
-            <span>{`markdown: ${markdown}`}</span>
+            <Markdown title_en={title_en} content={body} />
           ) : null}
         </React.Fragment>
       ))}

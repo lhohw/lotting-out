@@ -102,6 +102,7 @@ const IndexPage = ({ data }: IndexPageData) => {
         prioritized={prioritized}
         filtered={filtered}
         register={register}
+        logo={logo}
       />
       <Footer apartment={apartment} {...rest} />
       <RegisterButton />
@@ -117,11 +118,11 @@ export const query = graphql`
           id
           frontmatter {
             info {
-              markdown
+              body
               sub {
                 type
                 title
-                markdown
+                body
                 images {
                   image {
                     childImageSharp {
@@ -134,7 +135,7 @@ export const query = graphql`
                 sub {
                   type
                   title
-                  markdown
+                  body
                   images {
                     image {
                       childImageSharp {
