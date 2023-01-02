@@ -35,5 +35,5 @@ CMS.registerWidget(
   "customList",
   // @ts-ignore
   ListWidget.ListControl,
-  withEmotion("customList", ListWidget.ListPreview)
+  withEmotion("custom-list", ListWidget.ListPreview)
 );

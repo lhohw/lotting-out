@@ -30,7 +30,6 @@ const config: GatsbyConfig = {
     "gatsby-plugin-mdx",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
-    "gatsby-transformer-remark",
     {
       resolve: "gatsby-source-filesystem",
       options: {
@@ -63,6 +62,20 @@ const config: GatsbyConfig = {
       },
       __key: "category",
     },
+    // {
+    //   resolve: "gatsby-transformer-remark",
+    //   options: {
+    //     plugins: [
+    //       "gatsby-remark-relative-images",
+    //       {
+    //         resolve: "gatsby-remark-images",
+    //         options: {
+    //           maxWidth: 2048,
+    //         },
+    //       },
+    //     ],
+    //   },
+    // },
     {
       resolve: "gatsby-plugin-netlify-cms",
       options: {
