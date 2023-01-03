@@ -24,7 +24,7 @@ const GridCell = ({
   const colors = useColors();
   return (
     <Link
-      to={`/info/${title_en}`}
+      to={`/info/${title_en.split(" ").join("-")}`}
       aria-labelledby={title_en}
       css={css`
         display: grid;

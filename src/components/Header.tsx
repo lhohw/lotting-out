@@ -175,7 +175,7 @@ const Header = ({
                   margin: 0;
                 }
               `}
-              to={`/info/${title_en}`}
+              to={`/info/${title_en.split(" ").join("-")}`}
             >
               <h2
                 css={css`
