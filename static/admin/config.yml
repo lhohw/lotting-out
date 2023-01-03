@@ -82,6 +82,8 @@ collections: # A list of collections the CMS should be able to edit
     extension: "mdx"
     format: "frontmatter"
     create: true
+    summary: "{{priority}} - {{title}}"
+    sortable_fields: ["priority"]
     fields:
       - { label: "Template Key", name: "templateKey", widget: "hidden", default: "category" }
       - { label: "제목(한글)", name: "title", widget: "string" }
@@ -96,4 +98,5 @@ collections: # A list of collections the CMS should be able to edit
           상품안내 - production |
           프리미엄 - premium |
           관심고객등록 - register
+      - { label: "우선순위", name: "priority", widget: "number", value_type: "int", min: 1, max: 100, step: 1, default: 99 }
       - { label: "정보", name: "info", widget: "category" }

@@ -1,5 +1,5 @@
 import type { MenuTitle } from "./Header";
-import React, { useMemo } from "react";
+import React from "react";
 import { css } from "@emotion/react";
 import { PreviewCompatibleImageData } from "./PreviewCompatibleImage";
 import GridCell from "./GridCell";
@@ -8,19 +8,13 @@ import { useColors } from "../recoil/theme/useTheme";
 export type CategoryMenu = MenuTitle & {
   thumbnail: PreviewCompatibleImageData["image"];
 };
-export type CategoryProps = Record<
-  "prioritized" | "filtered" | "register",
-  CategoryMenu[]
-> & {
+export type CategoryProps = {
+  menu: CategoryMenu[];
   logo: PreviewCompatibleImageData;
 };
 
-const Category = ({ prioritized, filtered, register, logo }: CategoryProps) => {
+const Category = ({ menu, logo }: CategoryProps) => {
   const colors = useColors();
-  const arr = useMemo(
-    () => prioritized.concat(filtered).concat(register),
-    [prioritized, filtered, register]
-  );
   return (
     <section
       css={css`
@@ -45,8 +39,8 @@ const Category = ({ prioritized, filtered, register, logo }: CategoryProps) => {
         }
       `}
     >
-      {arr.length
-        ? arr.map((categoryMenu) => (
+      {menu.length
+        ? menu.map((categoryMenu) => (
             <GridCell
               key={categoryMenu.title}
               {...categoryMenu}

@@ -21,6 +21,7 @@ export type IndexPageData = {
             title: string;
             title_en: string;
             info: InfoProps["data"][number];
+            priority: number;
           };
         };
       }[];
@@ -49,10 +50,17 @@ const IndexPage = ({ data }: IndexPageData) => {
     },
     []
   );
-  const menu: CategoryMenu[] = data.allMdx.edges.map((edge) => {
-    const { title, title_en, info } = edge.node.frontmatter;
-    return { title, title_en, thumbnail: findImage(info) };
-  });
+  const menu: CategoryMenu[] = useMemo(
+    () =>
+      data.allMdx.edges
+        .map((edge) => {
+          const { title, title_en, info, priority } = edge.node.frontmatter;
+          return { title, title_en, thumbnail: findImage(info), priority };
+        })
+        .sort((a, b) => a.priority - b.priority),
+    [data.allMdx.edges, findImage]
+  );
+
   const {
     logo,
     slider: { images: imageInfos },
@@ -61,49 +69,15 @@ const IndexPage = ({ data }: IndexPageData) => {
     ...rest
   } = data.settingJson;
 
-  const prioritized: CategoryMenu[] = useMemo(
-    () =>
-      menu.filter(
-        ({ title }) =>
-          title === "사업개요" || title === "입지환경" || title === "상품안내"
-      ),
-    [menu]
-  );
-  const register: CategoryMenu[] = useMemo(
-    () => menu.filter(({ title }) => title === "관심고객등록"),
-    [menu]
-  );
-  const filtered: CategoryMenu[] = useMemo(
-    () =>
-      menu.filter(
-        ({ title }) =>
-          !(
-            title === "사업개요" ||
-            title === "입지환경" ||
-            title === "상품안내" ||
-            title === "관심고객등록"
-          )
-      ),
-    [menu]
-  );
-  const sortedMenu = useMemo(
-    () => [...prioritized, ...filtered, ...register],
-    [prioritized, filtered, register]
-  );
   return (
     <Layout>
-      <HeaderContainer menu={sortedMenu} logo={logo} />
+      <HeaderContainer menu={menu} logo={logo} />
       <SliderContainer
         imageInfos={imageInfos}
         apartment={apartment}
         short={short}
       />
-      <Category
-        prioritized={prioritized}
-        filtered={filtered}
-        register={register}
-        logo={logo}
-      />
+      <Category menu={menu} logo={logo} />
       <Footer apartment={apartment} {...rest} />
       <RegisterButton />
     </Layout>
@@ -160,6 +134,7 @@ export const query = graphql`
             }
             title
             title_en
+            priority
           }
         }
       }
