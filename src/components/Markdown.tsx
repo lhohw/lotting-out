@@ -53,8 +53,10 @@ const Markdown = ({ content, title_en, className }: MarkdownProps) => {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        margin: 0 2rem;
+        padding: 1rem 2rem;
         max-width: 800px;
+        min-width: min(800px, 100vw);
+        font-size: 1.05rem;
         & > ul {
           padding: 0.5rem;
           margin-left: 1rem;

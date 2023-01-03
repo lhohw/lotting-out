@@ -25,14 +25,20 @@ const Category = ({ prioritized, filtered, register, logo }: CategoryProps) => {
     <section
       css={css`
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-auto-rows: 30vw;
-        margin: 3rem 1rem;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 20vw;
+        margin: 3rem auto;
+        padding: 0 1rem;
         grid-auto-flow: row;
         justify-content: end;
         font-size: 1.5rem;
         font-family: Song Myung;
         color: ${colors.background};
+        max-width: 1400px;
+        @media (max-width: 1024px) {
+          grid-template-columns: repeat(3, 1fr);
+          grid-auto-rows: 30vw;
+        }
         @media (max-width: 768px) {
           font-size: 1.1rem;
           grid-template-columns: repeat(2, 1fr);

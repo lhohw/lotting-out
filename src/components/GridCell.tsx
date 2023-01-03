@@ -29,7 +29,7 @@ const GridCell = ({
       css={css`
         display: grid;
         border: 1px solid ${colors.widgetBorder};
-        margin: 0.4rem;
+        margin: 0.5rem;
         cursor: pointer;
         grid-column: ${gridColumn};
         grid-row: ${gridRow};

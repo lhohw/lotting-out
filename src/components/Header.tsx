@@ -7,6 +7,7 @@ import PreviewCompatibleImage, {
   PreviewCompatibleImageData,
 } from "./PreviewCompatibleImage";
 import DarkMode from "./DarkMode";
+import { isDesktop } from "react-device-detect";
 
 export type MenuTitle = {
   title: string;
@@ -122,27 +123,32 @@ const Header = ({
           <li
             key={idx}
             css={css`
-              max-width: 100px;
-              min-width: ${title === "관심고객등록" ? "100px" : "50px"};
-              width: 100px;
-              justify-content: center;
-              align-items: center;
               padding: 0;
+              margin: 0;
               transition: all 0.15s ease-in-out;
-              display: flex;
-              flex: 1;
               font-weight: bold;
               font-family: Nanum Gothic;
-              color: inherit;
               word-break: keep-all;
-              @media (max-width: 600px) {
-                color: #d1d1d1;
-                width: 100%;
-                max-width: 100%;
-                min-width: ${isOpen ? "auto" : "100px"};
-                background-color: #12121277;
+              color: #d1d1d1;
+              width: 100%;
+              max-width: 100%;
+              min-width: ${isOpen ? "auto" : "100px"};
+              background-color: #12121277;
+              ${isDesktop &&
+              `
                 &:hover {
                   background-color: #121212aa;
+                }
+                `}
+              @media (min-width: 601px) {
+                margin: 0.2rem;
+                color: inherit;
+                width: auto;
+                max-width: auto;
+                min-width: auto;
+                background-color: inherit;
+                &:hover {
+                  background-color: inherit;
                 }
               }
             `}
@@ -150,12 +156,23 @@ const Header = ({
             <Link
               data-idx={idx}
               css={css`
+                padding: 0.5rem;
                 margin: 0.1rem;
                 width: 100%;
                 height: 100%;
-                &:hover {
-                  font-weight: 900;
-                  color: ${colors.gold};
+                display: flex;
+                flex: 1;
+                align-items: center;
+                justify-content: center;
+                ${isDesktop &&
+                `
+                  &:hover {
+                    font-weight: 900;
+                    color: ${colors.gold};
+                  }
+                  `}
+                @media (min-width: 601px) {
+                  margin: 0;
                 }
               `}
               to={`/info/${title_en}`}
@@ -163,7 +180,7 @@ const Header = ({
               <h2
                 css={css`
                   padding: 0;
-                  margin: 0.5rem 0;
+                  margin: 0;
                   font-size: inherit;
                 `}
               >
