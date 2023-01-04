@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { css } from "@emotion/react";
 import { useColors } from "../recoil/theme/useTheme";
 
@@ -91,6 +91,7 @@ export type FooterProps = Record<
   | "email",
   string
 >;
+
 const Footer = ({
   corporate,
   name,
@@ -102,6 +103,31 @@ const Footer = ({
   email,
 }: FooterProps) => {
   const colors = useColors();
+  const data = useMemo(
+    () => [
+      {
+        title: "Infomation",
+        info: `
+        아파트명: ${apartment}\n
+        회사명: ${corporate}\n
+        대표자: ${name}\n
+        사업자등록번호: ${RN}\n
+        통신판매업신고: ${declaration}
+        `,
+      },
+      {
+        title: "Come visit us",
+        info: address,
+      },
+      {
+        title: "Contact Us",
+        info: `
+    E-mail. ${email}\n
+    Call. ${phoneNumber}`,
+      },
+    ],
+    [RN, address, apartment, corporate, declaration, email, name, phoneNumber]
+  );
   return (
     <footer
       css={css`
@@ -134,29 +160,15 @@ const Footer = ({
               }
             `}
           >
-            <Item
-              title="Infomation"
-              info={`
-            아파트명: ${apartment}\n
-            회사명: ${corporate}\n
-            대표자: ${name}\n
-            사업자등록번호: ${RN}\n
-            통신판매업신고: ${declaration}
-            `}
-            />
-            <Item title="Come visit us" info={address} />
-            <Item
-              title="Contact Us"
-              info={`
-            E-mail. ${email}\n
-            Call. ${phoneNumber}`}
-            />
+            {data.map(({ title, info }) => (
+              <Item key={title} title={title} info={info} />
+            ))}
           </div>
         </div>
       </div>
       <span
         css={css`
-          margin: 0.8rem 0 1.1rem 6.35rem;
+          margin: 1.1rem 0 1.1rem 6.35rem;
           font-weight: 600;
           font-size: 0.8rem;
           color: ${colors.widgetBorder};
