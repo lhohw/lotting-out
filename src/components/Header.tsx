@@ -45,7 +45,6 @@ const Header = ({
           width: 100px;
           min-width: 100px;
           height: 100%;
-          box-shadow: 0px 0px 4px ${colors.text};
           margin-left: 4rem;
           @media (max-width: 768px) {
             margin-left: 2rem;
@@ -61,6 +60,7 @@ const Header = ({
             width: 100%;
             height: 100%;
             object-fit: cover;
+            background-color: transparent;
           `}
           imageInfo={logo}
         />
