@@ -10,6 +10,7 @@ import SliderContainer from "../containers/SliderContainer";
 import Category from "../components/Category";
 import Footer, { FooterProps } from "../components/Footer";
 import RegisterButton from "../components/RegisterButton";
+import KakaoChatButton from "../components/KakaoChatButton";
 
 export type IndexPageData = {
   data: {
@@ -80,6 +81,7 @@ const IndexPage = ({ data }: IndexPageData) => {
       <Category menu={menu} logo={logo} />
       <Footer apartment={apartment} {...rest} />
       <RegisterButton />
+      <KakaoChatButton />
     </Layout>
   );
 };

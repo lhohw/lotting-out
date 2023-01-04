@@ -90,7 +90,7 @@ const Seo = ({ title }: SeoProps) => {
       <meta name="title" content={`${apartment} - 집이 라이프를 바꾸는 순간`} />
       <meta
         name="description"
-        content={`${apartment} 총 809세대 대단지 블록형 단독주택, ${menu} 등 여러 카테고리에서 정보를 확인하세요.`}
+        content={`${apartment} ${short}, ${menu} 등 여러 카테고리에서 정보를 확인하세요.`}
       />
       <meta name="keywords" content={list.join(" ")} />
       <meta name="theme-color" content="#c6aa94" />
