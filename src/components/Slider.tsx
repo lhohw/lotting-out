@@ -41,61 +41,63 @@ const Slider = ({
       `}
     >
       <Jumbotron title={apartment} content={short} />
-      <div
-        ref={slider}
-        style={{
-          transform: wrapper?.current
-            ? `translateX(${-wrapper.current.clientWidth * (idx + 1)}px)`
-            : `translateX(-100vw)`,
-        }}
-        css={css`
-          display: flex;
-          flex-direction: row;
-          width: ${100 * (imageInfos.length + 2)}vw;
-          height: 100%;
-          will-change: transform;
-          transition: transform 0.4s ease-in-out;
-        `}
-      >
-        <PreviewCompatibleImage
-          aria-hidden={true}
-          key={"-1"}
+      {!wrapper?.current ? null : (
+        <div
+          ref={slider}
+          style={{
+            transform: `translateX(${
+              -wrapper.current.clientWidth * (idx + 1)
+            }px)`,
+          }}
           css={css`
-            width: 100vw;
+            display: flex;
+            flex-direction: row;
+            width: ${100 * (imageInfos.length + 2)}vw;
             height: 100%;
-            object-fit: cover;
+            will-change: transform;
+            transition: transform 0.4s ease-in-out;
           `}
-          loading="eager"
-          imageInfo={imageInfos[imageInfos.length - 1]}
-          draggable={false}
-        />
-        {imageInfos.map((imageInfo, i) => (
+        >
           <PreviewCompatibleImage
             aria-hidden={true}
-            key={i}
+            key={"-1"}
             css={css`
-              width: 100vw;
+              width: ${wrapper.current.clientWidth};
               height: 100%;
               object-fit: cover;
             `}
             loading="eager"
-            imageInfo={imageInfo}
+            imageInfo={imageInfos[imageInfos.length - 1]}
             draggable={false}
           />
-        ))}
-        <PreviewCompatibleImage
-          aria-hidden={true}
-          key={imageInfos.length.toString()}
-          css={css`
-            width: 100vw;
-            height: 100%;
-            object-fit: cover;
-          `}
-          loading="eager"
-          imageInfo={imageInfos[0]}
-          draggable={false}
-        />
-      </div>
+          {imageInfos.map((imageInfo, i) => (
+            <PreviewCompatibleImage
+              aria-hidden={true}
+              key={i}
+              css={css`
+                width: ${wrapper.current.clientWidth};
+                height: 100%;
+                object-fit: cover;
+              `}
+              loading="eager"
+              imageInfo={imageInfo}
+              draggable={false}
+            />
+          ))}
+          <PreviewCompatibleImage
+            aria-hidden={true}
+            key={imageInfos.length.toString()}
+            css={css`
+              width: ${wrapper.current.clientWidth};
+              height: 100%;
+              object-fit: cover;
+            `}
+            loading="eager"
+            imageInfo={imageInfos[0]}
+            draggable={false}
+          />
+        </div>
+      )}
       <div
         ref={wrapper}
         css={css`
