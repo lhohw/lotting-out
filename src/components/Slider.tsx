@@ -52,7 +52,7 @@ const Slider = ({
           css={css`
             display: flex;
             flex-direction: row;
-            width: ${100 * (imageInfos.length + 2)}vw;
+            width: ${(imageInfos.length + 2) * wrapper.current.clientWidth}px;
             height: 100%;
             will-change: transform;
             transition: transform 0.4s ease-in-out;
