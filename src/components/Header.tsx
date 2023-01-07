@@ -59,9 +59,9 @@ const Header = ({
           css={css`
             width: 100%;
             height: 100%;
-            object-fit: cover;
             background-color: transparent;
           `}
+          objectFit="contain"
           imageInfo={logo}
         />
       </Link>
