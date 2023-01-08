@@ -9,8 +9,7 @@ import HeaderContainer from "../containers/HeaderContainer";
 import SliderContainer from "../containers/SliderContainer";
 import Category from "../components/Category";
 import Footer, { FooterProps } from "../components/Footer";
-import RegisterButton from "../components/RegisterButton";
-import KakaoChatButton from "../components/KakaoChatButton";
+import ControlButtonContainer from "../containers/ControlButtonContainer";
 
 export type IndexPageData = {
   data: {
@@ -80,8 +79,7 @@ const IndexPage = ({ data }: IndexPageData) => {
       />
       <Category menu={menu} logo={logo} />
       <Footer apartment={apartment} {...rest} />
-      <RegisterButton />
-      <KakaoChatButton />
+      <ControlButtonContainer phoneNumber={rest.phoneNumber} />
     </Layout>
   );
 };
