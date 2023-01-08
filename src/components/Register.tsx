@@ -78,8 +78,9 @@ const Register = ({
               display: flex;
               flex: 1;
               flex-direction: column;
-              max-width: min(100vw, 500px);
+              max-width: min(100%, 500px);
               margin: 0 auto;
+              overflow-x: hidden;
             `}
           >
             <h1

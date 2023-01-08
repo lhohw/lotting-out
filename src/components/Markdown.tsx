@@ -55,7 +55,7 @@ const Markdown = ({ content, title_en, className }: MarkdownProps) => {
         align-items: flex-start;
         padding: 1rem 2rem;
         max-width: 800px;
-        min-width: min(800px, 100vw);
+        min-width: min(800px, 100%);
         font-size: 1.05rem;
         & > ul {
           padding: 0.5rem;

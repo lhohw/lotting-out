@@ -22,7 +22,7 @@ const Modal = ({ onClick, onKeyDown }: ModalProps) => {
       aria-modal="true"
       css={css`
         position: fixed;
-        width: 100vw;
+        width: 100%;
         height: 100vh;
         left: 0;
         top: 0;
@@ -46,7 +46,7 @@ const Modal = ({ onClick, onKeyDown }: ModalProps) => {
           display: flex;
           flex-direction: column;
           align-items: center;
-          min-width: min(320px, calc(100vw - 2rem));
+          min-width: min(320px, calc(100% - 2rem));
           max-width: 500px;
           border: 1px solid ${colors.gold};
           border-radius: 8px;
@@ -63,12 +63,18 @@ const Modal = ({ onClick, onKeyDown }: ModalProps) => {
         </h2>
         <p
           css={css`
+            display: flex;
+            flex-direction: column;
             padding: 1rem;
             word-break: break-all;
+            align-items: center;
             color: ${colors.widgetBorder};
+            line-height: 1.7;
           `}
         >
-          {state.content}
+          {state.content.split("\n").map((c, i) => (
+            <span key={i}>{c}</span>
+          ))}
         </p>
         <menu
           css={css`
