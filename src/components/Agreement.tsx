@@ -35,7 +35,8 @@ const Agreement = ({
       <div
         css={css`
           max-height: 20rem;
-          overflow: scroll;
+          overflow-y: scroll;
+          overflow-x: hidden;
           padding: 1rem;
           border: 1px solid ${colors.gold};
         `}

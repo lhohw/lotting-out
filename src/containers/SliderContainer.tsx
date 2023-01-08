@@ -91,7 +91,7 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
       const dy = e.touches[0].pageY - y;
       const dx = nextX - x;
       prevTouchY.current = y + dy;
-      if (Math.abs(dx) < 5 || Math.abs(dy) >= 3) {
+      if (isMobile && (Math.abs(dx) < 5 || Math.abs(dy) >= 3)) {
         prevTouchX.current = e.touches[0].pageX;
         timer.current = Date.now();
         return;

@@ -48,9 +48,8 @@ const Modal = ({ onClick, onKeyDown }: ModalProps) => {
           align-items: center;
           min-width: min(320px, calc(100% - 2rem));
           max-width: 500px;
-          border: 1px solid ${colors.gold};
+          border: 2px solid ${colors.gold};
           border-radius: 8px;
-          box-shadow: 1px 1px 2px ${colors.gold};
         `}
       >
         <h2

@@ -83,6 +83,7 @@ const Seo = ({ title }: SeoProps) => {
   return (
     <>
       <meta charSet="utf-8" />
+      <meta httpEquiv="X-UA-Compatible" content="IE=edge"></meta>
       <meta
         name="viewport"
         content="width=device-width, viewport-fit=cover, initial-scale=1.0, minimum-scale=0, maximum-scale=10, user-scalable=yes"
