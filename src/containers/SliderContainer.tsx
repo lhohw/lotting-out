@@ -6,6 +6,7 @@ import { sliderState } from "../recoil/slider";
 import Slider from "../components/Slider";
 import produce from "immer";
 import { isMobile } from "react-device-detect";
+import { HeaderState, headerState as hs } from "../recoil/header";
 
 export type SliderData = {
   imageInfos: PreviewCompatibleImageData[];
@@ -14,11 +15,13 @@ export type SliderData = {
 };
 const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
   const [state, setState] = useRecoilState<SliderState>(sliderState);
+  const [headerState, setHeaderState] = useRecoilState<HeaderState>(hs);
 
   const timer = useRef(Date.now());
   const flag = useRef(1);
   const prev = useRef(0);
-  const prevTouch = useRef(0);
+  const prevTouchX = useRef(0);
+  const prevTouchY = useRef(0);
   const slider = useRef<HTMLDivElement>(null!);
   const wrapper = useRef<HTMLDivElement>(null!);
   const threshold = useMemo(() => 50, []);
@@ -48,7 +51,6 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
       const width = wrapper.current.clientWidth;
       const x = getTransform(slider.current);
       let nextX = x + (e.movementX / 3) * 2;
-      // let nextX = x + e.movementX * 2;
       if (state.idx === 0) {
         if (flag.current === 1) {
           if (nextX >= -width + threshold) {
@@ -83,7 +85,17 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
       if (timer.current + 1000 / 60 > Date.now()) return;
       const width = wrapper.current.clientWidth;
       const x = getTransform(slider.current);
-      let nextX = x + (e.touches[0].pageX - prevTouch.current);
+      const y = prevTouchY.current || e.touches[0].pageY;
+      let nextX = x + (e.touches[0].pageX - prevTouchX.current);
+
+      const dy = e.touches[0].pageY - y;
+      const dx = nextX - x;
+      prevTouchY.current = y + dy;
+      if (Math.abs(dx) < 5 || Math.abs(dy) >= 3) {
+        prevTouchX.current = e.touches[0].pageX;
+        timer.current = Date.now();
+        return;
+      }
       if (state.idx === 0) {
         if (flag.current === 1) {
           if (nextX >= -width + threshold) {
@@ -109,21 +121,22 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
         }
       }
       slider.current.style.transform = `translateX(${nextX}px)`;
-      prevTouch.current = e.touches[0].pageX;
+      prevTouchX.current = e.touches[0].pageX;
       timer.current = Date.now();
     },
     [getTransform, state.idx, imageInfos.length, threshold]
   );
   const onTouchStart = useCallback(
     (e: TouchEvent) => {
+      if (headerState.isOpen) setHeaderState({ ...headerState, isOpen: false });
       const target = e.target as HTMLElement;
       if (!target || target.tagName !== "DIV") return;
-      prevTouch.current = e.touches[0].pageX;
+      prevTouchX.current = e.touches[0].pageX;
       prev.current = -wrapper.current.clientWidth * (state.idx + 1);
       slider.current.style.transition = "none";
       wrapper.current.addEventListener("touchmove", onTouchMove);
     },
-    [onTouchMove, state.idx]
+    [onTouchMove, state.idx, headerState, setHeaderState]
   );
   const onTouchEnd = useCallback(() => {
     const prevX = prev.current;
