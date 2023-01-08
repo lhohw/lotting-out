@@ -11,6 +11,7 @@ import Register from "../components/Register";
 import produce from "immer";
 import { useRecoilState } from "recoil";
 import { modalState as ms, ModalState } from "../recoil/modal";
+import useModal from "../utils/hooks/useModal";
 
 export type RegisterContainerProps = {
   backgroundImage: PreviewCompatibleImageData;
@@ -44,29 +45,10 @@ const RegisterContainer = ({
   );
 
   const [state, setState] = useState<RegisterContainerState>(initialState);
-  const [modalState, setModalState] = useRecoilState<ModalState>(ms);
+  const [modalState] = useRecoilState<ModalState>(ms);
   const submitButton = useRef<HTMLButtonElement>(null);
 
-  const hideModal = useCallback(() => {
-    const nextState = produce(modalState, (draft) => {
-      draft.title = "";
-      draft.content = "";
-      (draft.isVisible = false), (draft.buttons = []);
-    });
-    setModalState(nextState);
-  }, [modalState, setModalState]);
-
-  const showModal = useCallback(
-    ({ title, content, buttons }: Omit<ModalState, "isVisible">) => {
-      const nextState = produce(modalState, (draft) => {
-        draft.title = title;
-        draft.content = content;
-        (draft.isVisible = true), (draft.buttons = buttons);
-      });
-      setModalState(nextState);
-    },
-    [modalState, setModalState]
-  );
+  const { hideModal, showModal } = useModal();
 
   useEffect(() => {
     return () => {
