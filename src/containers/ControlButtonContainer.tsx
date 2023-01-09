@@ -32,14 +32,7 @@ const ControlButtonContainer = ({
 
   const chatChannel = useCallback(() => {
     const windowWithKakao = globalThis as typeof globalThis & KakaoVariable;
-    if (!process.env.GATSBY_KAKAO_KEY) {
-      console.log("key is not defined");
-      return;
-    }
-    if (!windowWithKakao.Kakao) {
-      console.log("Kakao CDN is not loaded");
-      return;
-    }
+    if (!process.env.GATSBY_KAKAO_KEY || !windowWithKakao.Kakao) return;
 
     const { Kakao } = windowWithKakao;
     if (!Kakao.isInitialized()) {
@@ -51,7 +44,6 @@ const ControlButtonContainer = ({
       });
       return;
     }
-    console.log("Kakao channel or id is not defined");
   }, []);
   const onModalButtonClick = useCallback<ModalProps["onClick"]>(
     (e) => {
