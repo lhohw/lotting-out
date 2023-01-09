@@ -227,13 +227,11 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    const onResize = (e: UIEvent) => {
-      const target = e.target as EventTarget & { innerWidth: number };
+    const onResize = () => {
       slider.current.style.transition = "none";
-      slider.current.style.width = `${
-        target.innerWidth * (imageInfos.length + 2)
-      }px`;
-      const nextX = -target.innerWidth * (state.idx + 1);
+      const { width } = wrapper.current.getClientRects()[0];
+      slider.current.style.width = `${width * (imageInfos.length + 2)}px`;
+      const nextX = -width * (state.idx + 1);
       slider.current.style.transform = `translateX(${nextX}px)`;
       prev.current = nextX;
     };
