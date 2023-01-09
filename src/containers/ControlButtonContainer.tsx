@@ -45,13 +45,13 @@ const ControlButtonContainer = ({
     if (!Kakao.isInitialized()) {
       Kakao.init(process.env.GATSBY_KAKAO_KEY);
     }
-    if (Kakao.Channel) {
+    if (Kakao.Channel && process.env.GATSBY_KAKAO_CHANNEL_ID) {
       Kakao.Channel.chat({
-        channelPublicId: "_vlXxcb",
+        channelPublicId: process.env.GATSBY_KAKAO_CHANNEL_ID,
       });
       return;
     }
-    console.log("Kakao channel is not defined");
+    console.log("Kakao channel or id is not defined");
   }, []);
   const onModalButtonClick = useCallback<ModalProps["onClick"]>(
     (e) => {
