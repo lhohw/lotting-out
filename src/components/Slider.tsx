@@ -1,4 +1,8 @@
-import React from "react";
+import React, {
+  MutableRefObject,
+  MouseEventHandler,
+  TouchEventHandler,
+} from "react";
 import { css } from "@emotion/react";
 
 import PreviewCompatibleImage, {
@@ -7,15 +11,21 @@ import PreviewCompatibleImage, {
 import Jumbotron from "./Jumbotron";
 import Dots from "./Dots";
 import { useColors } from "../recoil/theme";
+import { isMobile } from "react-device-detect";
 
 export type SliderProps = {
-  slider: React.MutableRefObject<HTMLDivElement>;
-  wrapper: React.MutableRefObject<HTMLDivElement>;
+  slider: MutableRefObject<HTMLDivElement>;
+  wrapper: MutableRefObject<HTMLDivElement>;
   apartment: string;
   short: string;
   idx: number;
   imageInfos: PreviewCompatibleImageData[];
   handleIndex: (idx: number) => void;
+  onTouchStart: TouchEventHandler<HTMLDivElement>;
+  onTouchEnd: () => void;
+  onMouseDown: MouseEventHandler<HTMLDivElement>;
+  onMouseUp: () => void;
+  onSelect: MouseEventHandler<HTMLDivElement>;
 };
 const Slider = ({
   slider,
@@ -25,6 +35,11 @@ const Slider = ({
   idx,
   imageInfos,
   handleIndex,
+  onTouchStart,
+  onTouchEnd,
+  onMouseDown,
+  onMouseUp,
+  onSelect,
 }: SliderProps) => {
   const colors = useColors();
   return (
@@ -46,13 +61,14 @@ const Slider = ({
           ref={slider}
           style={{
             transform: `translateX(${
-              -wrapper.current.clientWidth * (idx + 1)
+              -wrapper.current.getClientRects()[0].width * (idx + 1)
             }px)`,
           }}
           css={css`
             display: flex;
             flex-direction: row;
-            width: ${(imageInfos.length + 2) * wrapper.current.clientWidth}px;
+            width: ${(imageInfos.length + 2) *
+            wrapper.current.getClientRects()[0].width}px;
             height: 100%;
             will-change: transform;
             transition: transform 0.4s ease-in-out;
@@ -62,7 +78,8 @@ const Slider = ({
             aria-hidden={true}
             key={"-1"}
             css={css`
-              width: ${wrapper.current.clientWidth};
+              display: flex;
+              flex: 1;
               height: 100%;
               object-fit: cover;
             `}
@@ -75,7 +92,8 @@ const Slider = ({
               aria-hidden={true}
               key={i}
               css={css`
-                width: ${wrapper.current.clientWidth};
+                display: flex;
+                flex: 1;
                 height: 100%;
                 object-fit: cover;
               `}
@@ -88,7 +106,8 @@ const Slider = ({
             aria-hidden={true}
             key={imageInfos.length.toString()}
             css={css`
-              width: ${wrapper.current.clientWidth};
+              display: flex;
+              flex: 1;
               height: 100%;
               object-fit: cover;
             `}
@@ -109,6 +128,12 @@ const Slider = ({
           background-color: ${colors.placeholder} + "11";
           z-index: 2;
         `}
+        onTouchStart={isMobile ? onTouchStart : undefined}
+        onTouchEnd={isMobile ? onTouchEnd : undefined}
+        onMouseDown={isMobile ? undefined : onMouseDown}
+        onMouseUp={isMobile ? undefined : onMouseUp}
+        onMouseLeave={isMobile ? undefined : onMouseUp}
+        onSelect={onSelect}
       >
         <Dots imageInfos={imageInfos} idx={idx} handleIndex={handleIndex} />
       </div>

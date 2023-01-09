@@ -1,17 +1,16 @@
-import type { PreviewCompatibleImageData } from "../components/PreviewCompatibleImage";
 import type { SliderState } from "../recoil/slider/atom";
 import React, { useCallback, useRef, useEffect, useMemo } from "react";
 import { useRecoilState } from "recoil";
 import { sliderState } from "../recoil/slider";
-import Slider from "../components/Slider";
+import Slider, { SliderProps } from "../components/Slider";
 import produce from "immer";
 import { isMobile } from "react-device-detect";
 import { HeaderState, headerState as hs } from "../recoil/header";
 
 export type SliderData = {
-  imageInfos: PreviewCompatibleImageData[];
-  apartment: string;
-  short: string;
+  imageInfos: SliderProps["imageInfos"];
+  apartment: SliderProps["apartment"];
+  short: SliderProps["short"];
 };
 const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
   const [state, setState] = useRecoilState<SliderState>(sliderState);
@@ -26,13 +25,14 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
   const wrapper = useRef<HTMLDivElement>(null!);
   const threshold = useMemo(() => 50, []);
 
-  const handleIndex = useCallback(
-    (idx: number) => {
+  const handleIndex = useCallback<SliderProps["handleIndex"]>(
+    (idx) => {
       slider.current.style.transition = "transform 0.4s ease-in-out";
       const nextState = produce(state, (draft) => {
         const nextIdx = Math.min(Math.max(0, idx), imageInfos.length - 1);
         draft.idx = nextIdx;
-        prev.current = -wrapper.current.clientWidth * (nextIdx + 1);
+        prev.current =
+          -wrapper.current.getClientRects()[0].width * (nextIdx + 1);
       });
       setState(nextState);
     },
@@ -40,15 +40,13 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
   );
   const getTransform = useCallback((target: HTMLElement) => {
     const transform = target.style.transform;
-    let x = -transform.match(/\d+/)![0];
-    if (transform.endsWith("vw)")) x *= wrapper.current.clientWidth / 100;
-    return x;
+    return -transform.match(/\d+/)![0];
   }, []);
 
   const onMove = useCallback(
     (e: MouseEvent) => {
       if (timer.current + 1000 / 60 > Date.now()) return;
-      const width = wrapper.current.clientWidth;
+      const width = wrapper.current.getClientRects()[0].width;
       const x = getTransform(slider.current);
       let nextX = x + (e.movementX / 3) * 2;
       if (state.idx === 0) {
@@ -83,7 +81,7 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
   const onTouchMove = useCallback(
     (e: TouchEvent) => {
       if (timer.current + 1000 / 60 > Date.now()) return;
-      const width = wrapper.current.clientWidth;
+      const width = wrapper.current.getClientRects()[0].width;
       const x = getTransform(slider.current);
       const y = prevTouchY.current || e.touches[0].pageY;
       let nextX = x + (e.touches[0].pageX - prevTouchX.current);
@@ -126,21 +124,22 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
     },
     [getTransform, state.idx, imageInfos.length, threshold]
   );
-  const onTouchStart = useCallback(
-    (e: TouchEvent) => {
+  const onTouchStart = useCallback<SliderProps["onTouchStart"]>(
+    (e) => {
       if (headerState.isOpen) setHeaderState({ ...headerState, isOpen: false });
       const target = e.target as HTMLElement;
       if (!target || target.tagName !== "DIV") return;
       prevTouchX.current = e.touches[0].pageX;
-      prev.current = -wrapper.current.clientWidth * (state.idx + 1);
+      prev.current =
+        -wrapper.current.getClientRects()[0].width * (state.idx + 1);
       slider.current.style.transition = "none";
       wrapper.current.addEventListener("touchmove", onTouchMove);
     },
     [onTouchMove, state.idx, headerState, setHeaderState]
   );
-  const onTouchEnd = useCallback(() => {
+  const onTouchEnd = useCallback<SliderProps["onTouchEnd"]>(() => {
     const prevX = prev.current;
-    const width = wrapper.current.clientWidth;
+    const width = wrapper.current.getClientRects()[0].width;
     wrapper.current.removeEventListener("touchmove", onTouchMove);
 
     const x = getTransform(slider.current);
@@ -172,20 +171,21 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
     threshold,
   ]);
 
-  const onMouseDown = useCallback(
-    (e: MouseEvent) => {
+  const onMouseDown = useCallback<SliderProps["onMouseDown"]>(
+    (e) => {
       const target = e.target as HTMLElement;
       if (!target || target.tagName !== "DIV") return;
-      prev.current = (state.idx + 1) * -wrapper.current.clientWidth;
+      prev.current =
+        (state.idx + 1) * -wrapper.current.getClientRects()[0].width;
       wrapper.current.style.cursor = "grab";
       slider.current.style.transition = "none";
       wrapper.current.addEventListener("mousemove", onMove);
     },
     [onMove, state.idx]
   );
-  const onMouseUp = useCallback(() => {
+  const onMouseUp = useCallback<SliderProps["onMouseUp"]>(() => {
     const prevX = prev.current;
-    const width = wrapper.current.clientWidth;
+    const width = wrapper.current.getClientRects()[0].width;
     wrapper.current.style.cursor = "default";
     wrapper.current.removeEventListener("mousemove", onMove);
     const x = getTransform(slider.current);
@@ -217,15 +217,16 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
     imageInfos.length,
   ]);
 
-  const onSelectStart = useCallback((e: Event) => e.preventDefault(), []);
+  const onSelect = useCallback<SliderProps["onSelect"]>(
+    (e) => e.preventDefault(),
+    []
+  );
   useEffect(() => {
-    prev.current = -wrapper?.current.clientWidth || 0;
+    prev.current = -wrapper?.current.getClientRects()[0].width || 0;
     setState({ ...state, idx: 0 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    if (!wrapper?.current) return;
-    if (!slider?.current) return;
     const onResize = (e: UIEvent) => {
       const target = e.target as EventTarget & { innerWidth: number };
       slider.current.style.transition = "none";
@@ -236,38 +237,11 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
       slider.current.style.transform = `translateX(${nextX}px)`;
       prev.current = nextX;
     };
-    const wp = wrapper.current;
-    if (isMobile) {
-      wp.addEventListener("touchstart", onTouchStart);
-      wp.addEventListener("touchend", onTouchEnd);
-    } else {
-      wp.addEventListener("mousedown", onMouseDown);
-      wp.addEventListener("mouseup", onMouseUp);
-      wp.addEventListener("mouseleave", onMouseUp);
-      window.addEventListener("resize", onResize);
-    }
-    wp.addEventListener("selectstart", onSelectStart);
+    if (!isMobile) window.addEventListener("resize", onResize);
     return () => {
-      if (isMobile) {
-        wp.removeEventListener("touchstart", onTouchStart);
-        wp.removeEventListener("touchend", onTouchEnd);
-      } else {
-        wp.removeEventListener("mousedown", onMouseDown);
-        wp.removeEventListener("mouseup", onMouseUp);
-        wp.removeEventListener("mouseleave", onMouseUp);
-        window.removeEventListener("resize", onResize);
-      }
-      wp.removeEventListener("selectstart", onSelectStart);
+      if (!isMobile) window.removeEventListener("resize", onResize);
     };
-  }, [
-    onMouseDown,
-    onMouseUp,
-    onSelectStart,
-    state.idx,
-    imageInfos.length,
-    onTouchStart,
-    onTouchEnd,
-  ]);
+  }, [state.idx, imageInfos.length]);
   return (
     <Slider
       slider={slider}
@@ -277,6 +251,11 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
       idx={state.idx}
       imageInfos={imageInfos}
       handleIndex={handleIndex}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      onSelect={onSelect}
     />
   );
 };
