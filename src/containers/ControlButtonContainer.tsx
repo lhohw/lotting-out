@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback } from "react";
+import React, { useRef, useCallback } from "react";
 import { css } from "@emotion/react";
 import { RiHealthBookFill } from "react-icons/ri";
 import { BiPhoneCall } from "react-icons/bi";
@@ -9,6 +9,7 @@ import ControlButton from "../components/ControlButton";
 import Modal, { ModalProps } from "../components/Modal";
 import { ModalState, modalState as ms } from "../recoil/modal";
 import useModal from "../utils/hooks/useModal";
+import { isDesktop } from "react-device-detect";
 
 export type KakaoVariable = {
   Kakao: {
@@ -25,31 +26,32 @@ export type ControlButtonContainerProps = {
 const ControlButtonContainer = ({
   phoneNumber,
 }: ControlButtonContainerProps) => {
-  const kakaoChatBtn = useRef<HTMLButtonElement>(null!);
   const callBtn = useRef<HTMLButtonElement>(null!);
   const { showModal, hideModal } = useModal();
   const [modalState] = useRecoilState<ModalState>(ms);
 
-  useEffect(() => {
-    const { current } = kakaoChatBtn;
-    const windowWithKakao = window as typeof window & KakaoVariable;
-    const chatChannel = () => {
-      if (!windowWithKakao.Kakao || !process.env.GATSBY_KAKAO_KEY) return;
+  const chatChannel = useCallback(() => {
+    const windowWithKakao = globalThis as typeof globalThis & KakaoVariable;
+    if (!process.env.GATSBY_KAKAO_KEY) {
+      console.log("key is not defined");
+      return;
+    }
+    if (!windowWithKakao.Kakao) {
+      console.log("Kakao CDN is not loaded");
+      return;
+    }
 
-      const { Kakao } = windowWithKakao;
-      if (!Kakao.isInitialized()) {
-        Kakao.init(process.env.GATSBY_KAKAO_KEY);
-      }
-      if (Kakao.Channel && current) {
-        Kakao.Channel.chat({
-          channelPublicId: "_vlXxcb",
-        });
-      }
-    };
-    current?.addEventListener("click", chatChannel);
-    return () => {
-      current?.removeEventListener("click", chatChannel);
-    };
+    const { Kakao } = windowWithKakao;
+    if (!Kakao.isInitialized()) {
+      Kakao.init(process.env.GATSBY_KAKAO_KEY);
+    }
+    if (Kakao.Channel) {
+      Kakao.Channel.chat({
+        channelPublicId: "_vlXxcb",
+      });
+      return;
+    }
+    console.log("Kakao channel is not defined");
   }, []);
   const onModalButtonClick = useCallback<ModalProps["onClick"]>(
     (e) => {
@@ -85,7 +87,7 @@ const ControlButtonContainer = ({
     [modalState.buttons.length, hideModal, callBtn]
   );
   const call = useCallback(() => {
-    if (!process.env.GATSBY_PHONE_NUMBER) {
+    if (isDesktop) {
       showModal({
         title: "이용 불가",
         content: `전화 상담을 연결할 수 없는 기기입니다.\n상담을 원하실 경우 다음 번호로 연락 바랍니다.\n${phoneNumber}`,
@@ -93,7 +95,7 @@ const ControlButtonContainer = ({
       });
       return;
     }
-    return (document.location.href = `tel:${process.env.GATSBY_PHONE_NUMBER}`);
+    return (document.location.href = `tel:+82-${phoneNumber}`);
   }, [phoneNumber, showModal]);
   return (
     <React.Fragment>
@@ -126,7 +128,6 @@ const ControlButtonContainer = ({
           title="관심고객등록"
         />
         <ControlButton
-          refProp={kakaoChatBtn}
           type="image"
           css={css`
             & > span:nth-of-type(1) {
@@ -148,7 +149,7 @@ const ControlButtonContainer = ({
             />
           }
           title="카카오톡 문의"
-          onClick={() => null}
+          onClick={chatChannel}
         />
         <ControlButton
           refProp={callBtn}

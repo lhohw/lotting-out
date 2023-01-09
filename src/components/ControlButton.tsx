@@ -1,8 +1,9 @@
 import type { IconType } from "react-icons";
 import React from "react";
 import { css } from "@emotion/react";
-import { useColors } from "../recoil/theme";
 import { Link } from "gatsby";
+import { isBrowser } from "react-device-detect";
+import { useColors } from "../recoil/theme";
 
 type ImageButton = {
   type: "image";
@@ -57,12 +58,15 @@ export const ControlButton = (props: ControlButtonProps) => {
         font-size: 0.8rem;
         font-weight: bold;
         cursor: pointer;
-        &:hover {
-          width: calc(154px + 0.6rem);
-          & > span:nth-of-type(2) {
-            width: 100px;
+        ${isBrowser &&
+        `
+          &:hover {
+            width: calc(154px + 0.6rem);
+            & > span:nth-of-type(2) {
+              width: 100px;
+            }
           }
-        }
+          `}
         @media (max-width: 400px) {
           width: calc(34px + 0.6rem);
         }
