@@ -53,8 +53,6 @@ collections: # A list of collections the CMS should be able to edit
           - { label: "썸네일 이미지", name: "slider", widget: "images" }
           - { label: "회사명", name: "corporate", widget: "string" }
           - { label: "대표자", name: "name", widget: "string" }
-          - { label: "사업자 등록 번호", name: "RN", widget: "string" }
-          - { label: "판매업 신고", name: "declaration", widget: "string" }
           - { label: "사무실 주소", name: "address", widget: "string" }
           - { label: "이메일", name: "email", widget: "string" }
           - { label: "전화번호", name: "phoneNumber", widget: "string" }

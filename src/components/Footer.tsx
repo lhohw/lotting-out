@@ -81,25 +81,15 @@ const Item = ({ title, info }: ItemProps) => {
   );
 };
 export type FooterProps = Record<
-  | "corporate"
-  | "name"
-  | "apartment"
-  | "address"
-  | "phoneNumber"
-  | "declaration"
-  | "RN"
-  | "email",
+  "corporate" | "name" | "address" | "phoneNumber" | "email",
   string
 >;
 
 const Footer = ({
   corporate,
   name,
-  apartment,
   address,
   phoneNumber,
-  declaration,
-  RN,
   email,
 }: FooterProps) => {
   const colors = useColors();
@@ -108,11 +98,8 @@ const Footer = ({
       {
         title: "Infomation",
         info: `
-        아파트명: ${apartment}\n
         회사명: ${corporate}\n
         대표자: ${name}\n
-        사업자등록번호: ${RN}\n
-        통신판매업신고: ${declaration}
         `,
       },
       {
@@ -126,7 +113,7 @@ const Footer = ({
     Call. ${phoneNumber}`,
       },
     ],
-    [RN, address, apartment, corporate, declaration, email, name, phoneNumber]
+    [address, corporate, email, name, phoneNumber]
   );
   return (
     <footer

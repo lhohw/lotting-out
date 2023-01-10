@@ -33,6 +33,7 @@ export type IndexPageData = {
       };
       logo: PreviewCompatibleImageData;
       short: string;
+      apartment: string;
     } & FooterProps;
   };
 };
@@ -78,7 +79,7 @@ const IndexPage = ({ data }: IndexPageData) => {
         short={short}
       />
       <Category menu={menu} logo={logo} />
-      <Footer apartment={apartment} {...rest} />
+      <Footer {...rest} />
       <ControlButtonContainer phoneNumber={rest.phoneNumber} />
     </Layout>
   );
@@ -164,12 +165,10 @@ export const query = graphql`
       }
       name
       email
-      declaration
       corporate
       apartment
       short
       address
-      RN
     }
   }
 `;
