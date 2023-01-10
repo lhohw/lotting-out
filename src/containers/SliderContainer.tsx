@@ -11,8 +11,14 @@ export type SliderData = {
   imageInfos: SliderProps["imageInfos"];
   apartment: SliderProps["apartment"];
   short: SliderProps["short"];
+  isPreview?: boolean;
 };
-const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
+const SliderContainer = ({
+  imageInfos,
+  apartment,
+  short,
+  isPreview = false,
+}: SliderData) => {
   const { isMobile } = useDeviceDetect();
   const [state, setState] = useRecoilState<SliderState>(sliderState);
   const [headerState, setHeaderState] = useRecoilState<HeaderState>(hs);
@@ -237,10 +243,25 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
       prev.current = nextX;
     };
     if (!isMobile) window.addEventListener("resize", onResize);
+    const resizer = document.querySelector(".Resizer.vertical");
+    const onResizerPush = () => {
+      window.addEventListener("mousemove", onResize);
+    };
+    const onResizerPull = () => {
+      window.removeEventListener("mousemove", onResize);
+    };
+    if (isPreview && resizer) {
+      resizer.addEventListener("mousedown", onResizerPush);
+      resizer.addEventListener("mouseup", onResizerPull);
+    }
     return () => {
       if (!isMobile) window.removeEventListener("resize", onResize);
+      if (isPreview && resizer) {
+        resizer.removeEventListener("mousedown", onResizerPush);
+        resizer.removeEventListener("mouseup", onResizerPull);
+      }
     };
-  }, [state.idx, imageInfos.length, isMobile]);
+  }, [state.idx, imageInfos.length, isMobile, isPreview]);
   return (
     <Slider
       slider={slider}

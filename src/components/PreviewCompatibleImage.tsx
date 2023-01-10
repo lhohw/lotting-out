@@ -59,15 +59,16 @@ const PreviewCompatibleImage = ({
     );
   } else if (image && typeof image === "string") {
     return (
-      <img
-        src={image}
-        css={cssStyle}
-        decoding={props.decoding || "async"}
-        loading={props.loading || "lazy"}
-        className={props.className}
-        alt={alt}
-        title={title}
-      />
+      <div className={props.className}>
+        <img
+          src={image}
+          css={cssStyle}
+          decoding={props.decoding || "async"}
+          loading={props.loading || "lazy"}
+          alt={alt}
+          title={title}
+        />
+      </div>
     );
   }
   return null;

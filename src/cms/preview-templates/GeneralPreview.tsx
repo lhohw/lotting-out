@@ -24,28 +24,29 @@ const GeneralPreview = ({ entry, getAsset }: PreviewTemplateComponentProps) => {
         }}
         menu={[
           {
-            title: "사업개요",
+            title: "목록1",
             title_en: "overview",
           },
           {
-            title: "입지환경",
+            title: "목록2",
             title_en: "environment",
           },
           {
-            title: "상품안내",
+            title: "목록3",
             title_en: "product",
           },
           {
-            title: "프리미엄",
+            title: "목록4",
             title_en: "premium",
           },
           {
-            title: "관심고객등록",
+            title: "목록5",
             title_en: "register",
           },
         ]}
       />
       <SliderContainer
+        isPreview
         apartment={apartment}
         short={short}
         imageInfos={(
