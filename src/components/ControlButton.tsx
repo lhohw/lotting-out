@@ -2,8 +2,8 @@ import type { IconType } from "react-icons";
 import React from "react";
 import { css } from "@emotion/react";
 import { Link } from "gatsby";
-import { isBrowser } from "react-device-detect";
 import { useColors } from "../recoil/theme";
+import useDeviceDetect from "../utils/hooks/useDeviceDetect";
 
 type ImageButton = {
   type: "image";
@@ -26,6 +26,7 @@ export type ControlButtonProps = (ImageButton | IconButton) & {
 export const ControlButton = (props: ControlButtonProps) => {
   const { type, title, onClick, isLink = false, to, refProp } = props;
   const colors = useColors();
+  const { isTouch } = useDeviceDetect();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const Button = (props: any) =>
     isLink ? (
@@ -58,7 +59,7 @@ export const ControlButton = (props: ControlButtonProps) => {
         font-size: 0.8rem;
         font-weight: bold;
         cursor: pointer;
-        ${isBrowser &&
+        ${!isTouch &&
         `
           &:hover {
             width: calc(154px + 0.6rem);

@@ -9,7 +9,7 @@ import ControlButton from "../components/ControlButton";
 import Modal, { ModalProps } from "../components/Modal";
 import { ModalState, modalState as ms } from "../recoil/modal";
 import useModal from "../utils/hooks/useModal";
-import { isDesktop } from "react-device-detect";
+import useDeviceDetect from "../utils/hooks/useDeviceDetect";
 
 export type KakaoVariable = {
   Kakao: {
@@ -26,6 +26,8 @@ export type ControlButtonContainerProps = {
 const ControlButtonContainer = ({
   phoneNumber,
 }: ControlButtonContainerProps) => {
+  const { isMobile } = useDeviceDetect();
+
   const callBtn = useRef<HTMLButtonElement>(null!);
   const { showModal, hideModal } = useModal();
   const [modalState] = useRecoilState<ModalState>(ms);
@@ -79,7 +81,7 @@ const ControlButtonContainer = ({
     [modalState.buttons.length, hideModal, callBtn]
   );
   const call = useCallback(() => {
-    if (isDesktop) {
+    if (!isMobile) {
       showModal({
         title: "이용 불가",
         content: `전화 상담을 연결할 수 없는 기기입니다.\n상담을 원하실 경우 다음 번호로 연락 바랍니다.\n${phoneNumber}`,
@@ -88,7 +90,7 @@ const ControlButtonContainer = ({
       return;
     }
     return (document.location.href = `tel:+82-${phoneNumber}`);
-  }, [phoneNumber, showModal]);
+  }, [phoneNumber, showModal, isMobile]);
   return (
     <React.Fragment>
       <Script

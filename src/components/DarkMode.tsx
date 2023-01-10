@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { useRecoilState } from "recoil";
 import { themeState, ThemeState, useColors } from "../recoil/theme";
 import { FiSun, FiMoon } from "react-icons/fi";
-import { isDesktop } from "react-device-detect";
+import useDeviceDetect from "../utils/hooks/useDeviceDetect";
 
 export type DarkModeProps = {
   onFocus?: () => void;
@@ -11,6 +11,7 @@ export type DarkModeProps = {
 const DarkMode = ({ onFocus }: DarkModeProps) => {
   const [theme, setTheme] = useRecoilState<ThemeState>(themeState);
   const colors = useColors();
+  const { isTouch } = useDeviceDetect();
   const setMode = useCallback(() => {
     const root = document.querySelector(":root") as HTMLHtmlElement;
     const isPreferDarkMode = window.matchMedia(
@@ -46,7 +47,7 @@ const DarkMode = ({ onFocus }: DarkModeProps) => {
         border: none;
         position: relative;
         overflow: hidden;
-        ${isDesktop &&
+        ${!isTouch &&
         `
           &:hover {
             color: ${colors.gold};

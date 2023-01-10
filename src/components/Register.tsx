@@ -9,7 +9,7 @@ import PreviewCompatibleImage, {
 } from "./PreviewCompatibleImage";
 import Agreement from "./Agreement";
 import Modal, { ModalProps } from "./Modal";
-import { isDesktop } from "react-device-detect";
+import useDeviceDetect from "../utils/hooks/useDeviceDetect";
 
 export type Value = {
   [key: string]: string;
@@ -46,6 +46,7 @@ const Register = ({
   onModalKeyDown,
 }: RegisterProps) => {
   const colors = useColors();
+  const { isTouch } = useDeviceDetect();
   const { value, agreement } = state;
   return (
     <React.Fragment>
@@ -195,7 +196,7 @@ const Register = ({
                   border: 2px solid ${colors.widgetBorder};
                   transition: all 0.3s ease-in-out;
                   cursor: pointer;
-                  ${isDesktop
+                  ${!isTouch
                     ? `
                     &:hover {
                       color: ${colors.gold};

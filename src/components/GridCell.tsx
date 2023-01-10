@@ -6,7 +6,7 @@ import PreviewCompatibleImage, {
   PreviewCompatibleImageData,
 } from "./PreviewCompatibleImage";
 import { useColors } from "../recoil/theme/useTheme";
-import { isBrowser } from "react-device-detect";
+import useDeviceDetect from "../utils/hooks/useDeviceDetect";
 
 type GridCellProps = {
   gridColumn?: string;
@@ -22,6 +22,7 @@ const GridCell = ({
   logo,
 }: GridCellProps) => {
   const colors = useColors();
+  const { isTouch } = useDeviceDetect();
   return (
     <Link
       to={`/info/${title_en.split(" ").join("-")}`}
@@ -38,7 +39,7 @@ const GridCell = ({
         box-shadow: 1px 2px 4px ${colors.widgetBorder};
         overflow: hidden;
         background-color: "inherit";
-        ${isBrowser &&
+        ${!isTouch &&
         `
             &::after {
               content: "";

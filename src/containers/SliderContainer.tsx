@@ -4,8 +4,8 @@ import { useRecoilState } from "recoil";
 import { sliderState } from "../recoil/slider";
 import Slider, { SliderProps } from "../components/Slider";
 import produce from "immer";
-import { isMobile } from "react-device-detect";
 import { HeaderState, headerState as hs } from "../recoil/header";
+import useDeviceDetect from "../utils/hooks/useDeviceDetect";
 
 export type SliderData = {
   imageInfos: SliderProps["imageInfos"];
@@ -13,6 +13,7 @@ export type SliderData = {
   short: SliderProps["short"];
 };
 const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
+  const { isMobile } = useDeviceDetect();
   const [state, setState] = useRecoilState<SliderState>(sliderState);
   const [headerState, setHeaderState] = useRecoilState<HeaderState>(hs);
 
@@ -89,7 +90,7 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
       const dy = e.touches[0].pageY - y;
       const dx = nextX - x;
       prevTouchY.current = y + dy;
-      if (isMobile && (Math.abs(dx) < 5 || Math.abs(dy) >= 3)) {
+      if (Math.abs(dx) < 5 || Math.abs(dy) >= 3) {
         prevTouchX.current = e.touches[0].pageX;
         timer.current = Date.now();
         return;
@@ -239,7 +240,7 @@ const SliderContainer = ({ imageInfos, apartment, short }: SliderData) => {
     return () => {
       if (!isMobile) window.removeEventListener("resize", onResize);
     };
-  }, [state.idx, imageInfos.length]);
+  }, [state.idx, imageInfos.length, isMobile]);
   return (
     <Slider
       slider={slider}

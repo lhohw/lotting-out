@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { css } from "@emotion/react";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { useColors } from "../recoil/theme";
-import { isDesktop } from "react-device-detect";
+import useDeviceDetect from "../utils/hooks/useDeviceDetect";
 
 export type BackButtonProps = {
   className?: string;
@@ -12,6 +12,7 @@ const BackButton = ({ className }: BackButtonProps) => {
     history.back();
   }, []);
   const colors = useColors();
+  const { isTouch } = useDeviceDetect();
   return (
     <button
       type="button"
@@ -38,7 +39,7 @@ const BackButton = ({ className }: BackButtonProps) => {
             width: 30px;
             height: 30px;
           }
-          ${isDesktop &&
+          ${!isTouch &&
           `
             &:hover {
               color: ${colors.main};

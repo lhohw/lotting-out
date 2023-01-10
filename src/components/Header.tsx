@@ -7,7 +7,7 @@ import PreviewCompatibleImage, {
   PreviewCompatibleImageData,
 } from "./PreviewCompatibleImage";
 import DarkMode from "./DarkMode";
-import { isDesktop } from "react-device-detect";
+import useDeviceDetect from "../utils/hooks/useDeviceDetect";
 
 export type MenuTitle = {
   title: string;
@@ -30,6 +30,7 @@ const Header = ({
   hide,
 }: HeaderProps) => {
   const colors = useColors();
+  const { isTouch } = useDeviceDetect();
   return (
     <header
       css={css`
@@ -134,7 +135,7 @@ const Header = ({
               max-width: 100%;
               min-width: ${isOpen ? "auto" : "100px"};
               background-color: #12121277;
-              ${isDesktop &&
+              ${!isTouch &&
               `
                 &:hover {
                   background-color: #121212aa;
@@ -164,7 +165,7 @@ const Header = ({
                 flex: 1;
                 align-items: center;
                 justify-content: center;
-                ${isDesktop &&
+                ${!isTouch &&
                 `
                   &:hover {
                     font-weight: 900;

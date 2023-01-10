@@ -11,7 +11,7 @@ import PreviewCompatibleImage, {
 import Jumbotron from "./Jumbotron";
 import Dots from "./Dots";
 import { useColors } from "../recoil/theme";
-import { isMobile } from "react-device-detect";
+import useDeviceDetect from "../utils/hooks/useDeviceDetect";
 
 export type SliderProps = {
   slider: MutableRefObject<HTMLDivElement>;
@@ -42,6 +42,7 @@ const Slider = ({
   onSelect,
 }: SliderProps) => {
   const colors = useColors();
+  const { isTouch } = useDeviceDetect();
   return (
     <div
       css={css`
@@ -128,11 +129,11 @@ const Slider = ({
           background-color: ${colors.placeholder} + "11";
           z-index: 2;
         `}
-        onTouchStart={isMobile ? onTouchStart : undefined}
-        onTouchEnd={isMobile ? onTouchEnd : undefined}
-        onMouseDown={isMobile ? undefined : onMouseDown}
-        onMouseUp={isMobile ? undefined : onMouseUp}
-        onMouseLeave={isMobile ? undefined : onMouseUp}
+        onTouchStart={isTouch ? onTouchStart : undefined}
+        onTouchEnd={isTouch ? onTouchEnd : undefined}
+        onMouseDown={isTouch ? undefined : onMouseDown}
+        onMouseUp={isTouch ? undefined : onMouseUp}
+        onMouseLeave={isTouch ? undefined : onMouseUp}
         onSelect={onSelect}
       >
         <Dots imageInfos={imageInfos} idx={idx} handleIndex={handleIndex} />
