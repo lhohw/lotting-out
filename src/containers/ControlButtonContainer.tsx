@@ -4,10 +4,8 @@ import { RiHealthBookFill } from "react-icons/ri";
 import { BiPhoneCall } from "react-icons/bi";
 import { StaticImage } from "gatsby-plugin-image";
 import { Script } from "gatsby";
-import { useRecoilState } from "recoil";
 import ControlButton from "../components/ControlButton";
-import Modal, { ModalProps } from "../components/Modal";
-import { ModalState, modalState as ms } from "../recoil/modal";
+import Modal from "../components/Modal";
 import useModal from "../utils/hooks/useModal";
 import useDeviceDetect from "../utils/hooks/useDeviceDetect";
 
@@ -30,7 +28,6 @@ const ControlButtonContainer = ({
 
   const callBtn = useRef<HTMLButtonElement>(null!);
   const { showModal, hideModal } = useModal();
-  const [modalState] = useRecoilState<ModalState>(ms);
 
   const chatChannel = useCallback(() => {
     const windowWithKakao = globalThis as typeof globalThis & KakaoVariable;
@@ -47,50 +44,23 @@ const ControlButtonContainer = ({
       return;
     }
   }, []);
-  const onModalButtonClick = useCallback<ModalProps["onClick"]>(
-    (e) => {
-      const target = e.target as HTMLElement;
-      if (target.tagName === "DIALOG" || target.tagName === "BUTTON") {
-        hideModal();
-        if (callBtn.current) setTimeout(() => callBtn.current.focus(), 32);
-      }
-    },
-    [hideModal]
-  );
-  const onModalKeyDown = useCallback<ModalProps["onKeyDown"]>(
-    (e) => {
-      if (e.key === "Tab") {
-        const target = e.target as HTMLElement;
-        if (e.shiftKey && target.tagName === "DIV") {
-          e.preventDefault();
-          return;
-        }
-        if (
-          !e.shiftKey &&
-          target.tagName === "BUTTON" &&
-          target.dataset.idx === (modalState.buttons.length - 1).toString()
-        ) {
-          e.preventDefault();
-          return;
-        }
-      } else if (e.key === "Escape") {
-        hideModal();
-        if (callBtn.current) setTimeout(() => callBtn.current.focus(), 32);
-      }
-    },
-    [modalState.buttons.length, hideModal, callBtn]
-  );
   const call = useCallback(() => {
     if (!isMobile) {
       showModal({
+        focus: () => callBtn.current.focus(),
         title: "이용 불가",
         content: `전화 상담을 연결할 수 없는 기기입니다.\n상담을 원하실 경우 다음 번호로 연락 바랍니다.\n${phoneNumber}`,
-        buttons: ["확인"],
+        buttons: [
+          {
+            text: "확인",
+            onClick: hideModal,
+          },
+        ],
       });
       return;
     }
     return (document.location.href = `tel:+82-${phoneNumber}`);
-  }, [phoneNumber, showModal, isMobile]);
+  }, [phoneNumber, showModal, hideModal, isMobile]);
   return (
     <React.Fragment>
       <Script
@@ -153,7 +123,7 @@ const ControlButtonContainer = ({
           onClick={call}
         />
       </div>
-      <Modal onClick={onModalButtonClick} onKeyDown={onModalKeyDown} />
+      <Modal />
     </React.Fragment>
   );
 };

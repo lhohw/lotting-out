@@ -8,7 +8,7 @@ import PreviewCompatibleImage, {
   PreviewCompatibleImageData,
 } from "./PreviewCompatibleImage";
 import Agreement from "./Agreement";
-import Modal, { ModalProps } from "./Modal";
+import Modal from "./Modal";
 import useDeviceDetect from "../utils/hooks/useDeviceDetect";
 
 export type Value = {
@@ -30,8 +30,6 @@ export type RegisterProps = {
   onChange: (e: React.ChangeEvent<HTMLFormElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   onClick: (title: keyof RegisterProps["state"]["agreement"]) => void;
-  onModalButtonClick: ModalProps["onClick"];
-  onModalKeyDown: ModalProps["onKeyDown"];
 };
 const Register = ({
   info,
@@ -42,8 +40,6 @@ const Register = ({
   onChange,
   onSubmit,
   onClick,
-  onModalButtonClick,
-  onModalKeyDown,
 }: RegisterProps) => {
   const colors = useColors();
   const { isTouch } = useDeviceDetect();
@@ -216,7 +212,7 @@ const Register = ({
           </div>
         </div>
       </div>
-      <Modal onClick={onModalButtonClick} onKeyDown={onModalKeyDown} />
+      <Modal />
     </React.Fragment>
   );
 };

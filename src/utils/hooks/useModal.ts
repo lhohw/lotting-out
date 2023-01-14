@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 
 export type HideModal = () => void;
 export type ShowModal = ({
+  focus,
   title,
   content,
   buttons,
@@ -12,18 +13,24 @@ export type ShowModal = ({
 
 const useModal = () => {
   const [modalState, setModalState] = useRecoilState<ModalState>(ms);
+
   const hideModal: HideModal = useCallback(() => {
+    const { focus } = modalState;
     const nextState = produce(modalState, (draft) => {
+      draft.focus = () => null;
       draft.title = "";
       draft.content = "";
       draft.isVisible = false;
       draft.buttons = [];
     });
     setModalState(nextState);
+    setTimeout(() => focus(), 32);
   }, [modalState, setModalState]);
+
   const showModal: ShowModal = useCallback(
-    ({ title, content, buttons }) => {
+    ({ focus, title, content, buttons }) => {
       const nextState = produce(modalState, (draft) => {
+        draft.focus = focus;
         draft.title = title;
         draft.content = content;
         draft.isVisible = true;

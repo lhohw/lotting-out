@@ -1,17 +1,47 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { css } from "@emotion/react";
 import { useRecoilState } from "recoil";
 import { useColors } from "../recoil/theme";
 import { modalState, ModalState } from "../recoil/modal";
+import useModal from "../utils/hooks/useModal";
 
-export type ModalProps = {
-  onClick: (e: React.MouseEvent<HTMLDialogElement, MouseEvent>) => void;
-  onKeyDown: (e: React.KeyboardEvent<HTMLDialogElement>) => void;
-};
-const Modal = ({ onClick, onKeyDown }: ModalProps) => {
+const Modal = () => {
   const colors = useColors();
   const [state] = useRecoilState<ModalState>(modalState);
   const modal = useRef<HTMLDivElement>(null!);
+  const { hideModal } = useModal();
+
+  const onClick = useCallback(
+    (e: React.MouseEvent<HTMLDialogElement, MouseEvent>) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === "DIALOG" || target.tagName === "BUTTON") {
+        hideModal();
+      }
+    },
+    [hideModal]
+  );
+  const onKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDialogElement>) => {
+      if (e.key === "Tab") {
+        const target = e.target as HTMLElement;
+        if (e.shiftKey && target.tagName === "DIV") {
+          e.preventDefault();
+          return;
+        }
+        if (
+          !e.shiftKey &&
+          target.tagName === "BUTTON" &&
+          target.dataset.idx === (state.buttons.length - 1).toString()
+        ) {
+          e.preventDefault();
+          return;
+        }
+      } else if (e.key === "Escape") {
+        hideModal();
+      }
+    },
+    [hideModal, state.buttons.length]
+  );
   useEffect(() => {
     if (state.isVisible) modal.current.focus();
   }, [state.isVisible]);
@@ -33,7 +63,6 @@ const Modal = ({ onClick, onKeyDown }: ModalProps) => {
         flex-direction: column;
         opacity: 1;
         z-index: 100;
-        padding: 0 1rem;
       `}
       onClick={onClick}
       onKeyDown={onKeyDown}
@@ -42,6 +71,7 @@ const Modal = ({ onClick, onKeyDown }: ModalProps) => {
         ref={modal}
         tabIndex={0}
         css={css`
+          padding: 0 1rem;
           background-color: ${colors.dark};
           display: flex;
           flex-direction: column;
@@ -96,9 +126,9 @@ const Modal = ({ onClick, onKeyDown }: ModalProps) => {
             }
           `}
         >
-          {(state.buttons || ["확인", "취소"]).map((buttonTitle, idx) => (
+          {(state.buttons || ["확인", "취소"]).map(({ text, onClick }, idx) => (
             <button
-              key={buttonTitle}
+              key={text}
               data-idx={idx}
               type="button"
               css={css`
@@ -109,8 +139,9 @@ const Modal = ({ onClick, onKeyDown }: ModalProps) => {
                 }
               `}
               value={idx === 0 ? "agree" : "deny"}
+              onClick={onClick}
             >
-              {buttonTitle}
+              {text}
             </button>
           ))}
         </menu>

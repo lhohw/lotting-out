@@ -1,17 +1,22 @@
 import { atom } from "recoil";
 
 export type ModalState = {
+  focus: () => void;
   title: string;
   content: string;
   isVisible: boolean;
-  buttons: string[];
+  buttons: {
+    text: string;
+    onClick: () => void;
+  }[];
 };
 
 const initialState: ModalState = {
+  focus: () => null,
   title: "",
   content: "",
   isVisible: false,
-  buttons: ["확인", "취소"],
+  buttons: [],
 };
 const modalState = atom({
   key: "modalState",
