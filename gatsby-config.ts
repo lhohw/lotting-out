@@ -6,7 +6,7 @@ const config: GatsbyConfig = {
   siteMetadata: {
     title: `lotting-out`,
     description: `아파트 분양을 위한 웹페이지`,
-    siteUrl: `https://www.yourdomain.tld`,
+    siteUrl: `https://gilded-nasturtium-9fb684.netlify.app/`,
   },
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
   // If you use VSCode you can also use the GraphQL plugin
@@ -14,9 +14,20 @@ const config: GatsbyConfig = {
   graphqlTypegen: true,
   plugins: [
     {
+      resolve: "gatsby-plugin-google-gtag",
+      options: {
+        trackingIds: [process.env.GA_TRACKING_ID],
+        pluginConfig: {
+          head: true,
+          respectDNT: true,
+          exclude: ["/src/widgets/**"],
+        },
+      },
+    },
+    {
       resolve: "gatsby-plugin-canonical-urls",
       options: {
-        siteUrl: "https://www.yourdomain.tld",
+        siteUrl: "https://gilded-nasturtium-9fb684.netlify.app/",
       },
     },
     {
