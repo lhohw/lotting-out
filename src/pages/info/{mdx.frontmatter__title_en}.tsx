@@ -10,6 +10,7 @@ import RegisterContainer from "../../containers/RegisterContainer";
 import Info, { InfoProps } from "../../components/Info";
 import BackButton from "../../components/BackButton";
 import { useColors } from "../../recoil/theme";
+import Loading from "../../components/Loading";
 
 export type InfoPageProps = {
   data: {
@@ -84,6 +85,7 @@ const InfoPage = ({ data, isPreview, getAsset }: InfoPageProps) => {
           />
         </div>
       )}
+      <Loading />
     </Layout>
   );
 };

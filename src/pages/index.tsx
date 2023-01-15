@@ -10,6 +10,7 @@ import SliderContainer from "../containers/SliderContainer";
 import Category from "../components/Category";
 import Footer, { FooterProps } from "../components/Footer";
 import ControlButtonContainer from "../containers/ControlButtonContainer";
+import Loading from "../components/Loading";
 
 export type IndexPageData = {
   data: {
@@ -81,6 +82,7 @@ const IndexPage = ({ data }: IndexPageData) => {
       <Category menu={menu} logo={logo} />
       <Footer {...rest} />
       <ControlButtonContainer phoneNumber={rest.phoneNumber} />
+      <Loading />
     </Layout>
   );
 };
