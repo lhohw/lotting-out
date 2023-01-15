@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, HTMLAttributes } from "react";
 import { css } from "@emotion/react";
 import { useColors } from "../recoil/theme/useTheme";
 
@@ -9,6 +9,7 @@ export type InputProps = {
   name: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   className?: string;
+  inputMode?: HTMLAttributes<HTMLInputElement>["inputMode"];
 };
 const Input = ({
   title,
@@ -17,6 +18,7 @@ const Input = ({
   placeholder,
   name,
   className,
+  inputMode,
 }: InputProps) => {
   const colors = useColors();
   return (
@@ -73,6 +75,7 @@ const Input = ({
         name={name}
         placeholder={placeholder}
         value={value}
+        inputMode={inputMode}
         onChange={onChange}
       />
     </label>

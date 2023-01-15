@@ -7,10 +7,11 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import Register from "../components/Register";
 import produce from "immer";
+import axios from "axios";
 import { useRecoilState } from "recoil";
-import { modalState as ms, ModalState } from "../recoil/modal";
+import { loadingState, LoadingState } from "../recoil/loading";
+import Register from "../components/Register";
 import useModal from "../utils/hooks/useModal";
 
 export type RegisterContainerProps = {
@@ -44,8 +45,8 @@ const RegisterContainer = ({
     [info, questions]
   );
 
+  const [, setLoadingState] = useRecoilState<LoadingState>(loadingState);
   const [state, setState] = useState<RegisterContainerState>(initialState);
-  const [modalState] = useRecoilState<ModalState>(ms);
   const submitButton = useRef<HTMLButtonElement>(null);
 
   const { hideModal, showModal } = useModal();
@@ -68,36 +69,185 @@ const RegisterContainer = ({
     [state, setState]
   );
 
-  const onSubmit = useCallback(() => {
+  const checkInput = useCallback(() => {
     if (!state.agreement.marketing) {
       showModal({
+        focus: () => submitButton.current?.focus(),
         title: "마케팅 수신 동의",
         content: "마케팅 수신 동의가 필요합니다.",
-        buttons: ["확인"],
+        buttons: [
+          {
+            text: "확인",
+            onClick: hideModal,
+          },
+        ],
       });
-      return;
+      return false;
     }
     if (!state.agreement.termsAndConditions) {
       showModal({
+        focus: () => submitButton.current?.focus(),
         title: "이용 약관 동의",
         content: "이용 약관 동의가 필요합니다.",
-        buttons: ["확인"],
+        buttons: [
+          {
+            text: "확인",
+            onClick: hideModal,
+          },
+        ],
       });
-      return;
+      return false;
     }
-    const answers = Object.entries(state.value).reduce(
-      (ans, [key, value]) => ({
-        ...ans,
-        [!isNaN(parseInt(key)) ? questions[+key].question : key]: value,
-      }),
-      {}
-    );
+    for (const [key, value] of Object.entries(state.value).filter(([k]) =>
+      isNaN(Number(k))
+    )) {
+      if (!value.trim()) {
+        const input = document.querySelector(
+          `input[name=${key}]`
+        )! as HTMLInputElement;
+        const id = input.id || key;
+        showModal({
+          focus: () => input?.focus(),
+          title: `${id}`,
+          content: `${id} 입력은 필수입니다.`,
+          buttons: [
+            {
+              text: "확인",
+              onClick: hideModal,
+            },
+          ],
+        });
+        return false;
+      }
+    }
+    for (const [key, value] of Object.entries(state.value).filter(
+      ([k]) => !isNaN(Number(k))
+    )) {
+      if (!value.trim()) {
+        showModal({
+          focus: () => submitButton.current?.focus(),
+          title: `다음 질문에 대한 답을 선택해주세요.`,
+          content: questions[+key].question,
+          buttons: [
+            {
+              text: "확인",
+              onClick: hideModal,
+            },
+          ],
+        });
+        return false;
+      }
+    }
+    return true;
+  }, [
+    state.agreement.marketing,
+    state.agreement.termsAndConditions,
+    state.value,
+    showModal,
+    questions,
+    hideModal,
+  ]);
+  const checkValidity = useCallback<RegisterProps["checkValidity"]>((e) => {
+    const { name, value } = e.target;
+    if (name === "name" && value.match(/[^a-zA-Zㅏ-ㅣㄱ-ㅎ가-힣]+/g))
+      e.stopPropagation();
+    if (name === "phoneNumber" && value.match(/[^\d]+/g)) e.stopPropagation();
+  }, []);
+
+  const onSubmit = useCallback<RegisterProps["onSubmit"]>(() => {
+    const isValid = checkInput();
+    if (!isValid) return;
     showModal({
+      focus: () => submitButton.current?.focus(),
       title: "제출 하시겠습니까?",
-      content: JSON.stringify(answers),
-      buttons: ["확인", "취소"],
+      content: "",
+      buttons: [
+        {
+          text: "확인",
+          onClick: async () => {
+            setLoadingState({ isLoading: true });
+            const message =
+              Object.entries(state.value)
+                .filter(([key]) => isNaN(Number(key)))
+                .reduce(
+                  (acc, [key, value]) =>
+                    acc +
+                    `${info.find((i) => i.name === key)!.title}: ${value}\n`,
+                  ""
+                ) +
+              Object.entries(state.value)
+                .filter(([key]) => !isNaN(Number(key)))
+                .reduce(
+                  (ans, [key, value]) =>
+                    ans + `${questions[+key].question}: ${value}\n`,
+                  ""
+                );
+            const data = {
+              service_id: process.env.GATSBY_EMAIL_JS_SERVICE_ID,
+              template_id: process.env.GATSBY_EMAIL_JS_TEMPLATE_ID,
+              user_id: process.env.GATSBY_EMAIL_JS_USER_ID,
+              template_params: {
+                date: new Date().toLocaleString(),
+                message,
+              },
+            };
+            let response;
+            try {
+              response = await axios.post(
+                "https://api.emailjs.com/api/v1.0/email/send",
+                data
+              );
+            } catch (e) {
+              // console.log(e);
+            }
+            setLoadingState({ isLoading: false });
+            if (response?.status === 200) {
+              setTimeout(() => {
+                showModal({
+                  focus: () => submitButton.current?.focus(),
+                  title: "전송 완료",
+                  content: "전송이 완료되었습니다.",
+                  buttons: [
+                    {
+                      text: "메인 페이지로 이동",
+                      onClick: () => location.replace("/"),
+                    },
+                  ],
+                });
+              }, 32);
+            } else {
+              setTimeout(() => {
+                showModal({
+                  focus: () => submitButton.current?.focus(),
+                  title: "전송 실패",
+                  content:
+                    "다시 시도해 주세요.\n문제가 지속될 시 관리자에게 문의 바랍니다.",
+                  buttons: [
+                    {
+                      text: "확인",
+                      onClick: hideModal,
+                    },
+                  ],
+                });
+              }, 32);
+            }
+          },
+        },
+        {
+          text: "취소",
+          onClick: () => hideModal(),
+        },
+      ],
     });
-  }, [state, questions, showModal]);
+  }, [
+    checkInput,
+    showModal,
+    setLoadingState,
+    state.value,
+    info,
+    questions,
+    hideModal,
+  ]);
 
   const onClick = useCallback<RegisterProps["onClick"]>(
     (title) => {
@@ -107,51 +257,6 @@ const RegisterContainer = ({
       setState(nextState);
     },
     [state, setState]
-  );
-
-  const onModalButtonClick = useCallback<RegisterProps["onModalButtonClick"]>(
-    (e) => {
-      const target = e.target as HTMLElement;
-      if (target.tagName === "DIALOG" || target.tagName === "BUTTON") {
-        if (target.tagName === "BUTTON") {
-          const { value } = target as HTMLButtonElement;
-          const { marketing, termsAndConditions } = state.agreement;
-          if (marketing && termsAndConditions && value === "agree") {
-            // Agree
-            console.log("Agree");
-          } else {
-            // Deny or ok
-            console.log("Deny");
-          }
-        }
-        hideModal();
-        if (submitButton.current) submitButton.current.focus();
-      }
-    },
-    [hideModal, state.agreement]
-  );
-  const onModalKeyDown = useCallback<RegisterProps["onModalKeyDown"]>(
-    (e) => {
-      if (e.key === "Tab") {
-        const target = e.target as HTMLElement;
-        if (e.shiftKey && target.tagName === "DIV") {
-          e.preventDefault();
-          return;
-        }
-        if (
-          !e.shiftKey &&
-          target.tagName === "BUTTON" &&
-          target.dataset.idx === (modalState.buttons.length - 1).toString()
-        ) {
-          e.preventDefault();
-          return;
-        }
-      } else if (e.key === "Escape") {
-        hideModal();
-        if (submitButton.current) submitButton.current.focus();
-      }
-    },
-    [modalState.buttons.length, hideModal, submitButton]
   );
   return (
     <Register
@@ -163,8 +268,7 @@ const RegisterContainer = ({
       onChange={onChange}
       onSubmit={onSubmit}
       onClick={onClick}
-      onModalButtonClick={onModalButtonClick}
-      onModalKeyDown={onModalKeyDown}
+      checkValidity={checkValidity}
     />
   );
 };

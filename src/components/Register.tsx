@@ -30,6 +30,7 @@ export type RegisterProps = {
   onChange: (e: React.ChangeEvent<HTMLFormElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   onClick: (title: keyof RegisterProps["state"]["agreement"]) => void;
+  checkValidity: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 const Register = ({
   info,
@@ -40,6 +41,7 @@ const Register = ({
   onChange,
   onSubmit,
   onClick,
+  checkValidity,
 }: RegisterProps) => {
   const colors = useColors();
   const { isTouch } = useDeviceDetect();
@@ -115,8 +117,19 @@ const Register = ({
                   title={title}
                   name={name}
                   value={value[name]}
-                  placeholder={""}
-                  onChange={() => null}
+                  placeholder={
+                    name === "phoneNumber" ? "숫자만 입력해 주세요" : ""
+                  }
+                  onChange={checkValidity}
+                  inputMode={
+                    name === "name"
+                      ? "text"
+                      : name === "email"
+                      ? "email"
+                      : name === "phoneNumber"
+                      ? "tel"
+                      : undefined
+                  }
                 />
               ))}
               {questions.map(({ question, answers }, idx) => (
