@@ -27,7 +27,7 @@ const ControlButtonContainer = ({
   const { isMobile } = useDeviceDetect();
 
   const callBtn = useRef<HTMLButtonElement>(null!);
-  const { showModal, hideModal } = useModal();
+  const { showModal } = useModal();
 
   const chatChannel = useCallback(() => {
     const windowWithKakao = globalThis as typeof globalThis & KakaoVariable;
@@ -50,17 +50,11 @@ const ControlButtonContainer = ({
         focus: () => callBtn.current.focus(),
         title: "이용 불가",
         content: `전화 상담을 연결할 수 없는 기기입니다.\n상담을 원하실 경우 다음 번호로 연락 바랍니다.\n${phoneNumber}`,
-        buttons: [
-          {
-            text: "확인",
-            onClick: hideModal,
-          },
-        ],
       });
       return;
     }
     return (document.location.href = `tel:+82-${phoneNumber}`);
-  }, [phoneNumber, showModal, hideModal, isMobile]);
+  }, [phoneNumber, showModal, isMobile]);
   return (
     <React.Fragment>
       <Script

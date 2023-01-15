@@ -21,14 +21,14 @@ const useModal = () => {
       draft.title = "";
       draft.content = "";
       draft.isVisible = false;
-      draft.buttons = [];
+      draft.buttons = [{ text: "확인" }];
     });
     setModalState(nextState);
     setTimeout(() => focus(), 32);
   }, [modalState, setModalState]);
 
   const showModal: ShowModal = useCallback(
-    ({ focus, title, content, buttons }) => {
+    ({ focus, title, content, buttons = [{ text: "확인" }] }) => {
       const nextState = produce(modalState, (draft) => {
         draft.focus = focus;
         draft.title = title;

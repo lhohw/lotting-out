@@ -5,9 +5,9 @@ export type ModalState = {
   title: string;
   content: string;
   isVisible: boolean;
-  buttons: {
+  buttons?: {
     text: string;
-    onClick: () => void;
+    onClick?: () => void;
   }[];
 };
 
@@ -16,7 +16,11 @@ const initialState: ModalState = {
   title: "",
   content: "",
   isVisible: false,
-  buttons: [],
+  buttons: [
+    {
+      text: "확인",
+    },
+  ],
 };
 const modalState = atom({
   key: "modalState",

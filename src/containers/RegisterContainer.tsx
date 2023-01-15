@@ -75,12 +75,6 @@ const RegisterContainer = ({
         focus: () => submitButton.current?.focus(),
         title: "마케팅 수신 동의",
         content: "마케팅 수신 동의가 필요합니다.",
-        buttons: [
-          {
-            text: "확인",
-            onClick: hideModal,
-          },
-        ],
       });
       return false;
     }
@@ -89,12 +83,6 @@ const RegisterContainer = ({
         focus: () => submitButton.current?.focus(),
         title: "이용 약관 동의",
         content: "이용 약관 동의가 필요합니다.",
-        buttons: [
-          {
-            text: "확인",
-            onClick: hideModal,
-          },
-        ],
       });
       return false;
     }
@@ -110,12 +98,6 @@ const RegisterContainer = ({
           focus: () => input?.focus(),
           title: `${id}`,
           content: `${id} 입력은 필수입니다.`,
-          buttons: [
-            {
-              text: "확인",
-              onClick: hideModal,
-            },
-          ],
         });
         return false;
       }
@@ -128,12 +110,6 @@ const RegisterContainer = ({
           focus: () => submitButton.current?.focus(),
           title: `다음 질문에 대한 답을 선택해주세요.`,
           content: questions[+key].question,
-          buttons: [
-            {
-              text: "확인",
-              onClick: hideModal,
-            },
-          ],
         });
         return false;
       }
@@ -145,7 +121,6 @@ const RegisterContainer = ({
     state.value,
     showModal,
     questions,
-    hideModal,
   ]);
   const checkValidity = useCallback<RegisterProps["checkValidity"]>((e) => {
     const { name, value } = e.target;
@@ -205,12 +180,15 @@ const RegisterContainer = ({
               setTimeout(() => {
                 showModal({
                   focus: () => submitButton.current?.focus(),
-                  title: "전송 완료",
-                  content: "전송이 완료되었습니다.",
+                  title: "제출 완료",
+                  content: "제출이 완료되었습니다.",
                   buttons: [
                     {
                       text: "메인 페이지로 이동",
-                      onClick: () => location.replace("/"),
+                      onClick: () => {
+                        typeof window !== undefined &&
+                          window.location.replace("/");
+                      },
                     },
                   ],
                 });
@@ -222,12 +200,6 @@ const RegisterContainer = ({
                   title: "전송 실패",
                   content:
                     "다시 시도해 주세요.\n문제가 지속될 시 관리자에게 문의 바랍니다.",
-                  buttons: [
-                    {
-                      text: "확인",
-                      onClick: hideModal,
-                    },
-                  ],
                 });
               }, 32);
             }
@@ -235,7 +207,7 @@ const RegisterContainer = ({
         },
         {
           text: "취소",
-          onClick: () => hideModal(),
+          onClick: hideModal,
         },
       ],
     });
