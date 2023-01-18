@@ -21,6 +21,8 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@emotion/weak-memoize": "^0.3.0",
+    "@fontsource/nanum-gothic": "^4.5.7",
+    "@fontsource/song-myung": "^4.5.10",
     "@mdx-js/react": "^2.1.5",
     "axios": "^1.2.2",
     "gatsby": "^5.2.0",

@@ -79,9 +79,10 @@ const GridCell = ({
       {thumbnail ? (
         <PreviewCompatibleImage
           imageInfo={{ image: thumbnail, title, alt: title }}
+          loading="lazy"
         />
       ) : logo ? (
-        <PreviewCompatibleImage imageInfo={logo} />
+        <PreviewCompatibleImage imageInfo={logo} loading="lazy" />
       ) : null}
     </Link>
   );

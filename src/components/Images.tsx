@@ -69,6 +69,7 @@ const Images = ({
           <PreviewCompatibleImage
             css={css`
               max-width: 1200px;
+              background-color: #fefefe;
             `}
             objectFit={"cover"}
             objectPosition={"center"}

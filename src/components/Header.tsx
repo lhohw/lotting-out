@@ -62,12 +62,14 @@ const Header = ({
             height: 100%;
             background-color: transparent;
           `}
+          loading="eager"
           objectFit="contain"
           imageInfo={logo}
         />
       </Link>
       <button
         id="menu"
+        aria-label="메뉴 버튼"
         type="button"
         aria-expanded={isOpen}
         aria-controls="info-list"
@@ -127,8 +129,9 @@ const Header = ({
               padding: 0;
               margin: 0;
               transition: all 0.15s ease-in-out;
-              font-weight: bold;
-              font-family: Nanum Gothic;
+              font-family: "Nanum Gothic";
+              font-weight: 700;
+              font-display: swap;
               word-break: keep-all;
               color: #d1d1d1;
               width: 100%;

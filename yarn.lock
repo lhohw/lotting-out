@@ -1325,6 +1325,16 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@fontsource/nanum-gothic@^4.5.7":
+  version "4.5.7"
+  resolved "https://registry.yarnpkg.com/@fontsource/nanum-gothic/-/nanum-gothic-4.5.7.tgz#686e7cae0d2f26bf41442610012a89c01a2bb00b"
+  integrity sha512-vH3GQpsyNWPkUSnQasIjWAHEUP77mlQ4UH/ozXvgimQNvzO2SiTw5wiG/mxqRd8cNNZnFrSwHDU3GI3b4IgtnA==
+
+"@fontsource/song-myung@^4.5.10":
+  version "4.5.10"
+  resolved "https://registry.yarnpkg.com/@fontsource/song-myung/-/song-myung-4.5.10.tgz#293ea640c377788fdefc87312eb4ea538825ee9c"
+  integrity sha512-mFEvDDgI6LXIeIlKLtodO8IC7FEp3kfFTft8uqujqT0U5EiTQLFT9THLv5V9DdCfTEJ9PFZNmPYWBprQVd7BqA==
+
 "@gatsbyjs/parcel-namer-relative-to-cwd@^2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@gatsbyjs/parcel-namer-relative-to-cwd/-/parcel-namer-relative-to-cwd-2.2.0.tgz#804db9725d78f54dcbdb6a1df748e2d5fadcfdc2"

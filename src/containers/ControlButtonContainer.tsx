@@ -104,6 +104,7 @@ const ControlButtonContainer = ({
               src="../../static/img/chat.png"
               alt="카카오톡 채널 채팅하기 버튼"
               title="카카오톡 채널 채팅"
+              placeholder="blurred"
             />
           }
           title="카카오톡 문의"

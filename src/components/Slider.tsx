@@ -84,7 +84,7 @@ const Slider = ({
               height: 100%;
               object-fit: cover;
             `}
-            loading="eager"
+            loading="lazy"
             imageInfo={imageInfos[imageInfos.length - 1]}
             draggable={false}
           />
@@ -98,7 +98,7 @@ const Slider = ({
                 height: 100%;
                 object-fit: cover;
               `}
-              loading="eager"
+              loading={i === 0 ? "eager" : "lazy"}
               imageInfo={imageInfo}
               draggable={false}
             />
@@ -112,7 +112,7 @@ const Slider = ({
               height: 100%;
               object-fit: cover;
             `}
-            loading="eager"
+            loading="lazy"
             imageInfo={imageInfos[0]}
             draggable={false}
           />

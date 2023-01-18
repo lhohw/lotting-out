@@ -35,11 +35,12 @@ const Item = ({ title, info }: ItemProps) => {
           flex-direction: column;
           flex: 1;
           padding-left: 30px;
+          font-family: "Nanum Gothic";
+          font-display: swap;
         `}
       >
-        <h4
+        <h3
           css={css`
-            font-family: "Playfair Display", "Nanum Gothic";
             font-size: 20px;
             color: ${colors.gold};
             letter-spacing: 0.07rem;
@@ -49,11 +50,10 @@ const Item = ({ title, info }: ItemProps) => {
           `}
         >
           {title}
-        </h4>
+        </h3>
         <ul
           css={css`
             line-height: 1.8;
-            font-family: "Roboto", "Nanum Gothic";
             font-size: 10px;
             color: #a2a2a2;
             letter-spacing: 0.15em;

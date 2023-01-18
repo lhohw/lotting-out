@@ -26,7 +26,8 @@ const Category = ({ menu, logo }: CategoryProps) => {
         grid-auto-flow: row;
         justify-content: end;
         font-size: 1.5rem;
-        font-family: Song Myung;
+        font-family: "Song Myung";
+        font-display: swap;
         color: ${colors.background};
         max-width: 1400px;
         @media (max-width: 1024px) {

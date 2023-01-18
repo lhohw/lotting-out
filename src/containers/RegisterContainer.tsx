@@ -1,4 +1,3 @@
-import type { PreviewCompatibleImageData } from "../components/PreviewCompatibleImage";
 import type { RegisterProps } from "../components/Register";
 import React, {
   useCallback,
@@ -15,7 +14,6 @@ import Register from "../components/Register";
 import useModal from "../utils/hooks/useModal";
 
 export type RegisterContainerProps = {
-  backgroundImage: PreviewCompatibleImageData;
   questions: {
     questions: RegisterProps["questions"];
   };
@@ -24,7 +22,6 @@ export type RegisterContainerProps = {
 export type RegisterContainerState = RegisterProps["state"];
 
 const RegisterContainer = ({
-  backgroundImage,
   questions: { questions },
   info,
 }: RegisterContainerProps) => {
@@ -235,7 +232,6 @@ const RegisterContainer = ({
       info={info}
       state={state}
       questions={questions}
-      backgroundImage={backgroundImage}
       submitButtonRef={submitButton}
       onChange={onChange}
       onSubmit={onSubmit}

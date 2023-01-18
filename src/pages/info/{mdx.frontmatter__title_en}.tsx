@@ -1,6 +1,6 @@
 import type { PreviewTemplateComponentProps } from "netlify-cms-core";
 import type { RegisterProps } from "../../components/Register";
-import * as React from "react";
+import React from "react";
 import { css } from "@emotion/react";
 import Layout from "../../components/Layout";
 import Seo from "../../components/Seo";
@@ -52,11 +52,7 @@ const InfoPage = ({ data, isPreview, getAsset }: InfoPageProps) => {
         `}
       />
       {title_en === "register" ? (
-        <RegisterContainer
-          backgroundImage={info?.sub[0]?.sub[0]?.images[0]}
-          questions={questions}
-          info={questionInfo}
-        />
+        <RegisterContainer questions={questions} info={questionInfo} />
       ) : (
         <div
           css={css`
@@ -103,7 +99,7 @@ export const query = graphql`
             images {
               image {
                 childImageSharp {
-                  gatsbyImageData
+                  gatsbyImageData(width: 1200)
                 }
               }
               alt
@@ -116,7 +112,7 @@ export const query = graphql`
               images {
                 image {
                   childImageSharp {
-                    gatsbyImageData
+                    gatsbyImageData(width: 1200)
                   }
                 }
                 alt
@@ -128,7 +124,7 @@ export const query = graphql`
           images {
             image {
               childImageSharp {
-                gatsbyImageData
+                gatsbyImageData(width: 1200)
               }
             }
             alt

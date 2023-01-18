@@ -1,12 +1,10 @@
 import type { Question as QuestionType } from "../widgets/Question";
 import React from "react";
 import { css } from "@emotion/react";
+import { StaticImage } from "gatsby-plugin-image";
 import { useColors } from "../recoil/theme/useTheme";
 import Input from "./Input";
 import Question from "./Question";
-import PreviewCompatibleImage, {
-  PreviewCompatibleImageData,
-} from "./PreviewCompatibleImage";
 import Agreement from "./Agreement";
 import Modal from "./Modal";
 import useDeviceDetect from "../utils/hooks/useDeviceDetect";
@@ -24,7 +22,6 @@ export type RegisterProps = {
     value: Value;
     agreement: Record<"marketing" | "termsAndConditions", boolean>;
   };
-  backgroundImage: PreviewCompatibleImageData;
   questions: QuestionType[];
   submitButtonRef: React.RefObject<HTMLButtonElement>;
   onChange: (e: React.ChangeEvent<HTMLFormElement>) => void;
@@ -36,7 +33,6 @@ const Register = ({
   info,
   state,
   questions,
-  backgroundImage,
   submitButtonRef,
   onChange,
   onSubmit,
@@ -56,12 +52,16 @@ const Register = ({
           position: relative;
         `}
       >
-        <PreviewCompatibleImage
+        <StaticImage
           aria-hidden={true}
           css={css`
             position: absolute;
+            width: 100%;
+            height: 100%;
           `}
-          imageInfo={backgroundImage}
+          src="../../static/img/background.jpg"
+          alt=""
+          objectFit="cover"
         />
         <div
           css={css`

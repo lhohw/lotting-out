@@ -4,7 +4,7 @@ import {
   IGatsbyImageData,
   GatsbyImageProps,
 } from "gatsby-plugin-image";
-import { css, CSSObject, SerializedStyles } from "@emotion/react";
+import { css } from "@emotion/react";
 
 export type PreviewCompatibleImageData = {
   image:
@@ -22,8 +22,6 @@ export type PreviewCompatibleImageData = {
 };
 export type PreviewCompatibleImageProps = {
   imageInfo: PreviewCompatibleImageData;
-  style?: CSSObject;
-  css?: SerializedStyles;
 } & Omit<GatsbyImageProps, "alt" | "image">;
 
 const PreviewCompatibleImage = ({
@@ -34,7 +32,6 @@ const PreviewCompatibleImage = ({
   const cssStyle = css`
     width: 100%;
     height: 100%;
-    background-color: #fefefe;
   `;
   if (!!image && typeof image !== "string" && !!image.childImageSharp) {
     return (

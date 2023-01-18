@@ -103,7 +103,7 @@ export const query = graphql`
                 images {
                   image {
                     childImageSharp {
-                      gatsbyImageData
+                      gatsbyImageData(width: 350)
                     }
                   }
                   alt
@@ -116,7 +116,7 @@ export const query = graphql`
                   images {
                     image {
                       childImageSharp {
-                        gatsbyImageData
+                        gatsbyImageData(width: 350)
                       }
                     }
                     alt
@@ -128,7 +128,7 @@ export const query = graphql`
               images {
                 image {
                   childImageSharp {
-                    gatsbyImageData
+                    gatsbyImageData(width: 350)
                   }
                 }
                 alt
@@ -147,7 +147,7 @@ export const query = graphql`
       logo {
         image {
           childImageSharp {
-            gatsbyImageData
+            gatsbyImageData(width: 100)
           }
         }
         alt
@@ -175,6 +175,11 @@ export const query = graphql`
   }
 `;
 
-export const Head = () => <Seo title="Home Page" />;
+export const Head = () => (
+  <>
+    <link rel="dns-prefetch" href="https://t1.kakaocdn.net" />
+    <Seo title="Home Page" />;
+  </>
+);
 
 export default IndexPage;

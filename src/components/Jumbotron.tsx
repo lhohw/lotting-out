@@ -21,7 +21,8 @@ const Jumbotron = ({ title, content }: JumbotronProps) => {
         text-align: center;
         text-shadow: 1px 1px 3px ${colors.dark};
         z-index: 1;
-        font-family: Song Myung;
+        font-family: "Song Myung";
+        font-display: swap;
       `}
     >
       <h1
