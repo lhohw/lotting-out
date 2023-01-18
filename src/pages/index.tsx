@@ -2,7 +2,7 @@ import type { PreviewCompatibleImageData } from "../components/PreviewCompatible
 import type { InfoProps } from "../components/Info";
 import type { CategoryMenu } from "../components/Category";
 import React, { useCallback, useMemo } from "react";
-import { graphql } from "gatsby";
+import { graphql, Script } from "gatsby";
 import Layout from "../components/Layout";
 import Seo from "../components/Seo";
 import HeaderContainer from "../containers/HeaderContainer";
@@ -83,6 +83,11 @@ const IndexPage = ({ data }: IndexPageData) => {
       <Footer {...rest} />
       <ControlButtonContainer phoneNumber={rest.phoneNumber} />
       <Loading />
+      <Script
+        src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
+        integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx"
+        crossOrigin="anonymous"
+      ></Script>
     </Layout>
   );
 };
@@ -177,8 +182,11 @@ export const query = graphql`
 
 export const Head = () => (
   <>
-    <link rel="dns-prefetch" href="https://t1.kakaocdn.net" />
-    <Seo title="Home Page" />;
+    <link
+      rel="preconnect"
+      href="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
+    />
+    <Seo title="Home Page" />
   </>
 );
 
