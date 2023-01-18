@@ -5,8 +5,8 @@ import { Link } from "gatsby";
 import PreviewCompatibleImage, {
   PreviewCompatibleImageData,
 } from "./PreviewCompatibleImage";
-import { useColors } from "../recoil/theme/useTheme";
 import useDeviceDetect from "../utils/hooks/useDeviceDetect";
+import colors from "../constants/colors";
 
 type GridCellProps = {
   gridColumn?: string;
@@ -21,7 +21,6 @@ const GridCell = ({
   thumbnail,
   logo,
 }: GridCellProps) => {
-  const colors = useColors();
   const { isTouch } = useDeviceDetect();
   return (
     <Link
@@ -88,4 +87,4 @@ const GridCell = ({
   );
 };
 
-export default GridCell;
+export default React.memo(GridCell);

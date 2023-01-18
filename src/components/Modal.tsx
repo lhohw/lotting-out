@@ -31,7 +31,7 @@ const Modal = () => {
         if (
           !e.shiftKey &&
           target.tagName === "BUTTON" &&
-          target.dataset.idx === (state.buttons.length - 1).toString()
+          target.dataset.idx === (state.buttons!.length - 1).toString()
         ) {
           e.preventDefault();
           return;
@@ -40,7 +40,7 @@ const Modal = () => {
         hideModal();
       }
     },
-    [hideModal, state.buttons.length]
+    [hideModal, state.buttons]
   );
   useEffect(() => {
     if (state.isVisible) modal.current.focus();
@@ -126,7 +126,7 @@ const Modal = () => {
             }
           `}
         >
-          {(state.buttons || ["확인", "취소"]).map(({ text, onClick }, idx) => (
+          {state.buttons!.map(({ text, onClick }, idx) => (
             <button
               key={text}
               data-idx={idx}
@@ -150,4 +150,4 @@ const Modal = () => {
   );
 };
 
-export default Modal;
+export default React.memo(Modal);

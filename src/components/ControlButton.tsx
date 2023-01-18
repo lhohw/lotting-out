@@ -6,8 +6,8 @@ import { useColors } from "../recoil/theme";
 import useDeviceDetect from "../utils/hooks/useDeviceDetect";
 
 type ImageButton = {
-  type: "image";
-  ImageComponent: React.ReactNode;
+  type: "component";
+  Component: React.ReactNode;
 };
 type IconButton = {
   type: "icon";
@@ -86,8 +86,8 @@ export const ControlButton = (props: ControlButtonProps) => {
           }
         `}
       >
-        {type === "image" ? (
-          props.ImageComponent
+        {type === "component" ? (
+          props.Component
         ) : (
           <props.Icon
             aria-hidden={true}
@@ -118,4 +118,4 @@ export const ControlButton = (props: ControlButtonProps) => {
   );
 };
 
-export default ControlButton;
+export default React.memo(ControlButton, () => true);

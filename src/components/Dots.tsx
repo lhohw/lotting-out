@@ -1,7 +1,7 @@
 import type { PreviewCompatibleImageData } from "./PreviewCompatibleImage";
 import React from "react";
 import { css } from "@emotion/react";
-import { useColors } from "../recoil/theme/useTheme";
+import colors from "../constants/colors";
 
 export type DotsProps = {
   imageInfos: PreviewCompatibleImageData[];
@@ -9,7 +9,6 @@ export type DotsProps = {
   handleIndex: (idx: number) => void;
 };
 const Dots = ({ imageInfos, idx, handleIndex }: DotsProps) => {
-  const colors = useColors();
   return (
     <ul
       css={css`
@@ -55,4 +54,7 @@ const Dots = ({ imageInfos, idx, handleIndex }: DotsProps) => {
   );
 };
 
-export default Dots;
+export default React.memo(
+  Dots,
+  (prevProps, nextProps) => prevProps.idx === nextProps.idx
+);

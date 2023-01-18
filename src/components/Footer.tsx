@@ -1,13 +1,12 @@
 import React, { useMemo } from "react";
 import { css } from "@emotion/react";
-import { useColors } from "../recoil/theme/useTheme";
+import colors from "../constants/colors";
 
 export type ItemProps = {
   title: string;
   info: string;
 };
 const Item = ({ title, info }: ItemProps) => {
-  const colors = useColors();
   return (
     <div
       css={css`
@@ -92,7 +91,6 @@ const Footer = ({
   phoneNumber,
   email,
 }: FooterProps) => {
-  const colors = useColors();
   const data = useMemo(
     () => [
       {
@@ -172,4 +170,4 @@ const Footer = ({
   );
 };
 
-export default Footer;
+export default React.memo(Footer);

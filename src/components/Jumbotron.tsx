@@ -1,6 +1,6 @@
 import React from "react";
 import { css } from "@emotion/react";
-import { useColors } from "../recoil/theme";
+import colors from "../constants/colors";
 
 export type JumbotronProps = {
   title: string;
@@ -8,7 +8,6 @@ export type JumbotronProps = {
 };
 
 const Jumbotron = ({ title, content }: JumbotronProps) => {
-  const colors = useColors();
   return (
     <div
       css={css`
