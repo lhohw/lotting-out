@@ -38,7 +38,7 @@ const Item = ({ title, info }: ItemProps) => {
           font-display: swap;
         `}
       >
-        <h3
+        <h2
           css={css`
             font-size: 20px;
             color: ${colors.gold};
@@ -49,7 +49,7 @@ const Item = ({ title, info }: ItemProps) => {
           `}
         >
           {title}
-        </h3>
+        </h2>
         <ul
           css={css`
             line-height: 1.8;

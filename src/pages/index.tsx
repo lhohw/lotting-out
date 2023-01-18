@@ -186,6 +186,11 @@ export const Head = () => (
       rel="preconnect"
       href="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
     />
+    <link
+      rel="preload"
+      as="image"
+      href="data:image/svg+xml;charset=utf-8,%3Csvg height='2832' width='4000' xmlns='http://www.w3.org/2000/svg' version='1.1'%3E%3C/svg%3E"
+    />
     <Seo title="Home Page" />
   </>
 );
