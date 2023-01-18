@@ -21,6 +21,15 @@ const HeaderContainer = ({ menu, logo }: HeaderData) => {
     setState(nextState);
   }, [state, setState]);
 
+  const hide = useCallback<HeaderProps["hide"]>(() => {
+    if (state.isOpen) {
+      const nextState = produce(state, (draft) => {
+        draft.isOpen = false;
+      });
+      setState(nextState);
+    }
+  }, [state, setState]);
+
   const onKeyDown = useCallback<HeaderProps["onKeyDown"]>(
     (e) => {
       const target = e.target as HTMLElement;
@@ -44,23 +53,20 @@ const HeaderContainer = ({ menu, logo }: HeaderData) => {
             ?.firstChild as HTMLElement;
           if (sibling) sibling.focus();
         }
-      } else if (e.key === "Escape") toggle();
+      } else if (e.key === "Escape") hide();
+      else if (
+        e.key === "Tab" &&
+        !e.shiftKey &&
+        target.dataset.idx === (menu.length - 1).toString()
+      )
+        hide();
     },
-    [toggle]
+    [hide, menu.length]
   );
 
   const onFocus = useCallback<HeaderProps["onFocus"]>(() => {
     if (!state.isOpen) toggle();
   }, [state.isOpen, toggle]);
-
-  const hide = useCallback<HeaderProps["hide"]>(() => {
-    if (state.isOpen) {
-      const nextState = produce(state, (draft) => {
-        draft.isOpen = false;
-      });
-      setState(nextState);
-    }
-  }, [state, setState]);
 
   useEffect(() => {
     const close = () => {

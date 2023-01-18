@@ -6,7 +6,6 @@ import { useColors } from "../recoil/theme/useTheme";
 import PreviewCompatibleImage, {
   PreviewCompatibleImageData,
 } from "./PreviewCompatibleImage";
-import DarkMode from "./DarkMode";
 import useDeviceDetect from "../utils/hooks/useDeviceDetect";
 
 export type MenuTitle = {
@@ -194,7 +193,6 @@ const Header = ({
           </li>
         ))}
       </ul>
-      <DarkMode key="darkmode" onFocus={hide} />
     </header>
   );
 };

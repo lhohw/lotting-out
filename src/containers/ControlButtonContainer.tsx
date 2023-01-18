@@ -3,11 +3,11 @@ import { css } from "@emotion/react";
 import { RiHealthBookFill } from "react-icons/ri";
 import { BiPhoneCall } from "react-icons/bi";
 import { StaticImage } from "gatsby-plugin-image";
-import { Script } from "gatsby";
 import ControlButton from "../components/ControlButton";
 import Modal from "../components/Modal";
 import useModal from "../utils/hooks/useModal";
 import useDeviceDetect from "../utils/hooks/useDeviceDetect";
+import DarkModeButton from "../components/DarkModeButton";
 
 export type KakaoVariable = {
   Kakao: {
@@ -57,11 +57,6 @@ const ControlButtonContainer = ({
   }, [phoneNumber, showModal, isMobile]);
   return (
     <React.Fragment>
-      <Script
-        src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
-        integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx"
-        crossOrigin="anonymous"
-      ></Script>
       <div
         css={css`
           display: flex;
@@ -78,6 +73,7 @@ const ControlButtonContainer = ({
           }
         `}
       >
+        <DarkModeButton />
         <ControlButton
           isLink
           to="info/register"
@@ -86,13 +82,13 @@ const ControlButtonContainer = ({
           title="관심고객등록"
         />
         <ControlButton
-          type="image"
+          type="component"
           css={css`
             & > span:nth-of-type(1) {
               background-color: yellow;
             }
           `}
-          ImageComponent={
+          Component={
             <StaticImage
               css={css`
                 width: 100%;
