@@ -26,7 +26,7 @@ export type ControlButtonProps = (ImageButton | IconButton) & {
 export const ControlButton = (props: ControlButtonProps) => {
   const { type, title, onClick, isLink = false, to, refProp } = props;
   const colors = useColors();
-  const { isTouch } = useDeviceDetect;
+  const { isTouch } = useDeviceDetect();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const Button = (props: any) =>
     isLink ? (

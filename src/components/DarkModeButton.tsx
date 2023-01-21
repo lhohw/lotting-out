@@ -13,7 +13,7 @@ export type DarkModeButtonProps = {
 export const DarkModeButton = (props: DarkModeButtonProps) => {
   const { className } = props;
   const colors = useColors();
-  const { isTouch } = useDeviceDetect;
+  const { isTouch } = useDeviceDetect();
   const [theme, setTheme] = useRecoilState<ThemeState>(themeState);
 
   const setMode = useCallback(() => {

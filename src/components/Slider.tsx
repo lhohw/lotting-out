@@ -42,7 +42,7 @@ const Slider = ({
   onSelect,
 }: SliderProps) => {
   const colors = useColors();
-  const { isTouch } = useDeviceDetect;
+  const { isTouch } = useDeviceDetect();
   return (
     <div
       css={css`

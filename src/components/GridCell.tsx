@@ -21,7 +21,7 @@ const GridCell = ({
   thumbnail,
   logo,
 }: GridCellProps) => {
-  const { isTouch } = useDeviceDetect;
+  const { isTouch } = useDeviceDetect();
   return (
     <Link
       to={`/info/${title_en.split(" ").join("-")}`}
