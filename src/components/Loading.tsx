@@ -15,12 +15,15 @@ const opacityAnim = keyframes`
   }
 `;
 
-const Loading = () => {
+export type LoadingProps = {
+  isLoading?: boolean;
+};
+const Loading = ({ isLoading: isLoadingProp = false }: LoadingProps) => {
   const [{ isLoading }] = useRecoilState<LoadingState>(loadingState);
   const colors = useColors();
   return (
     <React.Fragment>
-      {isLoading ? (
+      {isLoading || isLoadingProp ? (
         <div
           role="alertdialog"
           aria-modal="true"
