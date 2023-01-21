@@ -40,7 +40,7 @@ const Register = ({
   checkValidity,
 }: RegisterProps) => {
   const colors = useColors();
-  const { isTouch } = useDeviceDetect();
+  const { isTouch } = useDeviceDetect;
   const { value, agreement } = state;
   return (
     <React.Fragment>

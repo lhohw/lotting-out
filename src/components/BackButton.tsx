@@ -12,7 +12,7 @@ const BackButton = ({ className }: BackButtonProps) => {
     history.back();
   }, []);
   const colors = useColors();
-  const { isTouch } = useDeviceDetect();
+  const { isTouch } = useDeviceDetect;
   return (
     <button
       type="button"

@@ -24,7 +24,7 @@ export type ControlButtonContainerProps = {
 const ControlButtonContainer = ({
   phoneNumber,
 }: ControlButtonContainerProps) => {
-  const { isMobile } = useDeviceDetect();
+  const { isMobile } = useDeviceDetect;
 
   const callBtn = useRef<HTMLButtonElement>(null!);
   const { showModal } = useModal();

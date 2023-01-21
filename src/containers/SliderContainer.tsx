@@ -19,7 +19,7 @@ const SliderContainer = ({
   short,
   isPreview = false,
 }: SliderData) => {
-  const { isMobile } = useDeviceDetect();
+  const { isMobile } = useDeviceDetect;
   const [state, setState] = useRecoilState<SliderState>(sliderState);
   const [headerState, setHeaderState] = useRecoilState<HeaderState>(hs);
 

@@ -29,7 +29,7 @@ const Header = ({
   hide,
 }: HeaderProps) => {
   const colors = useColors();
-  const { isTouch } = useDeviceDetect();
+  const { isTouch } = useDeviceDetect;
   return (
     <header
       css={css`
