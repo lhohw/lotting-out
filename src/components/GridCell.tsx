@@ -5,7 +5,8 @@ import { Link } from "gatsby";
 import PreviewCompatibleImage, {
   PreviewCompatibleImageData,
 } from "./PreviewCompatibleImage";
-import useDeviceDetect from "../utils/hooks/useDeviceDetect";
+import { useRecoilState } from "recoil";
+import { DeviceState, deviceState as ds } from "../recoil/deviceDetect";
 import colors from "../constants/colors";
 
 type GridCellProps = {
@@ -21,7 +22,8 @@ const GridCell = ({
   thumbnail,
   logo,
 }: GridCellProps) => {
-  const { isTouch } = useDeviceDetect();
+  const [deviceState] = useRecoilState<DeviceState>(ds);
+  const { isTouch } = deviceState;
   return (
     <Link
       to={`/info/${title_en.split(" ").join("-")}`}

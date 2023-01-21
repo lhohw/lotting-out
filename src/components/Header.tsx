@@ -6,7 +6,8 @@ import { useColors } from "../recoil/theme/useTheme";
 import PreviewCompatibleImage, {
   PreviewCompatibleImageData,
 } from "./PreviewCompatibleImage";
-import useDeviceDetect from "../utils/hooks/useDeviceDetect";
+import { useRecoilState } from "recoil";
+import { DeviceState, deviceState as ds } from "../recoil/deviceDetect";
 
 export type MenuTitle = {
   title: string;
@@ -28,8 +29,9 @@ const Header = ({
   onFocus,
   hide,
 }: HeaderProps) => {
+  const [deviceState] = useRecoilState<DeviceState>(ds);
+  const { isTouch } = deviceState;
   const colors = useColors();
-  const { isTouch } = useDeviceDetect();
   return (
     <header
       css={css`

@@ -1,3 +1,2 @@
-import type { LoadingState as ls } from "./atom";
-export type { ls as LoadingState };
+export type { LoadingState } from "./atom";
 export { default as loadingState } from "./atom";

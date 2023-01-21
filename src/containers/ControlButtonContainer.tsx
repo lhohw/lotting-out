@@ -6,7 +6,8 @@ import { StaticImage } from "gatsby-plugin-image";
 import ControlButton from "../components/ControlButton";
 import Modal from "../components/Modal";
 import useModal from "../utils/hooks/useModal";
-import useDeviceDetect from "../utils/hooks/useDeviceDetect";
+import { useRecoilState } from "recoil";
+import { DeviceState, deviceState as ds } from "../recoil/deviceDetect";
 import DarkModeButton from "../components/DarkModeButton";
 
 export type KakaoVariable = {
@@ -24,7 +25,8 @@ export type ControlButtonContainerProps = {
 const ControlButtonContainer = ({
   phoneNumber,
 }: ControlButtonContainerProps) => {
-  const { isMobile, isTouch, common } = useDeviceDetect();
+  const [deviceState] = useRecoilState<DeviceState>(ds);
+  const { isMobile } = deviceState;
 
   const callBtn = useRef<HTMLButtonElement>(null!);
   const { showModal } = useModal();
@@ -49,14 +51,12 @@ const ControlButtonContainer = ({
       showModal({
         focus: () => callBtn.current.focus(),
         title: "이용 불가",
-        // content: `전화 상담을 연결할 수 없는 기기입니다.\n상담을 원하실 경우 다음 번호로 연락 바랍니다.\n${phoneNumber}`,
-        // @ts-ignore
-        content: `${window.navigator.userAgent}\n${window.navigator.userAgentData}\nisMobile: ${isMobile}\nisTouch: ${isTouch}\ncommon: ${common}\norientation: ${window.screen.orientation}`,
+        content: `전화 상담을 연결할 수 없는 기기입니다.\n상담을 원하실 경우 다음 번호로 연락 바랍니다.\n${phoneNumber}`,
       });
       return;
     }
     return (document.location.href = `tel:+82-${phoneNumber}`);
-  }, [isMobile, phoneNumber, showModal, isTouch, common]);
+  }, [isMobile, phoneNumber, showModal]);
   return (
     <React.Fragment>
       <div

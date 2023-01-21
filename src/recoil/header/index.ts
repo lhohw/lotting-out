@@ -1,4 +1,2 @@
-import type { HeaderState as HC } from "./atom";
-
+export type { HeaderState } from "./atom";
 export { default as headerState } from "./atom";
-export type { HC as HeaderState };

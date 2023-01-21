@@ -2,10 +2,10 @@ import atom from "./atom";
 import { selector, useRecoilValue } from "recoil";
 import colors from "../../constants/colors";
 
-export type ThemeState = Record<keyof typeof colors, string>;
+export type ColorState = Record<keyof typeof colors, string>;
 const colorState = selector({
   key: "colorState",
-  get: ({ get }): ThemeState => {
+  get: ({ get }): ColorState => {
     const theme = get(atom);
     return {
       main: colors.main,

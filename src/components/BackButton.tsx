@@ -2,17 +2,19 @@ import React, { useCallback } from "react";
 import { css } from "@emotion/react";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { useColors } from "../recoil/theme";
-import useDeviceDetect from "../utils/hooks/useDeviceDetect";
+import { useRecoilState } from "recoil";
+import { DeviceState, deviceState as ds } from "../recoil/deviceDetect";
 
 export type BackButtonProps = {
   className?: string;
 };
 const BackButton = ({ className }: BackButtonProps) => {
+  const [deviceState] = useRecoilState<DeviceState>(ds);
+  const { isTouch } = deviceState;
   const onClick = useCallback(() => {
     history.back();
   }, []);
   const colors = useColors();
-  const { isTouch } = useDeviceDetect();
   return (
     <button
       type="button"

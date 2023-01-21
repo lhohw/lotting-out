@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { useRecoilState } from "recoil";
 import { ThemeState, themeState } from "../recoil/theme";
 import { useColors } from "../recoil/theme";
-import useDeviceDetect from "../utils/hooks/useDeviceDetect";
+import { DeviceState, deviceState as ds } from "../recoil/deviceDetect";
 import { FiSun, FiMoon } from "react-icons/fi";
 
 export type DarkModeButtonProps = {
@@ -11,9 +11,10 @@ export type DarkModeButtonProps = {
 };
 
 export const DarkModeButton = (props: DarkModeButtonProps) => {
+  const [deviceState] = useRecoilState<DeviceState>(ds);
+  const { isTouch } = deviceState;
   const { className } = props;
   const colors = useColors();
-  const { isTouch } = useDeviceDetect();
   const [theme, setTheme] = useRecoilState<ThemeState>(themeState);
 
   const setMode = useCallback(() => {

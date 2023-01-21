@@ -11,7 +11,8 @@ import PreviewCompatibleImage, {
 import Jumbotron from "./Jumbotron";
 import Dots from "./Dots";
 import { useColors } from "../recoil/theme";
-import useDeviceDetect from "../utils/hooks/useDeviceDetect";
+import { useRecoilState } from "recoil";
+import { DeviceState, deviceState as ds } from "../recoil/deviceDetect";
 
 export type SliderProps = {
   slider: MutableRefObject<HTMLDivElement>;
@@ -41,8 +42,9 @@ const Slider = ({
   onMouseUp,
   onSelect,
 }: SliderProps) => {
+  const [deviceState] = useRecoilState<DeviceState>(ds);
+  const { isTouch } = deviceState;
   const colors = useColors();
-  const { isTouch } = useDeviceDetect();
   return (
     <div
       css={css`

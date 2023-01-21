@@ -1,8 +1,10 @@
 import type { PreviewCompatibleImageData } from "../components/PreviewCompatibleImage";
 import type { InfoProps } from "../components/Info";
 import type { CategoryMenu } from "../components/Category";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useEffect } from "react";
 import { graphql, Script } from "gatsby";
+import { useRecoilState } from "recoil";
+
 import Layout from "../components/Layout";
 import Seo from "../components/Seo";
 import HeaderContainer from "../containers/HeaderContainer";
@@ -11,6 +13,8 @@ import Category from "../components/Category";
 import Footer, { FooterProps } from "../components/Footer";
 import ControlButtonContainer from "../containers/ControlButtonContainer";
 import Loading from "../components/Loading";
+import { deviceState as ds, DeviceState } from "../recoil/deviceDetect";
+import { checkTouch, checkMobile } from "../utils";
 
 export type IndexPageData = {
   data: {
@@ -62,6 +66,37 @@ const IndexPage = ({ data }: IndexPageData) => {
         .sort((a, b) => a.priority - b.priority),
     [data.allMdx.edges, findImage]
   );
+  const [deviceState, setDeviceState] = useRecoilState<DeviceState>(ds);
+
+  useEffect(() => {
+    if (deviceState.isInitialized) return;
+    const windowWith = globalThis as typeof globalThis & {
+      opera: string;
+      navigator: {
+        userAgentData?: {
+          mobile: boolean;
+        };
+      };
+    };
+    const isMobile =
+      checkMobile(
+        windowWith.navigator.userAgent ||
+          windowWith.navigator.vendor ||
+          windowWith.opera
+      ) || Boolean(windowWith.navigator.userAgentData?.mobile);
+    const isTouch =
+      checkTouch(
+        windowWith.navigator.userAgent ||
+          windowWith.navigator.vendor ||
+          windowWith.opera
+      ) || Boolean(windowWith.navigator.userAgentData?.mobile);
+
+    setDeviceState({
+      isInitialized: true,
+      isMobile,
+      isTouch,
+    });
+  }, [deviceState, setDeviceState]);
 
   const {
     logo,
@@ -73,16 +108,22 @@ const IndexPage = ({ data }: IndexPageData) => {
 
   return (
     <Layout>
-      <HeaderContainer menu={menu} logo={logo} />
-      <SliderContainer
-        imageInfos={imageInfos}
-        apartment={apartment}
-        short={short}
-      />
-      <Category menu={menu} logo={logo} />
-      <Footer {...rest} />
-      <ControlButtonContainer phoneNumber={rest.phoneNumber} />
-      <Loading />
+      {!deviceState.isInitialized ? (
+        <Loading isLoading />
+      ) : (
+        <React.Fragment>
+          (<HeaderContainer menu={menu} logo={logo} />
+          <SliderContainer
+            imageInfos={imageInfos}
+            apartment={apartment}
+            short={short}
+          />
+          <Category menu={menu} logo={logo} />
+          <Footer {...rest} />
+          <ControlButtonContainer phoneNumber={rest.phoneNumber} />
+          <Loading />)
+        </React.Fragment>
+      )}
       <Script
         src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
         integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx"

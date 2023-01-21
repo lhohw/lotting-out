@@ -5,7 +5,7 @@ import { sliderState } from "../recoil/slider";
 import Slider, { SliderProps } from "../components/Slider";
 import produce from "immer";
 import { HeaderState, headerState as hs } from "../recoil/header";
-import useDeviceDetect from "../utils/hooks/useDeviceDetect";
+import { DeviceState, deviceState as ds } from "../recoil/deviceDetect";
 
 export type SliderData = {
   imageInfos: SliderProps["imageInfos"];
@@ -19,7 +19,8 @@ const SliderContainer = ({
   short,
   isPreview = false,
 }: SliderData) => {
-  const { isMobile } = useDeviceDetect();
+  const [deviceState] = useRecoilState<DeviceState>(ds);
+  const { isMobile } = deviceState;
   const [state, setState] = useRecoilState<SliderState>(sliderState);
   const [headerState, setHeaderState] = useRecoilState<HeaderState>(hs);
 

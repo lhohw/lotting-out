@@ -1,7 +1,5 @@
-import type { ThemeState as ts } from "./atom";
-import { useColors as uc } from "./useTheme";
+export type { ThemeState } from "./atom";
+export type { ColorState } from "./useTheme";
 export { default as themeState } from "./atom";
 export { default as useTheme } from "./useTheme";
-
-export { uc as useColors };
-export type { ts as ThemeState };
+export { useColors } from "./useTheme";

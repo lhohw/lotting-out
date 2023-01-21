@@ -7,7 +7,8 @@ import Input from "./Input";
 import Question from "./Question";
 import Agreement from "./Agreement";
 import Modal from "./Modal";
-import useDeviceDetect from "../utils/hooks/useDeviceDetect";
+import { useRecoilState } from "recoil";
+import { DeviceState, deviceState as ds } from "../recoil/deviceDetect";
 
 export type Value = {
   [key: string]: string;
@@ -39,8 +40,9 @@ const Register = ({
   onClick,
   checkValidity,
 }: RegisterProps) => {
+  const [deviceState] = useRecoilState<DeviceState>(ds);
+  const { isTouch } = deviceState;
   const colors = useColors();
-  const { isTouch } = useDeviceDetect();
   const { value, agreement } = state;
   return (
     <React.Fragment>
