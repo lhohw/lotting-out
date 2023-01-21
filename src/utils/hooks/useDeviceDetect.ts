@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 export type DeviceState = {
   isTouch: boolean;
   isMobile: boolean;
+  common: boolean;
 };
 const useDeviceDetect = () => {
   const [deviceType, setDeviceType] = useState<DeviceState>({
     isTouch: false,
     isMobile: false,
+    common: false,
   });
   useEffect(() => {
     const windowWith = globalThis as typeof globalThis & {
@@ -54,9 +56,12 @@ const useDeviceDetect = () => {
     setDeviceType({
       isMobile,
       isTouch,
+      common,
     });
   }, [setDeviceType]);
-  return deviceType;
+  return {
+    ...deviceType,
+  };
 };
 
 export default useDeviceDetect;

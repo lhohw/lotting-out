@@ -24,7 +24,7 @@ export type ControlButtonContainerProps = {
 const ControlButtonContainer = ({
   phoneNumber,
 }: ControlButtonContainerProps) => {
-  const { isMobile } = useDeviceDetect();
+  const { isMobile, isTouch, common } = useDeviceDetect();
 
   const callBtn = useRef<HTMLButtonElement>(null!);
   const { showModal } = useModal();
@@ -49,12 +49,14 @@ const ControlButtonContainer = ({
       showModal({
         focus: () => callBtn.current.focus(),
         title: "이용 불가",
-        content: `전화 상담을 연결할 수 없는 기기입니다.\n상담을 원하실 경우 다음 번호로 연락 바랍니다.\n${phoneNumber}`,
+        // content: `전화 상담을 연결할 수 없는 기기입니다.\n상담을 원하실 경우 다음 번호로 연락 바랍니다.\n${phoneNumber}`,
+        // @ts-ignore
+        content: `${window.navigator.userAgent}\n${window.navigator.userAgentData}\nisMobile: ${isMobile}\nisTouch: ${isTouch}\ncommon: ${common}\norientation: ${window.screen.orientation}`,
       });
       return;
     }
     return (document.location.href = `tel:+82-${phoneNumber}`);
-  }, [phoneNumber, showModal, isMobile]);
+  }, [isMobile, phoneNumber, showModal, isTouch, common]);
   return (
     <React.Fragment>
       <div
