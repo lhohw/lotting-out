@@ -115,15 +115,13 @@ const Seo = ({ title }: SeoProps) => {
       />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="627" />
-      {/* <meta name="naver-site-verification" content="" /> */}
+      <meta
+        name="naver-site-verification"
+        content="dae22427027de8297ea577e9bf430bf46bdd3818"
+      />
       <title>
         {apartment} | {title}
       </title>
-      {/* <script
-        type="text/javascript"
-        async
-        src="https://www.google-analytics.com/analytics.js"
-      ></script> */}
     </>
   );
 };
