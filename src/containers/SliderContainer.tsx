@@ -153,8 +153,7 @@ const SliderContainer = ({
     const x = getTransform(slider.current);
     const gap = prevX - x;
     if (gap === 0) return;
-
-    let nextIdx = Math.round((-x - width) / width);
+    let nextIdx = state.idx;
     if (Math.abs(gap) >= threshold) {
       const sign = gap > 0 ? 1 : -1;
       if (state.idx === 0) {
@@ -200,7 +199,7 @@ const SliderContainer = ({
     const gap = prevX - x;
     if (gap === 0) return;
 
-    let nextIdx = Math.round((-x - width) / width);
+    let nextIdx = state.idx;
     if (Math.abs(gap) >= threshold) {
       const sign = gap > 0 ? 1 : -1;
       if (state.idx === 0) {
