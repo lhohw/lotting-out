@@ -6,7 +6,7 @@ const config: GatsbyConfig = {
   siteMetadata: {
     title: `lotting-out`,
     description: `아파트 분양을 위한 웹페이지`,
-    siteUrl: `https://gilded-nasturtium-9fb684.netlify.app/`,
+    siteUrl: `https://himodel.kr`,
   },
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
   // If you use VSCode you can also use the GraphQL plugin
@@ -27,7 +27,7 @@ const config: GatsbyConfig = {
     {
       resolve: "gatsby-plugin-canonical-urls",
       options: {
-        siteUrl: "https://gilded-nasturtium-9fb684.netlify.app/",
+        siteUrl: "https://himodel.kr",
       },
     },
     {
@@ -43,6 +43,29 @@ const config: GatsbyConfig = {
     "gatsby-plugin-mdx",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
+    {
+      resolve: "gatsby-plugin-robots-txt",
+      options: {
+        resolveEnv: () => process.env.NODE_ENV,
+        env: {
+          production: {
+            host: "https://himodel.kr",
+            sitemap: "https://himodel.kr/sitemap-index.xml",
+            policy: [{ userAgent: "*" }],
+          },
+          "branch-deploy": {
+            host: null,
+            sitemap: null,
+            policy: [{ userAgent: "*", disallow: ["/"] }],
+          },
+          "deploy-preview": {
+            host: null,
+            sitemap: null,
+            policy: [{ userAgent: "*", disallow: ["/"] }],
+          },
+        },
+      },
+    },
     {
       resolve: "gatsby-source-filesystem",
       options: {
