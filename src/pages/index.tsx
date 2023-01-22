@@ -112,7 +112,7 @@ const IndexPage = ({ data }: IndexPageData) => {
         <Loading isLoading />
       ) : (
         <React.Fragment>
-          (<HeaderContainer menu={menu} logo={logo} />
+          <HeaderContainer menu={menu} logo={logo} />
           <SliderContainer
             imageInfos={imageInfos}
             apartment={apartment}
@@ -121,7 +121,7 @@ const IndexPage = ({ data }: IndexPageData) => {
           <Category menu={menu} logo={logo} />
           <Footer {...rest} />
           <ControlButtonContainer phoneNumber={rest.phoneNumber} />
-          <Loading />)
+          <Loading />
         </React.Fragment>
       )}
       <Script
