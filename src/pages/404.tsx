@@ -62,6 +62,7 @@ const NotFoundPage: React.FC<PageProps> = () => {
                 color: ${colors.gold};
               }
             `}
+            replace
           >
             🏠 Go home
           </Link>
