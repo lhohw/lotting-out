@@ -11,6 +11,7 @@ export type DotsProps = {
 const Dots = ({ imageInfos, idx, handleIndex }: DotsProps) => {
   return (
     <ul
+      tabIndex={-1}
       css={css`
         position: absolute;
         left: 50%;

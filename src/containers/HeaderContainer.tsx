@@ -21,7 +21,7 @@ const HeaderContainer = ({ menu, logo }: HeaderData) => {
     setState(nextState);
   }, [state, setState]);
 
-  const hide = useCallback<HeaderProps["hide"]>(() => {
+  const hide = useCallback<() => void>(() => {
     if (state.isOpen) {
       const nextState = produce(state, (draft) => {
         draft.isOpen = false;
@@ -53,20 +53,41 @@ const HeaderContainer = ({ menu, logo }: HeaderData) => {
             ?.firstChild as HTMLElement;
           if (sibling) sibling.focus();
         }
-      } else if (e.key === "Escape") hide();
-      else if (
-        e.key === "Tab" &&
-        !e.shiftKey &&
-        target.dataset.idx === (menu.length - 1).toString()
+      }
+      if (!state.isOpen) return;
+      if (
+        e.key === "Escape" ||
+        (e.key === "Tab" &&
+          !e.shiftKey &&
+          target.dataset.idx === (menu.length - 1).toString()) ||
+        (e.key === "Tab" && e.shiftKey && target.dataset.idx === "0")
       )
         hide();
     },
-    [hide, menu.length]
+    [hide, menu.length, state.isOpen]
   );
 
   const onFocus = useCallback<HeaderProps["onFocus"]>(() => {
     if (!state.isOpen) toggle();
   }, [state.isOpen, toggle]);
+
+  const onBlur = useCallback<HeaderProps["onBlur"]>(
+    (e) => {
+      if (!state.isOpen) return;
+      const target = e.target as HTMLElement;
+      const relatedTarget = e.relatedTarget as HTMLElement;
+      if (!target || !relatedTarget) return;
+      if (target.tagName === "UL") {
+        if (
+          relatedTarget.tagName === "BUTTON" ||
+          relatedTarget.tagName === "H1"
+        ) {
+          hide();
+        }
+      }
+    },
+    [state.isOpen, hide]
+  );
 
   useEffect(() => {
     const close = () => {
@@ -104,7 +125,7 @@ const HeaderContainer = ({ menu, logo }: HeaderData) => {
       isOpen={state.isOpen}
       onKeyDown={onKeyDown}
       onFocus={onFocus}
-      hide={hide}
+      onBlur={onBlur}
     />
   );
 };

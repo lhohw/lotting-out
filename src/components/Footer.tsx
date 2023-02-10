@@ -39,6 +39,7 @@ const Item = ({ title, info }: ItemProps) => {
         `}
       >
         <h2
+          tabIndex={-1}
           css={css`
             font-size: 20px;
             color: ${colors.gold};
@@ -51,6 +52,7 @@ const Item = ({ title, info }: ItemProps) => {
           {title}
         </h2>
         <ul
+          tabIndex={-1}
           css={css`
             line-height: 1.8;
             font-size: 10px;
@@ -65,6 +67,7 @@ const Item = ({ title, info }: ItemProps) => {
         >
           {info.split("\n").map((i, idx) => (
             <li
+              tabIndex={-1}
               key={idx}
               css={css`
                 margin: 0.3rem 0;

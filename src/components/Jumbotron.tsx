@@ -25,6 +25,7 @@ const Jumbotron = ({ title, content }: JumbotronProps) => {
       `}
     >
       <h1
+        tabIndex={-1}
         css={css`
           margin: 0;
           padding: 0;
@@ -38,7 +39,8 @@ const Jumbotron = ({ title, content }: JumbotronProps) => {
       >
         {title}
       </h1>
-      <p
+      <span
+        tabIndex={-1}
         css={css`
           margin: 0;
           padding: 0;
@@ -52,7 +54,7 @@ const Jumbotron = ({ title, content }: JumbotronProps) => {
         `}
       >
         {content}
-      </p>
+      </span>
     </div>
   );
 };

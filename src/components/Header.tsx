@@ -19,7 +19,7 @@ export type HeaderProps = {
   menu: MenuTitle[];
   onKeyDown: (e: React.KeyboardEvent) => void;
   onFocus: () => void;
-  hide: () => void;
+  onBlur: (e: React.FocusEvent<HTMLUListElement, Element>) => void;
 };
 const Header = ({
   logo,
@@ -27,7 +27,7 @@ const Header = ({
   isOpen,
   onKeyDown,
   onFocus,
-  hide,
+  onBlur,
 }: HeaderProps) => {
   const [deviceState] = useRecoilState<DeviceState>(ds);
   const { isTouch } = deviceState;
@@ -74,7 +74,6 @@ const Header = ({
         type="button"
         aria-expanded={isOpen}
         aria-controls="info-list"
-        onFocus={hide}
         css={css`
           display: flex;
           align-items: center;
@@ -89,11 +88,11 @@ const Header = ({
           }
         `}
       >
-        <AiOutlineMenu size={22} />
+        <AiOutlineMenu aria-hidden size={22} />
       </button>
       <ul
         id="info-list"
-        tabIndex={0}
+        tabIndex={-1}
         css={css`
           display: flex;
           flex-direction: column;
@@ -122,6 +121,7 @@ const Header = ({
         `}
         onKeyDown={onKeyDown}
         onFocus={onFocus}
+        onBlur={onBlur}
       >
         {menu.map(({ title, title_en }, idx) => (
           <li
