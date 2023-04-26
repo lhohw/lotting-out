@@ -30,7 +30,8 @@
       "아파트 분양",
       "hillstate",
       "patioforet",
-      "hillstate patioforet"
+      "hillstate patioforet",
+      "양주힐스테이트"
     ]
   },
   "logo": {
@@ -39,7 +40,7 @@
     "title": "힐스테이트 로고"
   },
   "name": "안동호",
-  "apartment": "양주옥정 파티오포레 힐스테이트",
+  "apartment": "양주옥정 힐스테이트 파티오포레",
   "address": "경기 양주시 옥정동 904-1",
   "phoneNumber": "1661-0426",
   "type": "setting",
