@@ -55,7 +55,7 @@ const ControlButtonContainer = ({
       });
       return;
     }
-    return (document.location.href = `tel:+82-${phoneNumber}`);
+    return (document.location.href = `tel:${phoneNumber}`);
   }, [isMobile, phoneNumber, showModal]);
   return (
     <React.Fragment>
