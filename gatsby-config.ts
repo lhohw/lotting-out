@@ -16,7 +16,7 @@ const config: GatsbyConfig = {
     {
       resolve: "gatsby-plugin-google-gtag",
       options: {
-        trackingIds: [process.env.GA_TRACKING_ID],
+        trackingIds: [process.env.GA_TRACKING_ID, process.env.AW_CONVERSION_ID],
         pluginConfig: {
           head: true,
           respectDNT: true,
