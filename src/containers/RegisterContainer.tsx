@@ -1,4 +1,5 @@
 import type { RegisterProps } from "../components/Register";
+
 import React, {
   useCallback,
   useEffect,
@@ -9,9 +10,10 @@ import React, {
 import produce from "immer";
 import axios from "axios";
 import { useRecoilState } from "recoil";
+
 import { loadingState, LoadingState } from "../recoil/loading";
 import Register from "../components/Register";
-import useModal from "../utils/hooks/useModal";
+import useModal from "../hooks/useModal";
 
 export type RegisterContainerProps = {
   questions: {

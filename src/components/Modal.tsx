@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import { css } from "@emotion/react";
 import { useRecoilState } from "recoil";
+
 import { useColors } from "../recoil/theme";
 import { modalState, ModalState } from "../recoil/modal";
-import useModal from "../utils/hooks/useModal";
+
+import useModal from "../hooks/useModal";
 
 const Modal = () => {
   const colors = useColors();

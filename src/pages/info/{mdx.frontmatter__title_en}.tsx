@@ -1,16 +1,21 @@
 import type { PreviewTemplateComponentProps } from "netlify-cms-core";
 import type { RegisterProps } from "../../components/Register";
+
 import React from "react";
+import { graphql } from "gatsby";
 import { css } from "@emotion/react";
+
 import Layout from "../../components/Layout";
 import Seo from "../../components/Seo";
-import { graphql } from "gatsby";
-import useFrontmatter from "../../utils/hooks/useFrontmatter";
-import RegisterContainer from "../../containers/RegisterContainer";
 import Info, { InfoProps } from "../../components/Info";
 import BackButton from "../../components/BackButton";
-import { useColors } from "../../recoil/theme";
 import Loading from "../../components/Loading";
+
+import RegisterContainer from "../../containers/RegisterContainer";
+
+import { useColors } from "../../recoil/theme";
+
+import useFrontmatter from "../../hooks/useFrontmatter";
 
 export type InfoPageProps = {
   data: {

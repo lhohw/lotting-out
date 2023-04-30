@@ -2,13 +2,14 @@ import type { Question as QuestionType } from "../widgets/Question";
 import React from "react";
 import { css } from "@emotion/react";
 import { StaticImage } from "gatsby-plugin-image";
+
 import { useColors } from "../recoil/theme/useTheme";
 import Input from "./Input";
 import Question from "./Question";
 import Agreement from "./Agreement";
 import Modal from "./Modal";
-import { useRecoilState } from "recoil";
-import { DeviceState, deviceState as ds } from "../recoil/deviceDetect";
+
+import useDeviceState from "../hooks/useDeviceState";
 
 export type Value = {
   [key: string]: string;
@@ -40,8 +41,7 @@ const Register = ({
   onClick,
   checkValidity,
 }: RegisterProps) => {
-  const [deviceState] = useRecoilState<DeviceState>(ds);
-  const { isTouch, isInitialized } = deviceState;
+  const { isTouch, isInitialized } = useDeviceState();
   const colors = useColors();
   const { value, agreement } = state;
   return (

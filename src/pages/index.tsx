@@ -1,9 +1,8 @@
 import type { PreviewCompatibleImageData } from "../components/PreviewCompatibleImage";
 import type { InfoProps } from "../components/Info";
 import type { CategoryMenu } from "../components/Category";
-import React, { useCallback, useMemo, useEffect } from "react";
+import React, { useCallback, useMemo } from "react";
 import { graphql, Script } from "gatsby";
-import { useRecoilState } from "recoil";
 
 import Layout from "../components/Layout";
 import Seo from "../components/Seo";
@@ -13,8 +12,8 @@ import Category from "../components/Category";
 import Footer, { FooterProps } from "../components/Footer";
 import ControlButtonContainer from "../containers/ControlButtonContainer";
 import Loading from "../components/Loading";
-import { deviceState as ds, DeviceState } from "../recoil/deviceDetect";
-import { checkTouch, checkMobile } from "../utils";
+
+import useDeviceState from "../hooks/useDeviceState";
 
 export type IndexPageData = {
   data: {
@@ -42,6 +41,7 @@ export type IndexPageData = {
     } & FooterProps;
   };
 };
+
 const IndexPage = ({ data }: IndexPageData) => {
   const findImage = useCallback(
     (info: InfoProps["data"][number]): PreviewCompatibleImageData["image"] => {
@@ -66,37 +66,8 @@ const IndexPage = ({ data }: IndexPageData) => {
         .sort((a, b) => a.priority - b.priority),
     [data.allMdx.edges, findImage]
   );
-  const [deviceState, setDeviceState] = useRecoilState<DeviceState>(ds);
 
-  useEffect(() => {
-    const windowWith = globalThis as typeof globalThis & {
-      opera: string;
-      navigator: {
-        userAgentData?: {
-          mobile: boolean;
-        };
-      };
-    };
-    const isMobile =
-      checkMobile(
-        windowWith.navigator.userAgent ||
-          windowWith.navigator.vendor ||
-          windowWith.opera
-      ) || Boolean(windowWith.navigator.userAgentData?.mobile);
-    const isTouch =
-      checkTouch(
-        windowWith.navigator.userAgent ||
-          windowWith.navigator.vendor ||
-          windowWith.opera
-      ) || Boolean(windowWith.navigator.userAgentData?.mobile);
-
-    setDeviceState({
-      isInitialized: true,
-      isMobile,
-      isTouch,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { isInitialized } = useDeviceState();
 
   const {
     logo,
@@ -117,7 +88,7 @@ const IndexPage = ({ data }: IndexPageData) => {
         />
         <Category menu={menu} logo={logo} />
         <Footer {...rest} />
-        {deviceState.isInitialized ? (
+        {isInitialized ? (
           <ControlButtonContainer phoneNumber={rest.phoneNumber} />
         ) : null}
         <Loading />

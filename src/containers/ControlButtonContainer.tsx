@@ -1,14 +1,16 @@
 import React, { useRef, useCallback } from "react";
 import { css } from "@emotion/react";
+
 import { RiHealthBookFill } from "react-icons/ri";
 import { BiPhoneCall } from "react-icons/bi";
 import { StaticImage } from "gatsby-plugin-image";
+
 import ControlButton from "../components/ControlButton";
 import Modal from "../components/Modal";
-import useModal from "../utils/hooks/useModal";
-import { useRecoilState } from "recoil";
-import { DeviceState, deviceState as ds } from "../recoil/deviceDetect";
 import DarkModeButton from "../components/DarkModeButton";
+
+import useDeviceState from "../hooks/useDeviceState";
+import useModal from "../hooks/useModal";
 
 export type KakaoVariable = {
   Kakao: {
@@ -25,9 +27,7 @@ export type ControlButtonContainerProps = {
 const ControlButtonContainer = ({
   phoneNumber,
 }: ControlButtonContainerProps) => {
-  const [deviceState] = useRecoilState<DeviceState>(ds);
-  const { isMobile, isInitialized } = deviceState;
-
+  const { isInitialized, isMobile } = useDeviceState();
   const callBtn = useRef<HTMLButtonElement>(null!);
   const { showModal } = useModal();
 

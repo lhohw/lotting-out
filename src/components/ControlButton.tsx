@@ -2,9 +2,9 @@ import type { IconType } from "react-icons";
 import React from "react";
 import { css } from "@emotion/react";
 import { Link } from "gatsby";
+
 import { useColors } from "../recoil/theme";
-import { useRecoilState } from "recoil";
-import { DeviceState, deviceState as ds } from "../recoil/deviceDetect";
+import useDeviceState from "../hooks/useDeviceState";
 
 type ImageButton = {
   type: "component";
@@ -25,10 +25,10 @@ export type ControlButtonProps = (ImageButton | IconButton) & {
 };
 
 export const ControlButton = (props: ControlButtonProps) => {
-  const [deviceState] = useRecoilState<DeviceState>(ds);
-  const { isTouch, isInitialized } = deviceState;
-  const { type, title, onClick, isLink = false, to, refProp } = props;
+  const { isTouch, isInitialized } = useDeviceState();
   const colors = useColors();
+
+  const { type, title, onClick, isLink = false, to, refProp } = props;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const Button = (props: any) =>
     isLink ? (

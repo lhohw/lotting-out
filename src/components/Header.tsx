@@ -2,12 +2,13 @@ import React from "react";
 import { css } from "@emotion/react";
 import { Link } from "gatsby";
 import { AiOutlineMenu } from "react-icons/ai";
-import { useColors } from "../recoil/theme/useTheme";
+
 import PreviewCompatibleImage, {
   PreviewCompatibleImageData,
 } from "./PreviewCompatibleImage";
-import { useRecoilState } from "recoil";
-import { DeviceState, deviceState as ds } from "../recoil/deviceDetect";
+
+import { useColors } from "../recoil/theme/useTheme";
+import useDeviceState from "../hooks/useDeviceState";
 
 export type MenuTitle = {
   title: string;
@@ -29,8 +30,7 @@ const Header = ({
   onFocus,
   onBlur,
 }: HeaderProps) => {
-  const [deviceState] = useRecoilState<DeviceState>(ds);
-  const { isTouch, isInitialized } = deviceState;
+  const { isTouch, isInitialized } = useDeviceState();
   const colors = useColors();
   return (
     <header
