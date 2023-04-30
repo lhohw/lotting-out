@@ -1,7 +1,8 @@
 import { useCallback } from "react";
 import produce from "immer";
-import { ModalState, modalState as ms } from "../../recoil/modal";
 import { useRecoilState } from "recoil";
+
+import { ModalState, modalState as ms } from "../recoil/modal";
 
 export type HideModal = () => void;
 export type ShowModal = ({
