@@ -30,7 +30,7 @@ const Header = ({
   onBlur,
 }: HeaderProps) => {
   const [deviceState] = useRecoilState<DeviceState>(ds);
-  const { isTouch } = deviceState;
+  const { isTouch, isInitialized } = deviceState;
   const colors = useColors();
   return (
     <header
@@ -139,7 +139,8 @@ const Header = ({
               max-width: 100%;
               min-width: ${isOpen ? "auto" : "100px"};
               background-color: #12121277;
-              ${!isTouch &&
+              ${isInitialized &&
+              !isTouch &&
               `
                 &:hover {
                   background-color: #121212aa;
@@ -169,7 +170,8 @@ const Header = ({
                 flex: 1;
                 align-items: center;
                 justify-content: center;
-                ${!isTouch &&
+                ${isInitialized &&
+                !isTouch &&
                 `
                   &:hover {
                     font-weight: 900;

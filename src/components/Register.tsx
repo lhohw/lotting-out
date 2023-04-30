@@ -41,7 +41,7 @@ const Register = ({
   checkValidity,
 }: RegisterProps) => {
   const [deviceState] = useRecoilState<DeviceState>(ds);
-  const { isTouch } = deviceState;
+  const { isTouch, isInitialized } = deviceState;
   const colors = useColors();
   const { value, agreement } = state;
   return (
@@ -207,7 +207,7 @@ const Register = ({
                   border: 2px solid ${colors.widgetBorder};
                   transition: all 0.3s ease-in-out;
                   cursor: pointer;
-                  ${!isTouch
+                  ${isInitialized && !isTouch
                     ? `
                     &:hover {
                       color: ${colors.gold};

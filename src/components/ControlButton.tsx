@@ -26,7 +26,7 @@ export type ControlButtonProps = (ImageButton | IconButton) & {
 
 export const ControlButton = (props: ControlButtonProps) => {
   const [deviceState] = useRecoilState<DeviceState>(ds);
-  const { isTouch } = deviceState;
+  const { isTouch, isInitialized } = deviceState;
   const { type, title, onClick, isLink = false, to, refProp } = props;
   const colors = useColors();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -61,7 +61,8 @@ export const ControlButton = (props: ControlButtonProps) => {
         font-size: 0.8rem;
         font-weight: bold;
         cursor: pointer;
-        ${!isTouch &&
+        ${isInitialized &&
+        !isTouch &&
         `
           &:hover {
             width: calc(154px + 0.6rem);

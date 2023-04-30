@@ -43,7 +43,7 @@ const Slider = ({
   onSelect,
 }: SliderProps) => {
   const [deviceState] = useRecoilState<DeviceState>(ds);
-  const { isTouch } = deviceState;
+  const { isTouch, isInitialized } = deviceState;
   const colors = useColors();
   return (
     <div
@@ -70,26 +70,28 @@ const Slider = ({
           css={css`
             display: flex;
             flex-direction: row;
-            width: ${(imageInfos.length + 2) *
+            width: ${(imageInfos.length ? imageInfos.length + 2 : 1) *
             wrapper.current.getClientRects()[0].width}px;
             height: 100%;
             will-change: transform;
             transition: transform 0.4s ease-in-out;
           `}
         >
-          <PreviewCompatibleImage
-            aria-hidden={true}
-            key={"-1"}
-            css={css`
-              display: flex;
-              flex: 1;
-              height: 100%;
-              object-fit: cover;
-            `}
-            loading="lazy"
-            imageInfo={imageInfos[imageInfos.length - 1]}
-            draggable={false}
-          />
+          {imageInfos.length ? (
+            <PreviewCompatibleImage
+              aria-hidden={true}
+              key={"-1"}
+              css={css`
+                display: flex;
+                flex: 1;
+                height: 100%;
+                object-fit: cover;
+              `}
+              loading="lazy"
+              imageInfo={imageInfos[imageInfos.length - 1]}
+              draggable={false}
+            />
+          ) : null}
           {imageInfos.map((imageInfo, i) => (
             <PreviewCompatibleImage
               aria-hidden={true}
@@ -105,19 +107,21 @@ const Slider = ({
               draggable={false}
             />
           ))}
-          <PreviewCompatibleImage
-            aria-hidden={true}
-            key={imageInfos.length.toString()}
-            css={css`
-              display: flex;
-              flex: 1;
-              height: 100%;
-              object-fit: cover;
-            `}
-            loading="lazy"
-            imageInfo={imageInfos[0]}
-            draggable={false}
-          />
+          {imageInfos.length ? (
+            <PreviewCompatibleImage
+              aria-hidden={true}
+              key={imageInfos.length.toString()}
+              css={css`
+                display: flex;
+                flex: 1;
+                height: 100%;
+                object-fit: cover;
+              `}
+              loading="lazy"
+              imageInfo={imageInfos[0]}
+              draggable={false}
+            />
+          ) : null}
         </div>
       )}
       <div
@@ -131,11 +135,11 @@ const Slider = ({
           background-color: ${colors.placeholder} + "11";
           z-index: 2;
         `}
-        onTouchStart={isTouch ? onTouchStart : undefined}
-        onTouchEnd={isTouch ? onTouchEnd : undefined}
-        onMouseDown={isTouch ? undefined : onMouseDown}
-        onMouseUp={isTouch ? undefined : onMouseUp}
-        onMouseLeave={isTouch ? undefined : onMouseUp}
+        onTouchStart={isInitialized && isTouch ? onTouchStart : undefined}
+        onTouchEnd={isInitialized && isTouch ? onTouchEnd : undefined}
+        onMouseDown={!isInitialized || isTouch ? undefined : onMouseDown}
+        onMouseUp={!isInitialized || isTouch ? undefined : onMouseUp}
+        onMouseLeave={!isInitialized || isTouch ? undefined : onMouseUp}
         onSelect={onSelect}
       >
         <Dots imageInfos={imageInfos} idx={idx} handleIndex={handleIndex} />

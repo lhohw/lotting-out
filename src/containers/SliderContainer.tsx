@@ -20,7 +20,7 @@ const SliderContainer = ({
   isPreview = false,
 }: SliderData) => {
   const [deviceState] = useRecoilState<DeviceState>(ds);
-  const { isMobile } = deviceState;
+  const { isMobile, isInitialized } = deviceState;
   const [state, setState] = useRecoilState<SliderState>(sliderState);
   const [headerState, setHeaderState] = useRecoilState<HeaderState>(hs);
 
@@ -136,7 +136,13 @@ const SliderContainer = ({
     (e) => {
       if (headerState.isOpen) setHeaderState({ ...headerState, isOpen: false });
       const target = e.target as HTMLElement;
-      if (!target || target.tagName !== "DIV") return;
+      if (
+        !target ||
+        target.tagName !== "DIV" ||
+        !slider.current ||
+        !wrapper.current
+      )
+        return;
       prevTouchX.current = e.touches[0].pageX;
       prev.current =
         -wrapper.current.getClientRects()[0].width * (state.idx + 1);
@@ -145,6 +151,7 @@ const SliderContainer = ({
     },
     [onTouchMove, state.idx, headerState, setHeaderState]
   );
+
   const onTouchEnd = useCallback<SliderProps["onTouchEnd"]>(() => {
     const prevX = prev.current;
     const width = wrapper.current.getClientRects()[0].width;
@@ -181,7 +188,13 @@ const SliderContainer = ({
   const onMouseDown = useCallback<SliderProps["onMouseDown"]>(
     (e) => {
       const target = e.target as HTMLElement;
-      if (!target || target.tagName !== "DIV") return;
+      if (
+        !target ||
+        target.tagName !== "DIV" ||
+        !wrapper.current ||
+        !slider.current
+      )
+        return;
       prev.current =
         (state.idx + 1) * -wrapper.current.getClientRects()[0].width;
       wrapper.current.style.cursor = "grab";
@@ -190,6 +203,7 @@ const SliderContainer = ({
     },
     [onMove, state.idx]
   );
+
   const onMouseUp = useCallback<SliderProps["onMouseUp"]>(() => {
     const prevX = prev.current;
     const width = wrapper.current.getClientRects()[0].width;
@@ -242,7 +256,7 @@ const SliderContainer = ({
       slider.current.style.transform = `translateX(${nextX}px)`;
       prev.current = nextX;
     };
-    if (!isMobile) window.addEventListener("resize", onResize);
+    if (isInitialized && !isMobile) window.addEventListener("resize", onResize);
     const resizer = document.querySelector(".Resizer.vertical");
     const onResizerPush = () => {
       window.addEventListener("mousemove", onResize);
@@ -255,13 +269,14 @@ const SliderContainer = ({
       resizer.addEventListener("mouseup", onResizerPull);
     }
     return () => {
-      if (!isMobile) window.removeEventListener("resize", onResize);
+      if (isInitialized && !isMobile)
+        window.removeEventListener("resize", onResize);
       if (isPreview && resizer) {
         resizer.removeEventListener("mousedown", onResizerPush);
         resizer.removeEventListener("mouseup", onResizerPull);
       }
     };
-  }, [state.idx, imageInfos.length, isMobile, isPreview]);
+  }, [state.idx, imageInfos.length, isMobile, isPreview, isInitialized]);
   return (
     <Slider
       slider={slider}

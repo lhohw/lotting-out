@@ -23,7 +23,7 @@ const GridCell = ({
   logo,
 }: GridCellProps) => {
   const [deviceState] = useRecoilState<DeviceState>(ds);
-  const { isTouch } = deviceState;
+  const { isTouch, isInitialized } = deviceState;
   return (
     <Link
       to={`/info/${title_en.split(" ").join("-")}`}
@@ -40,7 +40,8 @@ const GridCell = ({
         box-shadow: 1px 2px 4px ${colors.widgetBorder};
         overflow: hidden;
         background-color: "inherit";
-        ${!isTouch &&
+        ${isInitialized &&
+        !isTouch &&
         `
             &::after {
               content: "";

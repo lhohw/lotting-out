@@ -10,7 +10,7 @@ export type BackButtonProps = {
 };
 const BackButton = ({ className }: BackButtonProps) => {
   const [deviceState] = useRecoilState<DeviceState>(ds);
-  const { isTouch } = deviceState;
+  const { isTouch, isInitialized } = deviceState;
   const onClick = useCallback(() => {
     history.back();
   }, []);
@@ -41,7 +41,8 @@ const BackButton = ({ className }: BackButtonProps) => {
             width: 30px;
             height: 30px;
           }
-          ${!isTouch &&
+          ${isInitialized &&
+          !isTouch &&
           `
             &:hover {
               color: ${colors.main};

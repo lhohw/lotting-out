@@ -69,7 +69,6 @@ const IndexPage = ({ data }: IndexPageData) => {
   const [deviceState, setDeviceState] = useRecoilState<DeviceState>(ds);
 
   useEffect(() => {
-    if (deviceState.isInitialized) return;
     const windowWith = globalThis as typeof globalThis & {
       opera: string;
       navigator: {
@@ -96,7 +95,8 @@ const IndexPage = ({ data }: IndexPageData) => {
       isMobile,
       isTouch,
     });
-  }, [deviceState, setDeviceState]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const {
     logo,
@@ -108,22 +108,20 @@ const IndexPage = ({ data }: IndexPageData) => {
 
   return (
     <Layout>
-      {!deviceState.isInitialized ? (
-        <Loading isLoading />
-      ) : (
-        <React.Fragment>
-          <HeaderContainer menu={menu} logo={logo} />
-          <SliderContainer
-            imageInfos={imageInfos}
-            apartment={apartment}
-            short={short}
-          />
-          <Category menu={menu} logo={logo} />
-          <Footer {...rest} />
+      <React.Fragment>
+        <HeaderContainer menu={menu} logo={logo} />
+        <SliderContainer
+          imageInfos={imageInfos}
+          apartment={apartment}
+          short={short}
+        />
+        <Category menu={menu} logo={logo} />
+        <Footer {...rest} />
+        {deviceState.isInitialized ? (
           <ControlButtonContainer phoneNumber={rest.phoneNumber} />
-          <Loading />
-        </React.Fragment>
-      )}
+        ) : null}
+        <Loading />
+      </React.Fragment>
       <Script
         src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
         integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx"

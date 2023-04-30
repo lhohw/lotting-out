@@ -12,7 +12,7 @@ export type DarkModeButtonProps = {
 
 export const DarkModeButton = (props: DarkModeButtonProps) => {
   const [deviceState] = useRecoilState<DeviceState>(ds);
-  const { isTouch } = deviceState;
+  const { isTouch, isInitialized } = deviceState;
   const { className } = props;
   const colors = useColors();
   const [theme, setTheme] = useRecoilState<ThemeState>(themeState);
@@ -59,7 +59,8 @@ export const DarkModeButton = (props: DarkModeButtonProps) => {
         font-size: 0.8rem;
         font-weight: bold;
         cursor: pointer;
-        ${!isTouch &&
+        ${isInitialized &&
+        !isTouch &&
         `
           &:hover {
             width: calc(154px + 0.6rem);

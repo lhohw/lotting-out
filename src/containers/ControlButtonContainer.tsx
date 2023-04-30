@@ -26,7 +26,7 @@ const ControlButtonContainer = ({
   phoneNumber,
 }: ControlButtonContainerProps) => {
   const [deviceState] = useRecoilState<DeviceState>(ds);
-  const { isMobile } = deviceState;
+  const { isMobile, isInitialized } = deviceState;
 
   const callBtn = useRef<HTMLButtonElement>(null!);
   const { showModal } = useModal();
@@ -47,7 +47,7 @@ const ControlButtonContainer = ({
     }
   }, []);
   const call = useCallback(() => {
-    if (!isMobile) {
+    if (isInitialized && !isMobile) {
       showModal({
         focus: () => callBtn.current.focus(),
         title: "이용 불가",
@@ -56,7 +56,7 @@ const ControlButtonContainer = ({
       return;
     }
     return (document.location.href = `tel:${phoneNumber}`);
-  }, [isMobile, phoneNumber, showModal]);
+  }, [isMobile, isInitialized, phoneNumber, showModal]);
   return (
     <React.Fragment>
       <div
