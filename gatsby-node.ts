@@ -1,5 +1,8 @@
 import type { CreateWebpackConfigArgs } from "gatsby";
 
+import path from "path";
+import { copyLibFiles } from "@builder.io/partytown/utils";
+
 export const onCreateWebpackConfig = ({
   getConfig,
   actions,
@@ -9,4 +12,8 @@ export const onCreateWebpackConfig = ({
       devtool: false,
     });
   }
+};
+
+exports.onPreBuild = async () => {
+  await copyLibFiles(path.join(__dirname, "static", "~partytown"));
 };

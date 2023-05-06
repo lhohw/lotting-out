@@ -17,6 +17,7 @@
     "local": "npx netlify-cms-proxy-server"
   },
   "dependencies": {
+    "@builder.io/partytown": "^0.8.0",
     "@emotion/cache": "^11.10.5",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
