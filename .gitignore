@@ -8,6 +8,3 @@ src/gatsby-types.d.ts
 
 .DS_Store
 .env
-
-# Partytown
-static/~partytown
