@@ -4,7 +4,6 @@ import type { CategoryMenu } from "../components/Category";
 import React, { useCallback, useMemo } from "react";
 import { graphql, Script } from "gatsby";
 
-import Layout from "../components/Layout";
 import Seo from "../components/Seo";
 import HeaderContainer from "../containers/HeaderContainer";
 import SliderContainer from "../containers/SliderContainer";
@@ -78,27 +77,25 @@ const IndexPage = ({ data }: IndexPageData) => {
   } = data.settingJson;
 
   return (
-    <Layout>
-      <React.Fragment>
-        <HeaderContainer menu={menu} logo={logo} />
-        <SliderContainer
-          imageInfos={imageInfos}
-          apartment={apartment}
-          short={short}
-        />
-        <Category menu={menu} logo={logo} />
-        <Footer {...rest} />
-        {isInitialized ? (
-          <ControlButtonContainer phoneNumber={rest.phoneNumber} />
-        ) : null}
-        <Loading />
-      </React.Fragment>
+    <React.Fragment>
+      <HeaderContainer menu={menu} logo={logo} />
+      <SliderContainer
+        imageInfos={imageInfos}
+        apartment={apartment}
+        short={short}
+      />
+      <Category menu={menu} logo={logo} />
+      <Footer {...rest} />
+      {isInitialized ? (
+        <ControlButtonContainer phoneNumber={rest.phoneNumber} />
+      ) : null}
+      <Loading />
       <Script
         src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
         integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx"
         crossOrigin="anonymous"
       ></Script>
-    </Layout>
+    </React.Fragment>
   );
 };
 

@@ -5,7 +5,6 @@ import React from "react";
 import { graphql } from "gatsby";
 import { css } from "@emotion/react";
 
-import Layout from "../../components/Layout";
 import Seo from "../../components/Seo";
 import Info, { InfoProps } from "../../components/Info";
 import BackButton from "../../components/BackButton";
@@ -42,7 +41,7 @@ const InfoPage = ({ data, isPreview, getAsset }: InfoPageProps) => {
   const { title, title_en, info } = useFrontmatter({ mdx });
   const { questions, info: questionInfo } = settingJson;
   return (
-    <Layout>
+    <React.Fragment>
       <BackButton
         css={css`
           position: absolute;
@@ -87,7 +86,7 @@ const InfoPage = ({ data, isPreview, getAsset }: InfoPageProps) => {
         </div>
       )}
       <Loading />
-    </Layout>
+    </React.Fragment>
   );
 };
 
