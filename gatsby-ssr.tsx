@@ -18,7 +18,7 @@ export const onRenderBody = ({
     return null;
   }
   setHeadComponents([
-    <Partytown key="partytown" forward={["na"]} />,
+    <Partytown key="partytown" forward={["wcs_add", "wcs", "wcs_do"]} />,
     <script
       key="naver-analytics"
       type="text/partytown"
@@ -31,7 +31,7 @@ export const onRenderBody = ({
         __html: `
         if(!wcs_add) var wcs_add = {};
         wcs_add["wa"] = ${process.env.NA_ACCOUNT_ID};
-        if(window.wcs) {
+        if(wcs) {
           wcs_do();
         }
         `,
