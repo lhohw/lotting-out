@@ -14,6 +14,6 @@ export const onCreateWebpackConfig = ({
   }
 };
 
-exports.onPreBuild = async () => {
+export const onPreBuild = async () => {
   await copyLibFiles(path.join(__dirname, "static", "~partytown"));
 };
