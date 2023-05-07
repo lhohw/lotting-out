@@ -30,9 +30,9 @@ export const onRenderBody = ({
       key="naver-analytics-config"
       type="text/javascript"
       dangerouslySetInnerHTML={{
-        __html: `if(!wcs_add) wcs_add = {};
+        __html: `if(!window.wcs_add) wcs_add = {};
         wcs_add["wa"] = "${process.env.NA_ACCOUNT_ID}";
-        if(wcs) {
+        if(window.wcs && window.wcs_do && typeof window.wcs_do === "function") {
           wcs_do();
         }`,
       }}
