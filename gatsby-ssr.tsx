@@ -1,7 +1,6 @@
 import type { RenderBodyArgs } from "gatsby";
 
 import React from "react";
-import { Partytown } from "@builder.io/partytown/react";
 
 export { wrapRootElement, wrapPageElement } from "./gatsby-shared";
 
@@ -17,19 +16,22 @@ export const onRenderBody = ({
   ) {
     return null;
   }
+
+  const origin = "https://wcs.naver.net/wcslog.js";
   setHeadComponents([
-    <Partytown key="partytown" forward={["wcs_add", "wcs", "wcs_do"]} />,
-    <script
-      key="naver-analytics"
-      type="text/partytown"
-      src="https://wcs.naver.net/wcslog.js"
+    <link rel="preconnect" key="preconnect-naver-analytics" href={origin} />,
+    <link
+      rel="dns-prefetch"
+      key="dns-prefetch-naver-analytics"
+      href={origin}
     />,
+    <script key="naver-analytics" async type="text/javascript" src={origin} />,
     <script
       key="naver-analytics-config"
-      type="text/partytown"
+      type="text/javascript"
       dangerouslySetInnerHTML={{
-        __html: `if(!wcs_add) var wcs_add = {};
-        wcs_add["wa"] = ${process.env.NA_ACCOUNT_ID};
+        __html: `if(!wcs_add) wcs_add = {};
+        wcs_add["wa"] = "${process.env.NA_ACCOUNT_ID}";
         if(wcs) {
           wcs_do();
         }`,
