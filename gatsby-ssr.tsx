@@ -22,19 +22,17 @@ export const onRenderBody = ({
     <script
       key="naver-analytics"
       type="text/partytown"
-      src="http://wcs.naver.net/wcslog.js"
+      src="https://wcs.naver.net/wcslog.js"
     />,
     <script
       key="naver-analytics-config"
       type="text/partytown"
       dangerouslySetInnerHTML={{
-        __html: `
-        if(!wcs_add) var wcs_add = {};
+        __html: `if(!wcs_add) var wcs_add = {};
         wcs_add["wa"] = ${process.env.NA_ACCOUNT_ID};
         if(wcs) {
           wcs_do();
-        }
-        `,
+        }`,
       }}
     />,
   ]);
