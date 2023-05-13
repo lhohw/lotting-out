@@ -125,7 +125,10 @@ const RegisterContainer = ({
     const { name, value } = e.target;
     if (name === "name" && value.match(/[^a-zA-Zㅏ-ㅣㄱ-ㅎ가-힣]+/g))
       e.stopPropagation();
-    if (name === "phoneNumber" && value.match(/[^\d]+/g)) e.stopPropagation();
+    else if (name === "phoneNumber" && value.match(/[^\d]+/g))
+      e.stopPropagation();
+    else if (name === "email" && value.match(/\u003c|\u003e|\/|\\/g))
+      e.stopPropagation();
   }, []);
 
   const onSubmit = useCallback<RegisterProps["onSubmit"]>(() => {
