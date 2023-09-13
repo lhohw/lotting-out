@@ -6,7 +6,7 @@ const config: GatsbyConfig = {
   siteMetadata: {
     title: `lotting-out`,
     description: `아파트 분양을 위한 웹페이지`,
-    siteUrl: `https://himodel.kr`,
+    siteUrl: `https://bemodel.co.kr`,
   },
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
   // If you use VSCode you can also use the GraphQL plugin
@@ -27,7 +27,7 @@ const config: GatsbyConfig = {
     {
       resolve: "gatsby-plugin-canonical-urls",
       options: {
-        siteUrl: "https://himodel.kr",
+        siteUrl: "https://bemodel.co.kr",
       },
     },
     {
@@ -49,8 +49,8 @@ const config: GatsbyConfig = {
         resolveEnv: () => process.env.NODE_ENV,
         env: {
           production: {
-            host: "https://himodel.kr",
-            sitemap: "https://himodel.kr/sitemap-index.xml",
+            host: "https://bemodel.co.kr",
+            sitemap: "https://bemodel.co.kr/sitemap-index.xml",
             policy: [{ userAgent: "*" }],
           },
           "branch-deploy": {

@@ -25,9 +25,19 @@ collections: # A list of collections the CMS should be able to edit
         file: "contents/setting/setting.json"
         path: "contents/setting"
         fields:
-          - { label: "Type", name: "type", widget: "hidden", default: "setting" }
+          - {
+              label: "Type",
+              name: "type",
+              widget: "hidden",
+              default: "setting",
+            }
           - { label: "아파트 명", name: "apartment", widget: "string" }
-          - { label: "짧은 설명", name: "short", widget: "string", hint: "썸네일에 사용할 짧은 소개. ex) 총 809세대 대단지 블록형 단독주택 | 1661-0426" }
+          - {
+              label: "짧은 설명",
+              name: "short",
+              widget: "string",
+              hint: "썸네일에 사용할 짧은 소개. ex) 총 809세대 대단지 블록형 단독주택 | 1661-0426",
+            }
           - label: "로고"
             name: "logo"
             widget: "object"
@@ -36,7 +46,7 @@ collections: # A list of collections the CMS should be able to edit
                   label: "로고 이미지",
                   name: "image",
                   widget: "image",
-                  required: true
+                  required: true,
                 }
               - {
                   label: "로고 설명",
@@ -56,13 +66,23 @@ collections: # A list of collections the CMS should be able to edit
           - { label: "사무실 주소", name: "address", widget: "string" }
           - { label: "이메일", name: "email", widget: "string" }
           - { label: "전화번호", name: "phoneNumber", widget: "string" }
-          - { label: "키워드", name: "keywords", widget: "customList", hint: "쉼표로 구분, 키워드 리서치: https://ads.google.com/intl/ko_KR/home/" }
+          - {
+              label: "키워드",
+              name: "keywords",
+              widget: "customList",
+              hint: "쉼표로 구분, 키워드 리서치: https://ads.google.com/intl/ko_KR/home/",
+            }
       - name: "question"
         label: "질문지"
         file: "contents/setting/question.json"
         path: "contents/setting"
         fields:
-          - { label: "Type", name: "type", widget: "hidden", default: "questions" }
+          - {
+              label: "Type",
+              name: "type",
+              widget: "hidden",
+              default: "questions",
+            }
           - { label: "질문지", name: "questions", widget: "questions" }
           - label: "입력 정보"
             name: "info"
@@ -83,7 +103,12 @@ collections: # A list of collections the CMS should be able to edit
     summary: "{{priority}} - {{title}}"
     sortable_fields: ["priority"]
     fields:
-      - { label: "Template Key", name: "templateKey", widget: "hidden", default: "category" }
+      - {
+          label: "Template Key",
+          name: "templateKey",
+          widget: "hidden",
+          default: "category",
+        }
       - { label: "제목(한글)", name: "title", widget: "string" }
       - label: "제목(영문)"
         name: "title_en"
@@ -96,5 +121,14 @@ collections: # A list of collections the CMS should be able to edit
           상품안내 - production |
           프리미엄 - premium |
           관심고객등록 - register
-      - { label: "우선순위", name: "priority", widget: "number", value_type: "int", min: 1, max: 100, step: 1, default: 99 }
+      - {
+          label: "우선순위",
+          name: "priority",
+          widget: "number",
+          value_type: "int",
+          min: 1,
+          max: 100,
+          step: 1,
+          default: 99,
+        }
       - { label: "정보", name: "info", widget: "category" }
