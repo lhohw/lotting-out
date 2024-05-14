@@ -20,4 +20,4 @@
 - Lighthouse SEO, 접근성 점수 100점
 - [https://main--gilded-nasturtium-9fb684.netlify.app/](https://main--gilded-nasturtium-9fb684.netlify.app/)
 
-### [View Detail](https://magenta-gnome-ac4a2a.netlify.app/projects/withholding-tax)
+### [View Detail](https://magenta-gnome-ac4a2a.netlify.app/projects/lotting-out)
